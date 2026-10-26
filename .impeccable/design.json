@@ -1,0 +1,104 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-26T00:00:00Z",
+  "title": "Design System: Almtuna Supporterförening",
+  "extensions": {
+    "colorMeta": {
+      "lakt-red": { "role": "primary", "displayName": "Läktarröd", "canonical": "#c8102e", "tonalRamp": ["#3a0410","#5e0817","#820b1f","#a60e27","#c8102e","#e0485f","#ee8696","#f9ccd3"] },
+      "lakt-red-deep": { "role": "primary", "displayName": "Djuprött", "canonical": "#9a0c23", "tonalRamp": ["#3a0410","#5e0817","#7a0a1c","#9a0c23","#b82a40","#d4667a","#ea9fad","#f8d6dc"] },
+      "lakt-red-night": { "role": "primary", "displayName": "Nattröd", "canonical": "#f05068", "tonalRamp": ["#4a0713","#750c1e","#a01229","#c92240","#f05068","#f47a8b","#f8a6b1","#fcd6db"] },
+      "lakt-red-fill-night": { "role": "primary", "displayName": "Nattfyllning", "canonical": "#b80f29", "tonalRamp": ["#3a0410","#5e0817","#8c0b20","#b80f29","#d4384f","#e6707f","#f2a8b2","#fad9de"] },
+      "ink": { "role": "neutral", "displayName": "Bläck", "canonical": "#16161a", "tonalRamp": ["#16161a","#2c2c32","#44444c","#5d5d66","#7e7e87","#a9a9b2","#d0d0d6","#f2f1ee"] },
+      "paper": { "role": "neutral", "displayName": "Papper", "canonical": "#ffffff", "tonalRamp": ["#121214","#1b1b1f","#2c2c32","#8a8a90","#c4c2be","#e4e2de","#f5f4f2","#ffffff"] },
+      "paper-soft": { "role": "neutral", "displayName": "Mjukt papper", "canonical": "#f5f4f2", "tonalRamp": ["#1b1b1f","#3a3a3f","#6a6967","#9a9996","#c4c2be","#e4e2de","#f0eeeb","#f5f4f2"] },
+      "line": { "role": "neutral", "displayName": "Linje", "canonical": "#e4e2de", "tonalRamp": ["#2c2c32","#55545a","#807f84","#a8a7a8","#c4c2be","#e4e2de","#efedea","#f8f7f5"] }
+    },
+    "typographyMeta": {
+      "section": { "displayName": "Section", "purpose": "Sektionsrubriker (h2)." },
+      "title": { "displayName": "Title", "purpose": "Kortrubriker (h3)." },
+      "hero": { "displayName": "Hero", "purpose": "Startsidans hero-rubrik, banderollstorlek." },
+      "display": { "displayName": "Display", "purpose": "Sidrubrik och hero." },
+      "headline": { "displayName": "Headline", "purpose": "Rubriker i listor (I media)." },
+      "body": { "displayName": "Body", "purpose": "Löptext, max 42rem." },
+      "lead": { "displayName": "Lead", "purpose": "Ingress under sidrubrik." },
+      "label": { "displayName": "Label", "purpose": "Datum och metadata." }
+    },
+    "shadows": [],
+    "motion": [],
+    "breakpoints": [
+      { "name": "nav-collapse", "value": "75rem" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Huvudhandling, till exempel Bli medlem.",
+      "html": "<a class=\"ds-btn\" href=\"#\">Bli medlem</a>",
+      "css": ".ds-btn { display: inline-block; background: #c8102e; color: #fff; padding: .65rem 1.2rem; border-radius: .4rem; text-decoration: none; font-weight: 600; } .ds-btn:hover { background: #9a0c23; } .ds-btn:focus-visible { outline: 2px solid #16161a; outline-offset: 2px; }"
+    },
+    {
+      "name": "Hero Button",
+      "kind": "button",
+      "refersTo": "button-on-hero",
+      "description": "Knapp på röd hero-yta.",
+      "html": "<div class=\"ds-hero\"><a class=\"ds-btn-hero\" href=\"#\">Bli medlem</a></div>",
+      "css": ".ds-hero { background: #c8102e; padding: 1.5rem; } .ds-btn-hero { display: inline-block; background: #fff; color: #c8102e; padding: .65rem 1.2rem; border-radius: .4rem; text-decoration: none; font-weight: 600; } .ds-btn-hero:focus-visible { outline: 2px solid #16161a; outline-offset: 2px; }"
+    },
+    {
+      "name": "Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Nyhet eller genväg i rutnät.",
+      "html": "<article class=\"ds-card\"><h3><a href=\"#\">Välkommen</a></h3><p class=\"ds-meta\">26 oktober 2026</p><p>Kort sammanfattning av nyheten.</p></article>",
+      "css": ".ds-card { border: 1px solid #e4e2de; background: #f5f4f2; border-radius: .6rem; padding: 1.25rem; color: #16161a; font-family: system-ui, sans-serif; } .ds-card h3 { margin-top: 0; line-height: 1.15; } .ds-card a { color: #c8102e; } .ds-meta { color: #5d5d66; font-size: .9rem; }"
+    },
+    {
+      "name": "Notice",
+      "kind": "custom",
+      "refersTo": "notice",
+      "description": "Markerar obekräftade uppgifter.",
+      "html": "<div class=\"ds-notice\">Uppgiften är obekräftad.</div>",
+      "css": ".ds-notice { border: 1px solid #e4e2de; background: #f5f4f2; padding: .75rem 1rem; border-radius: .4rem; color: #16161a; font-family: system-ui, sans-serif; }"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "description": "Sidhuvudets menyrad.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-brand\" href=\"#\">Almtuna Supporterförening</a><a href=\"#\" aria-current=\"page\">Bortaresor</a><a href=\"#\">I media</a></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: 1.1rem; font-family: system-ui, sans-serif; border-bottom: 1px solid #e4e2de; padding: .75rem 0; } .ds-nav a { color: #16161a; text-decoration: none; font-weight: 500; } .ds-nav a[aria-current] { color: #c8102e; } .ds-nav .ds-brand { color: #c8102e; font-weight: 800; font-size: 1.15rem; margin-right: 1rem; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Läktarbanderollen",
+    "overview": "Webbplatsen ska kännas som en banderoll som hängts upp av supportrarna själva: stor röd yta, tydliga rubriker, inget som liknar klubbens officiella sida. Systemet är enkelt och robust.\n\nDensiteten är luftig och läsbar. Ytorna är solida och platta. All känsla kommer från den röda färgen, fet typografi och tydliga kort, inte från effekter.\n\nDen röda färgen och hela färgprofilen är inte beslutade. Röd/vit ska behandlas som en platshållare tills föreningen bestämt sig.",
+    "keyCharacteristics": [
+      "Solid röd hero-yta som sidans enda stora gest.",
+      "Platta ytor med tunna linjer, inga skuggor.",
+      "Systemtypsnitt, fet rubrik, generös radhöjd.",
+      "Mörkt läge följer användarens inställning.",
+      "Kort och knappar är robusta och tydliga, inte raffinerade."
+    ],
+    "rules": [
+      { "name": "The Placeholder Red Rule", "body": "Färgprofilen är obestämd. Föreslå inte nya röda nyanser, nya accentfärger eller klubbfärger som beslutade. Använd befintliga tokens.", "section": "colors" },
+      { "name": "The Two Reds Rule", "body": "Röd som text (`--red`) och röd som fyllning under vit text (`--red-fill`) är olika tokens. I mörkt läge är textröd ljusare och fyllningsröd mörkare. Använd aldrig `--red` som bakgrund under vit text.", "section": "colors" },
+      { "name": "The One Voice Rule", "body": "Röd är den enda accentfärgen. Ingen sekundär accent läggs till utan att föreningen beslutat färgprofil.", "section": "colors" },
+      { "name": "The No Webfont Rule", "body": "Inga webbtypsnitt laddas. Byt inte utan ett medvetet beslut om varumärket.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Lägg inte till skuggor eller blur. Skilj ytor åt med ton och linje.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do använd CSS-variablerna (`--red`, `--ink`, `--bg-soft`, `--line` m.fl.) så att mörkt läge fungerar av sig självt.",
+      "Do skilj ytor åt med tonlager och 1px linje.",
+      "Do märk obekräftade uppgifter (mejl, Swish, avgift) med en notis, i linje med PRODUCT.md.",
+      "Do håll löptext under 42rem."
+    ],
+    "donts": [
+      "Don't lägg till skuggor, gradienter eller blur.",
+      "Don't införa en andra accentfärg eller presentera färgprofilen som beslutad.",
+      "Don't få sidan att likna Almtuna IS officiella sida.",
+      "Don't hitta på logotyp, bilder eller klubbemblem.",
+      "Don't lägg röd text mot mörk bakgrund utan Nattröd, eller vit text på `--red` i stället för `--red-fill`."
+    ]
+  }
+}

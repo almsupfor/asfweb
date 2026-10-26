@@ -1,0 +1,721 @@
+{
+  "updated": "2026-10-26T23:19:59.053Z",
+  "schedule": [
+    {
+      "date": "2026-08-13",
+      "start": "2026-08-13T17:00:00.000Z",
+      "timeKnown": true,
+      "home": "Västerås IK",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "ABB Arena Nord",
+      "kind": "training"
+    },
+    {
+      "date": "2026-08-20",
+      "start": "2026-08-20T15:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna",
+      "away": "HV71",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "training"
+    },
+    {
+      "date": "2026-08-22",
+      "start": "2026-08-22T13:00:00.000Z",
+      "timeKnown": true,
+      "home": "Tyresö-Hanviken",
+      "away": "Almtuna",
+      "isHome": false,
+      "venue": "Tyresö nya ishall",
+      "kind": "training"
+    },
+    {
+      "date": "2026-08-26",
+      "start": "2026-08-26T17:00:00.000Z",
+      "timeKnown": true,
+      "home": "AIK",
+      "away": "Almtuna",
+      "isHome": false,
+      "venue": "Järfälla Ishall",
+      "kind": "training"
+    },
+    {
+      "date": "2026-08-28",
+      "start": "2026-08-28T17:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna",
+      "away": "AIK",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "training"
+    },
+    {
+      "date": "2026-09-02",
+      "start": "2026-09-02T17:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "Västerås IK",
+      "isHome": true,
+      "venue": "Bahcohallen Enköping",
+      "kind": "training"
+    },
+    {
+      "date": "2026-09-05",
+      "start": "2026-09-05T13:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna",
+      "away": "Sparta Sarpsborg",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "training"
+    },
+    {
+      "date": "2026-09-10",
+      "start": "2026-09-10T17:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "Hudiksvall",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "training"
+    },
+    {
+      "date": "2026-09-18",
+      "start": "2026-09-18T17:00:00.000Z",
+      "timeKnown": true,
+      "home": "Västerås IK",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "ABB Arena Nord",
+      "kind": "league"
+    },
+    {
+      "date": "2026-09-19",
+      "start": "2026-09-19T13:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "MoDo Hockey",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2026-09-23",
+      "start": "2026-09-23T17:00:00.000Z",
+      "timeKnown": true,
+      "home": "Östersunds IK",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "Östersund Arena",
+      "kind": "league"
+    },
+    {
+      "date": "2026-09-25",
+      "start": "2026-09-25T17:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "BIK Karlskoga",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2026-09-27",
+      "start": "2026-09-27T14:30:00.000Z",
+      "timeKnown": true,
+      "home": "Leksands IF",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "Tegera Arena",
+      "kind": "league"
+    },
+    {
+      "date": "2026-09-30",
+      "start": "2026-09-30T17:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "Södertälje SK",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2026-10-02",
+      "start": "2026-10-02T17:00:00.000Z",
+      "timeKnown": true,
+      "home": "Vimmerby Hockey",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "VBO Arena",
+      "kind": "league"
+    },
+    {
+      "date": "2026-10-07",
+      "start": "2026-10-07T17:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "Visby/Roma HK",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2026-10-09",
+      "start": "2026-10-09T17:00:00.000Z",
+      "timeKnown": true,
+      "home": "Kalmar HC",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "Hatstore Arena",
+      "kind": "league"
+    },
+    {
+      "date": "2026-10-11",
+      "start": "2026-10-11T12:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "Nybro Vikings",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2026-10-14",
+      "start": "2026-10-14T17:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "AIK",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2026-10-16",
+      "start": "2026-10-16T17:00:00.000Z",
+      "timeKnown": true,
+      "home": "IK Oskarshamn",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "Be-Ge Hockey Center",
+      "kind": "league"
+    },
+    {
+      "date": "2026-10-21",
+      "start": "2026-10-21T17:00:00.000Z",
+      "timeKnown": true,
+      "home": "Mora IK",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "Wibe Arena",
+      "kind": "league"
+    },
+    {
+      "date": "2026-10-23",
+      "start": "2026-10-23T17:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "Vimmerby Hockey",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2026-10-28",
+      "start": "2026-10-28T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "Västerås IK",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2026-10-30",
+      "start": "2026-10-30T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Mora IK",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "Wibe Arena",
+      "kind": "league"
+    },
+    {
+      "date": "2026-10-31",
+      "start": "2026-10-31T17:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "AIK",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2026-11-11",
+      "start": "2026-11-11T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "Nybro Vikings",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2026-11-13",
+      "start": "2026-11-13T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Södertälje SK",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "Scaniarinken",
+      "kind": "league"
+    },
+    {
+      "date": "2026-11-14",
+      "start": "2026-11-14T17:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "BIK Karlskoga",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2026-11-18",
+      "start": "2026-11-18T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "Östersunds IK",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2026-11-20",
+      "start": "2026-11-20T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Kalmar HC",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "Hatstore Arena",
+      "kind": "league"
+    },
+    {
+      "date": "2026-11-25",
+      "start": "2026-11-25T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "Visby/Roma HK",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2026-11-27",
+      "start": "2026-11-27T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "MoDo Hockey",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "Hägglunds Arena",
+      "kind": "league"
+    },
+    {
+      "date": "2026-12-02",
+      "start": "2026-12-02T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "Leksands IF",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2026-12-04",
+      "start": "2026-12-04T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "IK Oskarshamn",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2026-12-06",
+      "start": "2026-12-06T13:00:00.000Z",
+      "timeKnown": true,
+      "home": "AIK",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "Hovet",
+      "kind": "league"
+    },
+    {
+      "date": "2026-12-09",
+      "start": "2026-12-09T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "IK Oskarshamn",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2026-12-11",
+      "start": "2026-12-11T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "BIK Karlskoga",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "Nobelhallen",
+      "kind": "league"
+    },
+    {
+      "date": "2026-12-16",
+      "start": "2026-12-16T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Östersunds IK",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "Östersund Arena",
+      "kind": "league"
+    },
+    {
+      "date": "2026-12-18",
+      "start": "2026-12-18T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "Kalmar HC",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2026-12-27",
+      "start": "2026-12-27T14:00:00.000Z",
+      "timeKnown": true,
+      "home": "Södertälje SK",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "Scaniarinken",
+      "kind": "league"
+    },
+    {
+      "date": "2026-12-29",
+      "start": "2026-12-29T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "MoDo Hockey",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2027-01-06",
+      "start": "2027-01-06T13:00:00.000Z",
+      "timeKnown": true,
+      "home": "Visby/Roma HK",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "Visby Ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2027-01-08",
+      "start": "2027-01-08T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "Mora IK",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2027-01-13",
+      "start": "2027-01-13T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Västerås IK",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "ABB Arena Nord",
+      "kind": "league"
+    },
+    {
+      "date": "2027-01-15",
+      "start": "2027-01-15T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "Vimmerby Hockey",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2027-01-20",
+      "start": "2027-01-20T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Nybro Vikings",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "Liljas Arena",
+      "kind": "league"
+    },
+    {
+      "date": "2027-01-22",
+      "start": "2027-01-22T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "Leksands IF",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2027-01-27",
+      "start": "2027-01-27T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "Västerås IK",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2027-01-29",
+      "start": null,
+      "timeKnown": false,
+      "home": "BIK Karlskoga",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "Nobelhallen",
+      "kind": "league"
+    },
+    {
+      "date": "2027-02-03",
+      "start": "2027-02-03T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "IK Oskarshamn",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "Be-Ge Hockey Center",
+      "kind": "league"
+    },
+    {
+      "date": "2027-02-05",
+      "start": "2027-02-05T17:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "Östersunds IK",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2027-02-07",
+      "start": "2027-02-07T15:30:00.000Z",
+      "timeKnown": true,
+      "home": "Visby/Roma HK",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "Visby Ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2027-02-17",
+      "start": "2027-02-17T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "AIK",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "Hovet",
+      "kind": "league"
+    },
+    {
+      "date": "2027-02-19",
+      "start": "2027-02-19T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "Södertälje SK",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2027-02-21",
+      "start": "2027-02-21T13:00:00.000Z",
+      "timeKnown": true,
+      "home": "MoDo Hockey",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "Hägglunds Arena",
+      "kind": "league"
+    },
+    {
+      "date": "2027-02-24",
+      "start": "2027-02-24T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "Kalmar HC",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2027-02-26",
+      "start": null,
+      "timeKnown": false,
+      "home": "Vimmerby Hockey",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "VBO Arena",
+      "kind": "league"
+    },
+    {
+      "date": "2027-03-01",
+      "start": "2027-03-01T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Almtuna IS",
+      "away": "Mora IK",
+      "isHome": true,
+      "venue": "Gränby ishall",
+      "kind": "league"
+    },
+    {
+      "date": "2027-03-03",
+      "start": "2027-03-03T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Nybro Vikings",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "Liljas Arena",
+      "kind": "league"
+    },
+    {
+      "date": "2027-03-05",
+      "start": "2027-03-05T18:00:00.000Z",
+      "timeKnown": true,
+      "home": "Leksands IF",
+      "away": "Almtuna IS",
+      "isHome": false,
+      "venue": "Tegera Arena",
+      "kind": "league"
+    }
+  ],
+  "results": [
+    {
+      "id": "official-2026-10-23",
+      "date": "2026-10-23",
+      "home": "Almtuna IS",
+      "away": "Vimmerby Hockey",
+      "homeScore": 1,
+      "awayScore": 6
+    },
+    {
+      "id": "official-2026-10-21",
+      "date": "2026-10-21",
+      "home": "Mora IK",
+      "away": "Almtuna IS",
+      "homeScore": 6,
+      "awayScore": 0
+    },
+    {
+      "id": "official-2026-10-16",
+      "date": "2026-10-16",
+      "home": "IK Oskarshamn",
+      "away": "Almtuna IS",
+      "homeScore": 8,
+      "awayScore": 2
+    },
+    {
+      "id": "official-2026-10-14",
+      "date": "2026-10-14",
+      "home": "Almtuna IS",
+      "away": "AIK",
+      "homeScore": 2,
+      "awayScore": 4
+    },
+    {
+      "id": "official-2026-10-11",
+      "date": "2026-10-11",
+      "home": "Almtuna IS",
+      "away": "Nybro Vikings",
+      "homeScore": 4,
+      "awayScore": 2
+    },
+    {
+      "id": "official-2026-10-09",
+      "date": "2026-10-09",
+      "home": "Kalmar HC",
+      "away": "Almtuna IS",
+      "homeScore": 3,
+      "awayScore": 0
+    },
+    {
+      "id": "official-2026-10-07",
+      "date": "2026-10-07",
+      "home": "Almtuna IS",
+      "away": "Visby/Roma HK",
+      "homeScore": 3,
+      "awayScore": 1
+    },
+    {
+      "id": "official-2026-10-02",
+      "date": "2026-10-02",
+      "home": "Vimmerby Hockey",
+      "away": "Almtuna IS",
+      "homeScore": 4,
+      "awayScore": 7
+    },
+    {
+      "id": "official-2026-09-30",
+      "date": "2026-09-30",
+      "home": "Almtuna IS",
+      "away": "Södertälje SK",
+      "homeScore": 4,
+      "awayScore": 0
+    },
+    {
+      "id": "official-2026-09-27",
+      "date": "2026-09-27",
+      "home": "Leksands IF",
+      "away": "Almtuna IS",
+      "homeScore": 3,
+      "awayScore": 2
+    },
+    {
+      "id": "official-2026-09-25",
+      "date": "2026-09-25",
+      "home": "Almtuna IS",
+      "away": "BIK Karlskoga",
+      "homeScore": 2,
+      "awayScore": 4
+    },
+    {
+      "id": "official-2026-09-23",
+      "date": "2026-09-23",
+      "home": "Östersunds IK",
+      "away": "Almtuna IS",
+      "homeScore": 2,
+      "awayScore": 3,
+      "ext": "SO"
+    },
+    {
+      "id": "official-2026-09-19",
+      "date": "2026-09-19",
+      "home": "Almtuna IS",
+      "away": "MoDo Hockey",
+      "homeScore": 4,
+      "awayScore": 5,
+      "ext": "SO"
+    },
+    {
+      "id": "official-2026-09-18",
+      "date": "2026-09-18",
+      "home": "Västerås IK",
+      "away": "Almtuna IS",
+      "homeScore": 2,
+      "awayScore": 3
+    }
+  ]
+}

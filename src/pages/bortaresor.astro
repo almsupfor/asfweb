@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+import { upcoming, fmtDay, fmtTime } from '../data/matches';
+
+const bortamatcher = upcoming().filter((m) => !m.isHome);
+
+// Lägg till resor här. Anmälan hanteras tills vidare via e-post.
+const resor: { motstandare: string; datum: string; avgang: string; transport: string; info?: string }[] = [];
+---
+<Base title="Bortaresor">
+  <div class="wrap page">
+    <h1>Bortaresor</h1>
+    <p class="lead prose">Följ med Almtuna IS på bortamatcherna och var med och skapa stämning i andras hallar.</p>
+
+    <h2>Kommande bortamatcher</h2>
+    {bortamatcher.length === 0 ? (
+      <p class="notice prose">Inga bortamatcher är inlagda just nu.</p>
+    ) : (
+      <ul class="list">
+        {bortamatcher.slice(0, 8).map((m) => (
+          <li>
+            <h3>{m.home} – {m.away}</h3>
+            <span class="meta">{fmtDay(m.date)} · {fmtTime(m)}{m.venue ? ` · ${m.venue}` : ''}{m.kind === 'training' ? ' · Träningsmatch' : ''}</span>
+          </li>
+        ))}
+      </ul>
+    )}
+    <p class="meta prose"><a href="/matcher">Hela spelschemat</a></p>
+
+    <h2 class="section-gap">Föreningens resor</h2>
+    {resor.length === 0 ? (
+      <p class="notice prose">Inga resor är planerade just nu. Håll utkik här eller mejla <a href={`mailto:${site.email}`}>{site.email}</a> om du vill vara med på nästa.</p>
+    ) : (
+      <div class="cards">
+        {resor.map((r) => (
+          <article class="card">
+            <h3>{r.motstandare}</h3>
+            <p class="meta">{r.datum} · {r.transport}, avgång {r.avgang}</p>
+            {r.info && <p>{r.info}</p>}
+            <a class="button" href={`mailto:${site.email}?subject=Anmälan bortaresa ${r.motstandare}`}>Anmäl dig</a>
+          </article>
+        ))}
+      </div>
+    )}
+  </div>
+</Base>

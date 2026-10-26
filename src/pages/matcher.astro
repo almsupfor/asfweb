@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import { upcoming, results, matchesUpdated, fmtDay, fmtShortDay, fmtTime, fmtScore } from '../data/matches';
+
+const kommande = upcoming();
+const uppdaterad = matchesUpdated ? new Date(matchesUpdated).toLocaleString('sv-SE', { dateStyle: 'long', timeStyle: 'short', timeZone: 'Europe/Stockholm' }) : null;
+---
+<Base title="Matcher" description="Spelschema och resultat för Almtuna IS.">
+  <div class="wrap page">
+    <h1>Matcher</h1>
+    <p class="lead prose">Spelschema och resultat för Almtuna IS. Uppdateras automatiskt.</p>
+
+    <h2>Kommande</h2>
+    {kommande.length === 0 ? (
+      <p class="notice prose">Inga kommande matcher är inlagda just nu.</p>
+    ) : (
+      <ul class="list">
+        {kommande.map((m) => (
+          <li>
+            <h3>{m.home} – {m.away}</h3>
+            <span class="meta">{fmtDay(m.date)} · {fmtTime(m)} · {m.isHome ? 'Hemma' : 'Borta'}{m.venue ? ` · ${m.venue}` : ''}{m.kind === 'training' ? ' · Träningsmatch' : ''}</span>
+          </li>
+        ))}
+      </ul>
+    )}
+
+    {results.length > 0 && (
+      <>
+        <h2 class="section-gap">Resultat</h2>
+        <ul class="list">
+          {results.map((r) => (
+            <li>
+              <h3>{r.home} {fmtScore(r)} {r.away}</h3>
+              <span class="meta">{fmtShortDay(r.date)}</span>
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+
+    <p class="prose">Det officiella och alltid aktuella spelschemat finns hos klubben: <a href="https://www.almtuna.com/game-schedule?seasonUuid=ndcf81nlb3&seriesUuid=qQ9-594cW8OWD&gameTypeUuid=qQ9-af37Ti40B&completeSeason=all&homeAway=all&allGames=all" rel="noopener">almtuna.com/game-schedule</a>. Tider kan ändras.</p>
+    {uppdaterad && <p class="meta">Senast uppdaterad {uppdaterad}. Schema och resultat kommer från klubbens spelschema, kompletterat av en kalenderfil och <a href="https://www.thesportsdb.com/team/144401">TheSportsDB</a>. Tider kan ändras.</p>}
+  </div>
+</Base>

@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+<Base title="Bli medlem">
+  <div class="wrap page">
+    <h1>Bli medlem</h1>
+    <div class="prose">
+      <p class="lead">Som medlem stöttar du föreningen och får vara med och påverka.</p>
+      <p class="notice">Medlemsanmälan öppnar snart. Tills dess kan du mejla oss på <a href={`mailto:${site.email}?subject=Medlemskap`}>{site.email}</a> så hör vi av oss.</p>
+      <!-- TODO: avgift, Swish-nummer och anmälningsformulär när det är beslutat. -->
+    </div>
+  </div>
+</Base>

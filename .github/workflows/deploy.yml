@@ -1,0 +1,58 @@
+name: Deploy till GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Hämtar nya artiklar om Almtuna var tredje timme och bygger om sidan.
+    - cron: '17 */3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Hämta artiklar om Almtuna
+        run: npm run media
+      - name: Hämta nästa match och senaste resultat
+        run: npm run matches
+      - name: Spara nya artiklar i förrådet
+        if: github.event_name != 'push'
+        run: |
+          if ! git diff --quiet -- src/data/media.json src/data/matches.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add src/data/media.json src/data/matches.json
+            git commit -m "Uppdatera artiklar och matcher"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
+      - run: npm run build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

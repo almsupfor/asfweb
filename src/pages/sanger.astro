@@ -1,0 +1,147 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Texterna är ursprungligen hämtade från redlions.se (via archive.org).
+const sanger: { title: string; melodi?: string; lank?: string; text: string[] }[] = [
+  {
+    title: 'Almtuna är laget som vi lever för',
+    text: [
+      'Almtuna är laget som vi lever för',
+      'Vi är AIS och inget stoppar oss',
+      'För vi är oslagbara!',
+    ],
+  },
+  {
+    title: 'Almtuna Å-Å',
+    melodi: 'Volare',
+    text: [
+      'Almtuna Å-Å',
+      'Almtuna Å-Å-Å-Å',
+      'För er sjunger vi denna sång (klapp, klapp)',
+      'Vi sjunger den gång efter gång.',
+    ],
+  },
+  {
+    title: 'Här kommer Almtunas gäng',
+    melodi: 'Karl Alfred, Popeye the sailor man',
+    text: [
+      'Här kommer Almtunas gäng',
+      'Nu ska ni få fett me däng (alt. Nu har ni fått fett me däng)',
+      'Orken den tryter när lejonen ryter',
+      'Här kommer Almtunas gäng',
+    ],
+  },
+  {
+    title: 'För vi är Tuna',
+    melodi: 'Rule Britannia',
+    text: [
+      'För vi är Tuna och Gränby är vårt hem',
+      'Och ingen jävel kommer hit och tar poäng.',
+    ],
+  },
+  {
+    title: 'Röda vita AIS',
+    text: ['Röda vita AIS, AIS, AIS'],
+  },
+  {
+    title: 'Vi älskar Tuna vit och röd',
+    text: ['Vi älskar Tuna vit och röd (3ggr)', 'Almtuna till vår död.'],
+  },
+  {
+    title: 'Forza Tuna',
+    text: ['Forza Tuna in med pucken hej - hej'],
+  },
+  {
+    title: 'Almtuna är dom bästa',
+    text: ['Almtuna är dom bästa – Heja, heja, heja Tuna'],
+  },
+  {
+    title: 'Vi följer vårt röda lag',
+    melodi: 'Jag hade en gång en båt (Cornelis Vreeswijk & Ann-Louise Hanson)',
+    text: [
+      'Vi följer vårt röda lag, från Haparanda till Malmö stad',
+      'När vägen kan kännas lång så hör ni vår sång',
+      'Vi följer vårt lag',
+      'Vi följer vårt la-a-ag',
+      'Tillsammans kämpar vi för Uppsala stad',
+      '(du du du du du du du du du)',
+    ],
+  },
+  {
+    title: 'Nu är Red Lions här',
+    text: [
+      'Nu är Red Lions här',
+      'Hela Sverige ska få se',
+      'Red Lions på turné',
+    ],
+  },
+  {
+    title: 'Vi älskar vårat Tuna',
+    text: [
+      'Vi älskar vårat Tuna',
+      'Vi sjunger, vi krigar, Vi älskar vårt lag',
+      'Ett skott, ett mål, för Tuna',
+    ],
+  },
+  {
+    title: 'Vi möter visst ett lag idag',
+    melodi: 'The Silly Song (Snövit och de sju dvärgarna)',
+    text: [
+      'Vi möter visst ett lag idag, som ska ned och kvala',
+      'Men inte gör det oss någonting, för vi är från Uppsala',
+    ],
+  },
+  {
+    title: 'Kom igen Tuna',
+    text: ['Kom igen Tuna', 'Kom igen Tuna', '...'],
+  },
+  {
+    title: 'Kämpa AIS',
+    text: ['Kämpa AIS', 'Kämpa AIS', '...'],
+  },
+];
+
+// Lyssna: `lank` pekar på en exakt video (t.ex. YouTube/Spotify). Saknas den
+// men melodi finns, länkas en YouTube-sökning på melodin. Inga ljudfiler lagras.
+const lyssnaUrl = (s: { lank?: string; melodi?: string }) =>
+  s.lank ??
+  (s.melodi
+    ? `https://www.youtube.com/results?search_query=${encodeURIComponent(s.melodi)}`
+    : undefined);
+---
+<Base title="Sånger">
+  <div class="wrap page">
+    <h1>Sånger</h1>
+    <p class="lead prose">Texterna till sångerna vi sjunger på läktaren.</p>
+    <div class="songs">
+      {sanger.map((s) => (
+        <section class="song prose">
+          <h2>{s.title}</h2>
+          {s.melodi && <p class="meta">Melodi: {s.melodi}</p>}
+          {lyssnaUrl(s) && (
+            <p class="meta">
+              <a href={lyssnaUrl(s)} target="_blank" rel="noopener noreferrer">
+                {s.lank ? 'Lyssna' : 'Lyssna på melodin (YouTube)'}
+              </a>
+            </p>
+          )}
+          <p class="lyrics">{s.text.join('\n')}</p>
+        </section>
+      ))}
+    </div>
+  </div>
+</Base>
+
+<style>
+  .songs {
+    display: grid;
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  .song h2 {
+    margin-bottom: 0.25rem;
+  }
+  .lyrics {
+    white-space: pre-line;
+  }
+</style>

@@ -1,0 +1,17 @@
+{
+  "name": "asfweb",
+  "type": "module",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "media": "node scripts/fetch-media.mjs",
+    "matches": "node scripts/fetch-matches.mjs",
+    "schedule": "node scripts/download-schedule.mjs"
+  },
+  "dependencies": {
+    "astro": "^5.0.0"
+  }
+}

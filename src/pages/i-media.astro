@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import { media, mediaUpdated } from '../data/media';
+import { site } from '../data/site';
+
+const artiklar = media.filter((m) => m.type !== 'podd').slice(0, 60);
+const avsnitt = media.filter((m) => m.type === 'podd').slice(0, 20);
+const fmt = (d: string) => new Date(d).toLocaleDateString('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' });
+const uppdaterad = mediaUpdated ? new Date(mediaUpdated).toLocaleString('sv-SE', { dateStyle: 'long', timeStyle: 'short', timeZone: 'Europe/Stockholm' }) : null;
+---
+<Base title="I media" description="Artiklar och poddavsnitt om Almtuna IS från tidningar och andra medier.">
+  <div class="wrap page">
+    <h1>I media</h1>
+    <p class="lead prose">Artiklar och poddavsnitt om Almtuna IS. Listan uppdateras automatiskt och vi länkar till originalet.</p>
+
+    <h2>Artiklar</h2>
+    {artiklar.length === 0 ? (
+      <p class="notice prose">Inga artiklar är inlagda ännu. Har du hittat något som borde vara med? Mejla länken till <a href={`mailto:${site.email}?subject=Artikeltips`}>{site.email}</a>.</p>
+    ) : (
+      <ul class="list">
+        {artiklar.map((m) => (
+          <li>
+            <h3><a href={m.url} rel="noopener">{m.title}</a></h3>
+            <span class="meta">{m.source} · {fmt(m.date)}</span>
+          </li>
+        ))}
+      </ul>
+    )}
+
+    {avsnitt.length > 0 && (
+      <>
+        <h2 class="section-gap" id="podd">Podd</h2>
+        <p class="prose">Inside Almtuna. Avsnitten spelas på poddens egen sida.</p>
+        <ul class="list">
+          {avsnitt.map((m) => (
+            <li>
+              <h3><a href={m.url} rel="noopener">{m.title}</a></h3>
+              <span class="meta">{fmt(m.date)}</span>
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+
+    {uppdaterad && <p class="meta">Senast uppdaterad {uppdaterad}. Rubrikerna hämtas från mediernas egna flöden. Vi har ingen koppling till dem.</p>}
+  </div>
+</Base>
