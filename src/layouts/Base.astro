@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { site, nav } from '../data/site';
+import ThemeToggle from '../components/ThemeToggle.astro';
 
 interface Props { title?: string; description?: string; noindex?: boolean; }
 const { title, description = site.tagline, noindex = false } = Astro.props;
@@ -15,7 +16,14 @@ const canonical = new URL(path, Astro.site);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <script is:inline>document.documentElement.classList.add('js');</script>
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      // Besökarens val av ljust eller mörkt läge sätts före första målningen så att sidan inte blinkar.
+      try {
+        const t = localStorage.getItem('tema');
+        if (t === 'light' || t === 'dim' || t === 'dark') document.documentElement.dataset.theme = t;
+      } catch {}
+    </script>
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#121214" media="(prefers-color-scheme: dark)" />
     {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
@@ -35,6 +43,7 @@ const canonical = new URL(path, Astro.site);
           <span class="brand-full" aria-hidden="true">{site.name}</span>
           <span class="brand-short" aria-hidden="true">{site.short}</span>
         </a>
+        <ThemeToggle />
         <a class="button header-cta" href="/bli-medlem">Bli medlem</a>
         <button type="button" class="menu-toggle" aria-expanded="false" aria-controls="huvudmeny">
           <svg class="menu-icon" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path d="M3 6h18M3 12h18M3 18h18" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round"/></svg>
@@ -42,6 +51,7 @@ const canonical = new URL(path, Astro.site);
         </button>
         <nav id="huvudmeny" aria-label="Huvudmeny">
           {nav.map((i) => <a href={i.href} aria-current={path.startsWith(i.href) ? 'page' : undefined}>{i.label}</a>)}
+          <a class="button nav-cta" href="/bli-medlem">Bli medlem</a>
         </nav>
       </div>
     </header>
@@ -52,6 +62,9 @@ const canonical = new URL(path, Astro.site);
         <p class="meta">Föreningen är fristående från Almtuna IS.</p>
       </div>
     </footer>
+    <a class="to-top-fab" href="#innehall" aria-label="Till toppen">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
     <script>
       const btn = document.querySelector<HTMLButtonElement>('.menu-toggle');
       const menu = document.getElementById('huvudmeny');
@@ -71,7 +84,41 @@ const canonical = new URL(path, Astro.site);
       }
     </script>
     <script>
-      // Externa länkar öppnas i nytt fönster. Gäller alla länkar på sidan, även nya.
+      // Knappen går igenom ljust, halvmörkt och mörkt. Utan eget val följer sidan webbläsarens inställning.
+      const root = document.documentElement;
+      const toggles = document.querySelectorAll<HTMLButtonElement>('.theme-toggle');
+      const query = matchMedia('(prefers-color-scheme: dark)');
+      const metas = [...document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')].map((m) => ({ m, content: m.content, media: m.media }));
+      const chrome: Record<string, string> = { light: '#ffffff', dim: '#2b2b31', dark: '#121214' };
+      const next: Record<string, string> = { light: 'dim', dim: 'dark', dark: 'light' };
+      const current = () => root.dataset.theme || (query.matches ? 'dark' : 'light');
+      const sync = () => {
+        // Eget val gäller båda webbläsarfärgerna. Utan val behåller de sina media-villkor.
+        metas.forEach(({ m, content, media }) => {
+          if (!root.dataset.theme) { m.content = content; m.setAttribute('media', media); }
+          else { m.content = chrome[root.dataset.theme]; m.removeAttribute('media'); }
+        });
+      };
+      toggles.forEach((t) => t.addEventListener('click', () => {
+        const mode = next[current()];
+        root.dataset.theme = mode;
+        try { localStorage.setItem('tema', mode); } catch {}
+        sync();
+      }));
+      query.addEventListener('change', sync);
+      sync();
+    </script>
+    <script>
+      // Pilen till toppen visas först när man scrollat en bit.
+      const fab = document.querySelector<HTMLElement>('.to-top-fab');
+      if (fab) {
+        const update = () => fab.classList.toggle('show', scrollY > 40);
+        addEventListener('scroll', update, { passive: true });
+        update();
+      }
+    </script>
+    <script>
+      // Externa länkar öppnas i ny flik. Gäller alla länkar på sidan, även nya.
       for (const a of document.querySelectorAll<HTMLAnchorElement>('main a[href], footer a[href]')) {
         if (!/^https?:$/.test(a.protocol) || a.origin === location.origin) continue;
         a.target = '_blank';
@@ -79,7 +126,7 @@ const canonical = new URL(path, Astro.site);
         if (!a.querySelector('.sr-only')) {
           const hint = document.createElement('span');
           hint.className = 'sr-only';
-          hint.textContent = ' (öppnas i nytt fönster)';
+          hint.textContent = ' (öppnas i ny flik)';
           a.append(hint);
         }
       }
@@ -100,10 +147,12 @@ const canonical = new URL(path, Astro.site);
   .bar nav a { color: var(--ink); text-decoration: none; font-weight: 500; padding-block: .5rem; }
   .bar nav a:hover { color: var(--red); text-decoration: underline; text-underline-offset: .25em; }
   .bar nav a[aria-current] { color: var(--red); }
+  .bar nav a.nav-cta { display: none; }
+  .bar .theme-toggle { margin-inline-start: 0; }
   a:focus-visible, button:focus-visible, main:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
   main:focus-visible { outline: none; }
   .hero a:focus-visible { outline-color: #fff; }
-  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  .sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .skip-link { position: absolute; left: .5rem; top: -4rem; z-index: 20; background: var(--bg); color: var(--ink); padding: .65rem 1rem; border-radius: .4rem; border: 2px solid var(--red); font-weight: 600; }
   .skip-link:focus { top: .5rem; }
   /* Smalare än 48rem ryms inte länkarna på en rad: de läggs i en panel bakom menyknappen. */
@@ -112,11 +161,12 @@ const canonical = new URL(path, Astro.site);
     .bar { padding-block: .75rem; }
     .js .menu-toggle { display: inline-flex; }
     .js .bar nav { display: none; }
-    .js .bar nav.open { display: flex; flex-direction: column; flex-wrap: nowrap; position: absolute; top: 100%; left: 0; right: 0; padding: .5rem clamp(1rem, 3vw, 2rem) 1rem; background: var(--bg); border-bottom: 1px solid var(--line); max-height: calc(100dvh - 4.5rem); overflow-y: auto; }
-  }
-  @media (max-width: 30rem) {
+    .header-cta { display: none; }
+    .bar nav a.nav-cta, .bar nav a.nav-cta:hover { display: inline-flex; align-items: center; align-self: flex-start; min-height: 2.75rem; margin-top: .5rem; padding: 0 1.2rem; color: #fff; text-decoration: none; font-weight: 600; }
+    .bar nav a.nav-cta:hover { background: var(--red-fill-hover); }
     .menu-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
     .menu-toggle { width: 2.75rem; padding: 0; justify-content: center; }
+    .js .bar nav.open { display: flex; flex-direction: column; flex-wrap: nowrap; position: absolute; top: 100%; left: 0; right: 0; padding: .5rem clamp(1rem, 3vw, 2rem) 1rem; background: var(--bg); border-bottom: 1px solid var(--line); max-height: calc(100dvh - 4.5rem); overflow-y: auto; }
   }
   @media (max-width: 21rem) {
     .brand-full { display: none; }

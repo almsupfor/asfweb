@@ -1,10 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
 ---
 <Base title="Historia">
-  <div class="wrap page">
-    <h1>Historia</h1>
+  <PageHead title="Historia">
     <p class="lead prose">Almtuna IS och supporterkulturen genom åren – säsong för säsong.</p>
+  </PageHead>
+  <div class="wrap page">
     <p class="notice prose">Här samlar vi klubbens och läktarens historia. Har du bilder, minnen eller fakta att bidra med? <a href="/kontakt">Hör av dig</a>.</p>
   </div>
 </Base>

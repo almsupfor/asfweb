@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
 
 // Texterna är ursprungligen hämtade från redlions.se (via archive.org).
 const sanger: { title: string; melodi?: string; lank?: string; sok?: string[]; text: string[] }[] = [
@@ -121,9 +122,10 @@ const lyssnaLankar = (s: { lank?: string; sok?: string[]; melodi?: string }) =>
       }));
 ---
 <Base title="Sånger">
-  <div class="wrap page">
-    <h1>Sånger</h1>
+  <PageHead title="Sånger">
     <p class="lead prose">Texterna till sångerna vi sjunger på läktaren.</p>
+  </PageHead>
+  <div class="wrap page">
     <div class="songs">
       {sanger.map((s) => (
         <section class="song prose">

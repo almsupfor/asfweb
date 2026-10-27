@@ -1,12 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
 import Mail from '../components/Mail.astro';
+import PageHead from '../components/PageHead.astro';
 ---
 <Base title="Bli medlem">
+  <PageHead title="Bli medlem">
+    <p class="lead">Som medlem stöttar du föreningen och får vara med och påverka.</p>
+  </PageHead>
   <div class="wrap page">
-    <h1>Bli medlem</h1>
     <div class="prose">
-      <p class="lead">Som medlem stöttar du föreningen och får vara med och påverka.</p>
       <p class="notice">Medlemsanmälan öppnar snart. Tills dess kan du mejla oss på <Mail subject="Medlemskap" /> så hör vi av oss.</p>
       <!-- TODO: avgift, Swish-nummer och anmälningsformulär när det är beslutat. -->
     </div>

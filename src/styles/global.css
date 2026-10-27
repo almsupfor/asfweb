@@ -11,11 +11,20 @@
   --line: #e4e2de;
   --max: 80rem;
 }
+/* Mörkt läge följer webbläsaren tills besökaren valt själv med färglägesknappen (data-theme på html). */
+:root[data-theme="light"] { color-scheme: light; }
+:root[data-theme="dim"], :root[data-theme="dark"] { color-scheme: dark; }
 @media (prefers-color-scheme: dark) {
-  :root { --ink: #f2f1ee; --muted: #a9a9b2; --bg: #121214; --bg-soft: #1b1b1f; --line: #2c2c32; --red: #f05068; --red-fill: #b80f29; --red-fill-hover: #8c0b20; }
+  :root:not([data-theme]) { --ink: #f2f1ee; --muted: #a9a9b2; --bg: #121214; --bg-soft: #1b1b1f; --line: #2c2c32; --red: #f05068; --red-fill: #b80f29; --red-fill-hover: #8c0b20; }
 }
+:root[data-theme="dark"] { --ink: #f2f1ee; --muted: #a9a9b2; --bg: #121214; --bg-soft: #1b1b1f; --line: #2c2c32; --red: #f05068; --red-fill: #b80f29; --red-fill-hover: #8c0b20; }
+/* Halvmörkt: ett mellanläge mellan ljust och mörkt, med en ljusare röd text så att kontrasten håller på de ljusare ytorna. */
+:root[data-theme="dim"] { --ink: #f2f1ee; --muted: #b9b9c2; --bg: #2b2b31; --bg-soft: #35353c; --line: #4a4a53; --red: #ff7488; --red-fill: #b80f29; --red-fill-hover: #8c0b20; }
 * { box-sizing: border-box; }
 body { margin: 0; font: 1.0625rem/1.65 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; color: var(--ink); background: var(--bg); overflow-wrap: break-word; }
+/* Sidfoten ligger längst ned i fönstret även när sidan är kortare än skärmen. */
+body { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
+main { flex: 1 0 auto; }
 a { color: var(--red); }
 h1, h2, h3 { line-height: 1.15; letter-spacing: -0.01em; }
 h1 { font-size: clamp(2rem, 5vw, 3rem); margin: 0 0 1rem; }
@@ -23,7 +32,14 @@ h2 { font-size: 1.75rem; }
 h3 { font-size: 1.35rem; }
 .wrap { max-width: var(--max); margin: 0 auto; padding: 0 clamp(1rem, 3vw, 2rem); }
 .prose { max-width: 42rem; }
-.page { padding-block: 2.5rem 4rem; }
+.page { padding-block: 2rem 4rem; }
+/* Bandet överst: rubrik och ingress på mjukt papper över hela bredden. */
+.page-head { background: var(--bg-soft); border-bottom: 1px solid var(--line); padding-block: 2.5rem 1.75rem; }
+.page-head h1 { margin-bottom: .75rem; }
+.page-head > .wrap > :last-child { margin-bottom: 0; }
+.page-head .lead { margin-top: 0; }
+.page-head .jump { margin: 1.25rem 0 0; }
+.page-head .jump a { background: var(--bg); }
 .lead { font-size: 1.25rem; color: var(--muted); }
 .button { display: inline-block; background: var(--red-fill); color: #fff; padding: .65rem 1.2rem; border-radius: .4rem; text-decoration: none; font-weight: 600; }
 .button:hover { background: var(--red-fill-hover); }
@@ -38,17 +54,28 @@ a.card:hover h3 { text-decoration: underline; text-underline-offset: .2em; }
 .match { margin: 0 0 .25rem; font-weight: 700; font-size: 1.25rem; line-height: 1.3; }
 .meta { color: var(--muted); font-size: .9rem; }
 .notice { border: 1px solid var(--line); background: var(--bg-soft); padding: .75rem 1rem; border-radius: .4rem; }
-.list { list-style: none; padding: 0; }
+.list { list-style: none; margin-block: 1rem; padding: 0 1.25rem; background: var(--bg-soft); border: 1px solid var(--line); border-radius: .6rem; }
 .list li { padding: 1rem 0; border-bottom: 1px solid var(--line); }
-.list h2 { margin: 0 0 .25rem; font-size: 1.35rem; }
-.list a { text-decoration: none; }
-.list a:hover, .list a:focus-visible { text-decoration: underline; text-underline-offset: .2em; }
-.list a:visited { color: color-mix(in srgb, var(--red) 55%, var(--muted)); }
+.list li:last-child { border-bottom: 0; }
+.list a { color: var(--ink); text-decoration: underline 1px color-mix(in srgb, var(--muted) 55%, transparent); text-underline-offset: .22em; }
+.item-link { display: block; font-size: 1.125rem; font-weight: 600; line-height: 1.35; text-wrap: pretty; }
+.list li > .meta { display: block; margin-top: .25rem; }
+.no-break { white-space: nowrap; }
+.list a:visited { color: var(--muted); }
+.list a:hover, .list a:focus-visible { color: var(--red); text-decoration-color: currentColor; }
 .ext { width: .7em; height: .7em; margin-inline-start: .3em; vertical-align: .05em; }
-.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
 .jump { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.5rem 0 2rem; }
 .jump a { display: inline-flex; align-items: center; gap: .5rem; min-height: 2.75rem; padding: 0 1rem; border: 1px solid var(--line); background: var(--bg-soft); border-radius: .4rem; color: var(--ink); font-weight: 600; text-decoration: none; }
 .jump a:hover { border-color: var(--red); color: var(--red); }
+.jump a[aria-current="page"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.jump a[aria-current="page"]:hover { color: var(--bg); }
+.sektion::before { content: ""; display: block; width: 3rem; height: .3rem; margin-bottom: .6rem; background: var(--red); }
+.more summary { display: flex; align-items: center; min-height: 2.75rem; padding-block: .25rem; font-weight: 600; color: var(--ink); cursor: pointer; }
+.more summary::after { content: ""; width: .5rem; height: .5rem; margin-inline-start: .65rem; margin-top: -.25rem; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); }
+.more[open] summary::after { margin-top: .25rem; transform: rotate(-135deg); }
+.more summary:hover { color: var(--red); }
+.more summary:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
+.more[open] summary { margin-top: .25rem; }
 .hero { background: var(--red-fill); color: #fff; padding-block: clamp(3rem, 10vw, 6rem); }
 .hero h1 { color: #fff; font-size: clamp(2.75rem, 11vw, 6rem); font-weight: 800; line-height: 1.02; letter-spacing: -0.03em; text-wrap: balance; max-width: 14ch; margin-bottom: 1.25rem; }
 .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.75rem; margin-top: 2rem; }
@@ -58,3 +85,21 @@ a.card:hover h3 { text-decoration: underline; text-underline-offset: .2em; }
 .hero .lead { color: var(--on-red-soft); }
 .hero .button { background: #fff; color: var(--red-fill); }
 .hero .button:hover { background: var(--on-red-soft); }
+/* Färgläge: knappen är en ikon som visar läget som gäller nu (sol i ljust, halvfylld cirkel i halvmörkt, måne i mörkt). Ikonen väljs av data-theme eller webbläsarens inställning, så den är rätt redan vid första målningen. */
+.theme-toggle { display: none; align-items: center; width: 2.75rem; min-height: 2.75rem; padding: 0; justify-content: center; margin-inline-start: auto; color: var(--ink); background: transparent; border: 1px solid var(--line); border-radius: .4rem; cursor: pointer; }
+.js .theme-toggle { display: inline-flex; }
+.theme-toggle:hover { background: var(--bg-soft); }
+.theme-toggle .in-light { display: inline-flex; align-items: center; }
+.theme-toggle .in-dim, .theme-toggle .in-dark { display: none; align-items: center; }
+:root[data-theme="dim"] .theme-toggle .in-light, :root[data-theme="dark"] .theme-toggle .in-light { display: none; }
+:root[data-theme="dim"] .theme-toggle .in-dim, :root[data-theme="dark"] .theme-toggle .in-dark { display: inline-flex; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .theme-toggle .in-light { display: none; }
+  :root:not([data-theme]) .theme-toggle .in-dark { display: inline-flex; }
+}
+/* Pilen till toppen: alltid på plats, men utan JavaScript syns den hela tiden och med visas den efter första scrollen. */
+.to-top-fab { position: fixed; z-index: 9; right: max(1rem, env(safe-area-inset-right)); bottom: max(1rem, env(safe-area-inset-bottom)); display: inline-flex; align-items: center; justify-content: center; width: 3rem; height: 3rem; background: var(--red-fill); color: #fff; border-radius: .4rem; text-decoration: none; }
+.to-top-fab:hover { background: var(--red-fill-hover); }
+.js .to-top-fab { visibility: hidden; opacity: 0; }
+.js .to-top-fab.show { visibility: visible; opacity: 1; }
+@media (prefers-reduced-motion: no-preference) { .to-top-fab { transition: opacity .2s ease-out, visibility .2s; } }

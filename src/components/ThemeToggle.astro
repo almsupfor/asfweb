@@ -1,0 +1,11 @@
+---
+// Knappen är en ikon som visar läget som gäller nu: sol i ljust, halvfylld cirkel i halvmörkt och måne i mörkt.
+// Ett klick går till nästa läge: ljust, halvmörkt, mörkt och tillbaka. Namnet sägs till skärmläsare och beskriver vad ett klick gör.
+// Vilken ikon som syns styrs i CSS av data-theme eller webbläsarens inställning, så att den är rätt redan vid första målningen.
+// Skriptet finns i Base.astro.
+---
+<button type="button" class="theme-toggle">
+  <span class="in-light"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="sr-only">Halvmörkt läge</span></span>
+  <span class="in-dim"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 4a8 8 0 0 1 0 16Z" fill="currentColor"/></svg><span class="sr-only">Mörkt läge</span></span>
+  <span class="in-dark"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg><span class="sr-only">Ljust läge</span></span>
+</button>

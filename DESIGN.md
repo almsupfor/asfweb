@@ -18,6 +18,11 @@ colors:
   line: "#e4e2de"
   line-night: "#2c2c32"
   hero-tint: "#ffe3e8"
+  lakt-red-dim: "#ff7488"
+  muted-dim: "#b9b9c2"
+  paper-dim: "#2b2b31"
+  paper-soft-dim: "#35353c"
+  line-dim: "#4a4a53"
 typography:
   display:
     fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
@@ -49,6 +54,11 @@ typography:
     fontWeight: 700
     lineHeight: 1.15
     letterSpacing: "-0.01em"
+  list-title:
+    fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+    fontSize: "1.125rem"
+    fontWeight: 600
+    lineHeight: 1.35
   body:
     fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
     fontSize: "1.0625rem"
@@ -113,9 +123,9 @@ Den röda färgen och hela färgprofilen är **inte beslutade** (se PRODUCT.md).
 
 **Key Characteristics:**
 - Solid röd hero-yta som sidans enda stora gest.
-- Platta ytor med tunna linjer, inga skuggor.
+- Platta ytor med tunna linjer, inga skuggor. Struktur kommer av band och paneler i Mjukt papper, inte av kort runt varje rad.
 - Systemtypsnitt, fet rubrik, generös radhöjd.
-- Mörkt läge följer användarens inställning.
+- Mörkt läge följer användarens inställning, och färglägesknappen i sidhuvudet låter besökaren välja ljust, halvmörkt eller mörkt.
 - Kort och knappar är robusta och tydliga, inte raffinerade.
 
 ## Colors
@@ -125,7 +135,8 @@ Rött och vitt mot varma off-white ytor och nästan svart text. Ett enda accentf
 ### Primary
 - **Läktarröd** (#c8102e): Länkar, varumärkesnamnet, primärknappen, aktiv menypost och hero-ytan. I mörkt läge ersätts den som textfärg av **Nattröd** (#f05068), som ger 4,95:1 mot mjukt papper.
 - **Djuprött** (#9a0c23): Endast hover på primärknappen.
-- **Nattfyllning** (#b80f29): Bakgrund för primärknapp och hero i mörkt läge, så att vit text når 6,7:1. Hover: #8c0b20.
+- **Nattfyllning** (#b80f29): Bakgrund för primärknapp och hero i mörkt och halvmörkt läge, så att vit text når 6,7:1. Hover: #8c0b20.
+- **Skymningsröd** (#ff7488): Textröd i halvmörkt läge. De ljusare ytorna där kräver en ljusare röd än Nattröd för att nå 4,7:1 mot mjukt papper.
 
 ### Neutral
 - **Bläck** (#16161a): Brödtext och rubriker. Nattläge: #f2f1ee.
@@ -135,10 +146,13 @@ Rött och vitt mot varma off-white ytor och nästan svart text. Ett enda accentf
 - **Linje** (#e4e2de): Alla kantlinjer och avskiljare. Nattläge: #2c2c32.
 - **Rosa dis** (#ffe3e8): Ingresstext på röd hero-yta.
 
+### Halvmörkt läge
+Mellanläge mellan ljust och mörkt, valbart med färglägesknappen. Papper #2b2b31, Mjukt papper #35353c, Linje #4a4a53, Bläck #f2f1ee, Dämpad grå #b9b9c2 och textrött Skymningsröd (#ff7488). Kontrast: Bläck mot papper 12,5:1, Dämpad grå mot mjukt papper 6,3:1, Skymningsröd mot papper 5,4:1 och mot mjukt papper 4,7:1. Det följer inte webbläsarens inställning. Det väljs bara med knappen.
+
 ### Named Rules
 **The Placeholder Red Rule.** Färgprofilen är obestämd. Föreslå inte nya röda nyanser, nya accentfärger eller klubbfärger som beslutade. Använd befintliga tokens.
 
-**The Two Reds Rule.** Röd som text (`--red`) och röd som fyllning under vit text (`--red-fill`) är olika tokens. I mörkt läge är textröd ljusare och fyllningsröd mörkare. Använd aldrig `--red` som bakgrund under vit text.
+**The Two Reds Rule.** Röd som text (`--red`) och röd som fyllning under vit text (`--red-fill`) är olika tokens. I mörkt och halvmörkt läge är textröd ljusare och fyllningsröd mörkare. Använd aldrig `--red` som bakgrund under vit text.
 
 **The One Voice Rule.** Röd är den enda accentfärgen. Ingen sekundär accent läggs till utan att föreningen beslutat färgprofil.
 
@@ -153,7 +167,8 @@ Rött och vitt mot varma off-white ytor och nästan svart text. Ett enda accentf
 ### Hierarchy
 - **Display** (700, clamp(2rem, 5vw, 3rem), 1.15): Sidrubrik (h1) och hero.
 - **Hero** (800, clamp(2.75rem, 11vw, 6rem), 1.02, -0.03em): Enbart hero-rubriken på startsidan, max 14 tecken bred.
-- **Headline** (700, 1.35rem, 1.15): Rubriker i listor ("I media").
+- **Headline** (700, 1.35rem, 1.15): Rubriker i listor på startsidan.
+- **List title** (600, 1.125rem, 1.35): Rubriken i raderna på I media. Det är en länk, inte en rubrik (h3), så att rubriknavigering bara listar sektioner. Sista ordet och pilen hålls ihop.
 - **Section** (700, 1.75rem, 1.15): Sektionsrubriker (h2).
 - **Title** (700, 1.35rem, 1.15): Kortrubriker (h3).
 - **Body** (400, 1.0625rem, 1.65): Löptext. Textspalten `.prose` är högst 42rem (cirka 65–75 tecken).
@@ -167,7 +182,7 @@ Rött och vitt mot varma off-white ytor och nästan svart text. Ett enda accentf
 
 Innehållet ligger i en centrerad behållare med max 80rem och sidmarginal clamp(1rem, 3vw, 2rem). Sidor har 2.5rem toppmarginal och 4rem botten. Löptext begränsas till 42rem. Kort ligger i ett auto-fit-rutnät med minst 16rem per kolumn och 1rem mellanrum, så de staplas av sig själva på mobil.
 
-Sidhuvudet är sticky. Under 75rem döljs menyn bakom en menyknapp (`aria-expanded`, Esc stänger). Utan JavaScript är menyn öppen. Vertikal rytm: 1rem mellan kort, 2.5rem mellan sektioner, 4rem inuti hero.
+Sidan fyller alltid fönstrets höjd: sidfoten ligger längst ned även när innehållet är kortare än skärmen. Sidhuvudet är sticky. Under 75rem döljs menyn bakom en menyknapp (`aria-expanded`, Esc stänger). Utan JavaScript är menyn öppen. Vertikal rytm: 1rem mellan kort, 2.5rem mellan sektioner, 4rem inuti hero.
 
 ## Elevation & Depth
 
@@ -201,12 +216,27 @@ Måttligt rundade hörn: 0.4rem på knappar och notiser, 0.6rem på kort. Allt h
 Mjukt papper, 1px linje, 0.4rem hörn, padding 0.75rem 1rem. Används för obekräftade uppgifter och information.
 
 ### Navigation
-Sidhuvudet har två rader från 48rem: varumärket till vänster och "Bli medlem" till höger överst, och alla länkar på en rad under (Bläck, vikt 500, utan understrykning, hover i Läktarröd, aktiv sida i Läktarröd med `aria-current`). Raden radbryts om den inte ryms.
+Sidhuvudet har två rader från 48rem: varumärket till vänster och färglägesknappen och "Bli medlem" till höger överst, och alla länkar på en rad under (Bläck, vikt 500, utan understrykning, hover i Läktarröd, aktiv sida i Läktarröd med `aria-current`). Raden radbryts om den inte ryms.
 
-Under 48rem ligger varumärket, "Bli medlem" och menyknappen (samma höjd, 2,75rem) på en rad, och länkarna öppnas som en panel över innehållet under sidhuvudet (1px linje nedtill, ingen skugga). Under 30rem visar menyknappen bara ikonen, och under 21rem kortas namnet till ASF. "Bli medlem" är alltid synlig. Utan JavaScript ligger länkarna öppna under raden.
+Färglägesknappen går igenom tre lägen: ljust, halvmörkt och mörkt, och tillbaka. Den är en ren ikon (2,75rem × 2,75rem, 1px linje, 0.4rem hörn) som visar läget som gäller nu: en ritad sol i ljust läge, en halvfylld cirkel i halvmörkt och en måne i mörkt. Namnet finns som dold text för skärmläsare och beskriver vad ett klick gör ("Halvmörkt läge", "Mörkt läge", "Ljust läge"). Vilken ikon som syns styrs i CSS av `data-theme` på html eller webbläsarens inställning, så den är rätt redan vid första målningen. Utan eget val följer sidan webbläsaren. Valet sparas i webbläsaren (`localStorage`, nyckel `tema`) och sätts före första målningen. Knappen ligger i sidhuvudets övre rad på alla bredder (före "Bli medlem" från 48rem, före menyknappen under). Den syns bara med JavaScript.
+
+Under 48rem ligger varumärket, färglägesknappen och menyknappen på en rad, med menyknappen längst till höger. Båda knapparna är rena ikoner (2,75rem × 2,75rem). Menyknappens namn "Meny" finns kvar som dold text. Länkarna öppnas som en panel över innehållet under sidhuvudet (1px linje nedtill, ingen skugga), och "Bli medlem" ligger sist i panelen som röd knapp. Under 21rem kortas namnet till ASF. Utan JavaScript ligger länkarna och "Bli medlem" öppna under raden.
+
+### Page head
+Sidans rubrik och ingress ligger i ett band över hela bredden: Mjukt papper med en 1px Linje under, 2,5rem luft över och 1,75rem under. Hopplänkar och uppdateringstid ligger i bandet, med Papper som bakgrund på chipsen så att de syns mot bandet. Bandet används på alla innehållssidor utom startsidan (som har hero-ytan) och 404.
 
 ### Lists
-Listor ("I media") är raka rader skilda av en linje, utan kort. Rubriken är en länk utan understrykning som understryks vid hover.
+Listor ("I media", "Matcher") ligger i en enda panel per lista: Mjukt papper, 1px Linje, 0.6rem hörn och 1.25rem sidoluft, med raderna skilda av en linje. Panelen ersätter kort runt varje rad. Titeln är en länk (List title) som är blockbred, så hela raden är en bra träffyta. Under den ligger källa och datum i dämpad grå, med datumet i `<time>`. Länken är Bläck med en tunn understrykning i dämpad grå, så att den syns som länk utan att röd text fyller sidan. Vid hover och tangentbordsfokus blir både text och understrykning röda. Besökt länk blir Dämpad grå. Röd text är avsiktligt sparsam i listor, eftersom rött mot vitt och framför allt mot mörkt blir tröttsamt i mängd.
+
+Externa länkar öppnas i ny flik. Det syns som en liten ritad pil efter sista ordet och sägs som dold text "(öppnas i ny flik)". Ett skript i sidhuvudet lägger samma dolda text på andra externa länkar som saknar den.
+
+Varje sektion på I media börjar med en kort röd stapel (3rem × 0.3rem, Läktarröd) över rubriken, sedan raderna. Senaste veckan visas direkt, minst fem rader, och resten ligger bakom en inbyggd "Äldre artiklar (n)". På Matcher visas de fem närmaste matcherna och de fem senaste resultaten direkt, och resten ligger bakom "Fler matcher (n)" och "Fler resultat (n)" i samma utseende (`<details>`, rubriken i Bläck med en ritad pil som vänds när raden är öppen, röd vid hover, minst 2,75rem hög). När listan kapats står det hur många som visas.
+
+### Pil till toppen
+En fast knapp nere till höger (3rem × 3rem, Nattfyllning/Läktarröd som fyllning med vit pil, 0.4rem hörn, ingen skugga). Den länkar till `#innehall`, så fokus följer med till innehållet. Med JavaScript visas den så fort man scrollat en liten bit (40px). Utan JavaScript syns den hela tiden. Den ligger under sidhuvudet i höjdled och respekterar säkra områden på telefoner.
+
+### Hoppmeny
+Rad med chips ovanför en lång lista, ett per sektion med innehåll, med antalet i dämpad grå ("A-laget 26"). Mjukt papper, 1px linje, 0.4rem hörn, minst 2,75rem höga. Hover ger röd linje och röd text. Chipsen ordnas med A-laget först och resten efter antal. Antalet visar det kapade talet och "26 av 41" när listan är kapad. Visas bara när det finns fler än en sektion. Samma chips används som lagval på Lagen (Herrlaget, Damlaget, U20), där det valda laget har Bläck som bakgrund och Papper som text och markeras med `aria-current`.
 
 ### Match-kort
 Samma kort som övriga, men utan länk. Matchraden är fet och 1.25rem (`.match`), datum och hemma/borta i dämpad grå. Källan anges under korten.
@@ -227,4 +257,4 @@ Heltäckande Läktarröd yta med vit rubrik, ingress i Rosa dis och en vit knapp
 - **Don't** införa en andra accentfärg eller presentera färgprofilen som beslutad.
 - **Don't** få sidan att likna Almtuna IS officiella sida.
 - **Don't** hitta på logotyp, bilder eller klubbemblem.
-- **Don't** lägg röd text mot mörk bakgrund utan Nattröd, eller vit text på `--red` i stället för `--red-fill`.
+- **Don't** lägg röd text mot mörk bakgrund utan Nattröd (Skymningsröd i halvmörkt läge), eller vit text på `--red` i stället för `--red-fill`.

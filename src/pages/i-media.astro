@@ -3,89 +3,67 @@ import Base from '../layouts/Base.astro';
 import { media, mediaUpdated, lagFor } from '../data/media';
 import Mail from '../components/Mail.astro';
 import MediaItem from '../components/MediaItem.astro';
+import PageHead from '../components/PageHead.astro';
 
-const alla = media.filter((m) => m.type !== 'podd');
-const artiklar = alla.filter((m) => lagFor(m) === 'a-lag').slice(0, 60);
-const damartiklar = alla.filter((m) => lagFor(m) === 'dam').slice(0, 20);
-const j20artiklar = alla.filter((m) => lagFor(m) === 'j20').slice(0, 20);
-const j18artiklar = alla.filter((m) => lagFor(m) === 'j18').slice(0, 20);
-const avsnitt = media.filter((m) => m.type === 'podd').slice(0, 20);
-const sektioner = [
-  { id: 'a-laget', namn: 'A-laget', antal: artiklar.length },
-  { id: 'damlaget', namn: 'Damlaget', antal: damartiklar.length },
-  { id: 'u20', namn: 'U20', antal: j20artiklar.length },
-  { id: 'j18', namn: 'J18', antal: j18artiklar.length },
-  { id: 'podd', namn: 'Podd', antal: avsnitt.length },
-].filter((s) => s.antal > 0);
+const artiklar = media.filter((m) => m.type !== 'podd');
+// De fem senaste visas direkt, resten ligger bakom "Äldre". Taket är hur många rader en sektion får ha.
+const DIREKT = 5;
+const bygg = (id: string, namn: string, alla: typeof media, tak: number, enhet: 'artiklar' | 'avsnitt') => {
+  const visa = alla.slice(0, tak);
+  const oppna = Math.min(DIREKT, visa.length);
+  return { id, namn, enhet, visa, total: alla.length, kapad: alla.length > visa.length, nu: visa.slice(0, oppna), aldre: visa.slice(oppna) };
+};
+const aLaget = bygg('a-laget', 'A-laget', artiklar.filter((m) => lagFor(m) === 'a-lag'), 60, 'artiklar');
+// A-laget står först. De andra ordnas efter hur mycket de innehåller.
+const ovriga = [
+  bygg('damlaget', 'Damlaget', artiklar.filter((m) => lagFor(m) === 'dam'), 20, 'artiklar'),
+  bygg('u20', 'U20', artiklar.filter((m) => lagFor(m) === 'j20'), 20, 'artiklar'),
+  bygg('u18', 'U18', artiklar.filter((m) => lagFor(m) === 'j18'), 20, 'artiklar'),
+  bygg('podd', 'Podd', media.filter((m) => m.type === 'podd'), 20, 'avsnitt'),
+].filter((s) => s.visa.length > 0).sort((a, b) => b.visa.length - a.visa.length);
+const sektioner = [aLaget, ...ovriga];
+const hopp = sektioner.filter((s) => s.visa.length > 0);
+const enhetFor = (s: (typeof sektioner)[number], n: number) => (s.enhet === 'artiklar' && n === 1 ? 'artikel' : s.enhet);
+const antalText = (s: (typeof sektioner)[number]) => (s.kapad ? `${s.visa.length} av ${s.total}` : `${s.visa.length}`);
 const uppdaterad = mediaUpdated ? new Date(mediaUpdated).toLocaleString('sv-SE', { dateStyle: 'long', timeStyle: 'short', timeZone: 'Europe/Stockholm' }) : null;
 ---
 <Base title="I media" description="Artiklar och poddavsnitt om Almtuna IS från tidningar och andra medier.">
+  <PageHead title="I media">
+      <p class="lead prose">Artiklar och poddavsnitt om Almtuna IS.<br />Listan uppdateras automatiskt och vi länkar till originalet.</p>
+      {uppdaterad && mediaUpdated && <p class="meta">Listan hämtades senast <time datetime={mediaUpdated}>{uppdaterad}</time>.</p>}
+      {hopp.length > 1 && (
+        <nav class="jump" aria-label="Hoppa till">
+          {hopp.map((s) => <a href={`#${s.id}`} aria-label={`${s.namn}, ${antalText(s)} ${enhetFor(s, s.total)}`}>{s.namn} <span class="meta" aria-hidden="true">{antalText(s)}</span></a>)}
+        </nav>
+      )}
+  </PageHead>
   <div class="wrap page">
-    <h1>I media</h1>
-    <p class="lead prose">Artiklar och poddavsnitt om Almtuna IS. A-laget spelar i Hockeyallsvenskan. Listan uppdateras automatiskt och vi länkar till originalet.</p>
+    {sektioner.map((s, i) => (
+      s.visa.length === 0 ? (
+        <>
+          <h2 class="sektion" id={s.id}>{s.namn}</h2>
+          <p class="notice prose">Inga artiklar är inlagda ännu. Har du hittat något som borde vara med? Mejla länken till <Mail subject="Artikeltips" />.</p>
+        </>
+      ) : (
+        <>
+          <h2 class:list={['sektion', i > 0 && 'section-gap']} id={s.id}>{s.namn}</h2>
+          {s.id === 'podd' && <p class="prose">Inside Almtuna. Avsnitten spelas på poddens egen sida.</p>}
+          <ul class="list">
+            {s.nu.map((m) => <MediaItem item={m} showSource={s.id !== 'podd'} />)}
+          </ul>
+          {s.aldre.length > 0 && (
+            <details class="more">
+              <summary>Äldre {s.enhet} ({s.aldre.length})</summary>
+              <ul class="list">
+                {s.aldre.map((m) => <MediaItem item={m} showSource={s.id !== 'podd'} />)}
+              </ul>
+            </details>
+          )}
+          {s.kapad && <p class="meta">Visar de {s.visa.length} senaste av {s.total} {s.enhet}. Äldre finns hos {s.id === 'podd' ? 'poddens egen sida' : 'respektive tidning'}.</p>}
+        </>
+      )
+    ))}
 
-    {sektioner.length > 1 && (
-      <nav class="jump" aria-label="Hoppa till">
-        {sektioner.map((s) => <a href={`#${s.id}`}>{s.namn} <span class="meta">{s.antal}</span></a>)}
-      </nav>
-    )}
-
-    <h2 id="a-laget">A-laget</h2>
-    {artiklar.length === 0 ? (
-      <p class="notice prose">Inga artiklar är inlagda ännu. Har du hittat något som borde vara med? Mejla länken till <Mail subject="Artikeltips" />.</p>
-    ) : (
-      <ul class="list">
-        {artiklar.map((m) => (
-          <MediaItem item={m} />
-        ))}
-      </ul>
-    )}
-
-    {damartiklar.length > 0 && (
-      <>
-        <h2 class="section-gap" id="damlaget">Damlaget</h2>
-        <ul class="list">
-          {damartiklar.map((m) => (
-            <MediaItem item={m} />
-          ))}
-        </ul>
-      </>
-    )}
-
-    {j20artiklar.length > 0 && (
-      <>
-        <h2 class="section-gap" id="u20">U20</h2>
-        <ul class="list">
-          {j20artiklar.map((m) => (
-            <MediaItem item={m} />
-          ))}
-        </ul>
-      </>
-    )}
-
-    {j18artiklar.length > 0 && (
-      <>
-        <h2 class="section-gap" id="j18">J18</h2>
-        <ul class="list">
-          {j18artiklar.map((m) => (
-            <MediaItem item={m} />
-          ))}
-        </ul>
-      </>
-    )}
-
-    {avsnitt.length > 0 && (
-      <>
-        <h2 class="section-gap" id="podd">Podd</h2>
-        <p class="prose">Inside Almtuna. Avsnitten spelas på poddens egen sida.</p>
-        <ul class="list">
-          {avsnitt.map((m) => (
-            <MediaItem item={m} showSource={false} />
-          ))}
-        </ul>
-      </>
-    )}
-
-    {uppdaterad && <p class="meta">Senast uppdaterad {uppdaterad}. Rubrikerna hämtas från mediernas egna flöden. Vi har ingen koppling till dem.</p>}
+    <p class="meta section-gap">Rubrikerna hämtas från mediernas egna flöden. Vi har ingen koppling till dem.</p>
   </div>
 </Base>

@@ -7,10 +7,12 @@ interface Props { item: MediaItem; showSource?: boolean; }
 const { item, showSource = true } = Astro.props;
 const date = new Date(item.date);
 const label = date.toLocaleDateString('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' });
+// Sista ordet och pilen hålls ihop så att pilen aldrig hamnar ensam på en egen rad.
+const words = item.title.split(' ');
+const last = words.pop();
+const head = words.join(' ');
 ---
 <li>
-  <h3>
-    <a href={item.url} target="_blank" rel="noopener noreferrer">{item.title}<svg class="ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M4.5 2H10v5.5M10 2 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg><span class="sr-only"> (öppnas i ny flik)</span></a>
-  </h3>
+  <a class="item-link" href={item.url} target="_blank" rel="noopener noreferrer">{head && `${head} `}<span class="no-break">{last}<svg class="ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M4.5 2H10v5.5M10 2 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></span><span class="sr-only"> (öppnas i ny flik)</span></a>
   <span class="meta">{showSource && `${item.source} · `}<time datetime={item.date}>{label}</time></span>
 </li>

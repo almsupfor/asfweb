@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-27T10:38:15Z",
+  "generatedAt": "2026-10-27T16:34:50Z",
   "title": "Design System: Almtuna Supporterförening",
   "extensions": {
     "colorMeta": {
@@ -168,6 +168,36 @@
           "#f2f1ee",
           "#fbfaf8"
         ]
+      },
+      "lakt-red-dim": {
+        "role": "primary",
+        "displayName": "Skymningsröd",
+        "canonical": "#ff7488",
+        "tonalRamp": [
+          "#4a0713",
+          "#7a0f22",
+          "#a8182f",
+          "#d63a52",
+          "#ff7488",
+          "#ff98a7",
+          "#ffbcc6",
+          "#ffe0e5"
+        ]
+      },
+      "paper-dim": {
+        "role": "neutral",
+        "displayName": "Papper, halvmörkt",
+        "canonical": "#2b2b31",
+        "tonalRamp": [
+          "#121214",
+          "#1b1b1f",
+          "#2b2b31",
+          "#35353c",
+          "#4a4a53",
+          "#6a6a73",
+          "#9a9aa2",
+          "#d0d0d6"
+        ]
       }
     },
     "typographyMeta": {
@@ -189,7 +219,7 @@
       },
       "headline": {
         "displayName": "Headline",
-        "purpose": "Rubriker i listor (I media)."
+        "purpose": "Rubriker i listor på startsidan."
       },
       "body": {
         "displayName": "Body",
@@ -202,6 +232,10 @@
       "label": {
         "displayName": "Label",
         "purpose": "Datum och metadata."
+      },
+      "list-title": {
+        "displayName": "List title",
+        "purpose": "Länkrubriken i raderna på I media."
       }
     },
     "shadows": [],
@@ -261,9 +295,9 @@
     {
       "name": "Media List Row",
       "kind": "custom",
-      "description": "Rad i I media: rubrik som länk, källa och datum i dämpad grå, skild av en linje.",
-      "html": "<ul class=\"ds-list\"><li><h2><a href=\"#\">Rubrik från annat medium</a></h2><p class=\"ds-meta\">Källa · 26 oktober 2026</p></li></ul>",
-      "css": ".ds-list { list-style: none; padding: 0; margin: 0; font-family: system-ui, sans-serif; color: #16161a; } .ds-list li { padding: 1rem 0; border-bottom: 1px solid #e4e2de; } .ds-list h2 { margin: 0 0 .25rem; font-size: 1.35rem; line-height: 1.15; } .ds-list a { color: #c8102e; text-decoration: none; } .ds-list a:hover { text-decoration: underline; } .ds-list a:focus-visible { outline: 3px solid #c8102e; outline-offset: 2px; } .ds-meta { margin: 0; color: #5d5d66; font-size: .9rem; }"
+      "description": "Panel med rader: Mjukt papper, 1px linje, rader skilda av en linje. Titeln är Bläck med tunn understrykning och pil efter sista ordet.",
+      "html": "<ul class=\"ds-list\"><li><a class=\"ds-link\" href=\"#\">Rubrik från annat <span class=\"ds-nb\">medium<svg class=\"ds-ext\" viewBox=\"0 0 12 12\" aria-hidden=\"true\"><path d=\"M4.5 2H10v5.5M10 2 2.5 9.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"square\"/></svg></span></a><span class=\"ds-meta\">Källa · <time datetime=\"2026-10-26\">26 oktober 2026</time></span></li></ul>",
+      "css": ".ds-list { list-style: none; margin: 0; padding: 0 1.25rem; background: #f5f4f2; border: 1px solid #e4e2de; border-radius: .6rem; font-family: system-ui, sans-serif; color: #16161a; } .ds-list li { padding: 1rem 0; border-bottom: 1px solid #e4e2de; } .ds-list li:last-child { border-bottom: 0; } .ds-link { display: block; font-size: 1.125rem; font-weight: 600; line-height: 1.35; color: #16161a; text-decoration: underline 1px rgba(93,93,102,.55); text-underline-offset: .22em; } .ds-link:hover, .ds-link:focus-visible { color: #c8102e; text-decoration-color: currentColor; } .ds-link:focus-visible { outline: 3px solid #c8102e; outline-offset: 2px; } .ds-nb { white-space: nowrap; } .ds-ext { width: .7em; height: .7em; margin-inline-start: .3em; } .ds-meta { display: block; margin-top: .25rem; color: #5d5d66; font-size: .9rem; }"
     },
     {
       "name": "Navigation",
@@ -271,6 +305,41 @@
       "description": "Sidhuvudets menyrad.",
       "html": "<nav class=\"ds-nav\"><a class=\"ds-brand\" href=\"#\">Almtuna Supporterförening</a><a href=\"#\" aria-current=\"page\">Bortaresor</a><a href=\"#\">I media</a></nav>",
       "css": ".ds-nav { display: flex; align-items: center; gap: 1.1rem; font-family: system-ui, sans-serif; border-bottom: 1px solid #e4e2de; padding: .75rem 0; } .ds-nav a { color: #16161a; text-decoration: none; font-weight: 500; } .ds-nav a[aria-current] { color: #c8102e; } .ds-nav .ds-brand { color: #c8102e; font-weight: 800; font-size: 1.15rem; margin-right: 1rem; }"
+    },
+    {
+      "name": "Jump Nav Chip",
+      "kind": "chip",
+      "description": "Hopplänk till en sektion, med antal (\"26 av 41\" när listan är kapad).",
+      "html": "<nav class=\"ds-jump\"><a href=\"#\">A-laget <span class=\"ds-n\">26</span></a><a href=\"#\">Podd <span class=\"ds-n\">9</span></a></nav>",
+      "css": ".ds-jump { display: flex; flex-wrap: wrap; gap: .5rem; font-family: system-ui, sans-serif; } .ds-jump a { display: inline-flex; align-items: center; gap: .5rem; min-height: 2.75rem; padding: 0 1rem; border: 1px solid #e4e2de; background: #f5f4f2; border-radius: .4rem; color: #16161a; font-weight: 600; text-decoration: none; } .ds-jump a:hover { border-color: #c8102e; color: #c8102e; } .ds-jump a:focus-visible { outline: 3px solid #c8102e; outline-offset: 2px; } .ds-n { color: #5d5d66; font-size: .9rem; font-weight: 400; }"
+    },
+    {
+      "name": "Section Marker and Older Disclosure",
+      "kind": "custom",
+      "description": "Röd stapel över sektionsrubrik och inbyggd 'Äldre artiklar' under senaste veckan.",
+      "html": "<div class=\"ds-sec\"><h2>A-laget</h2><details><summary>Äldre artiklar (17)</summary></details></div>",
+      "css": ".ds-sec { font-family: system-ui, sans-serif; color: #16161a; } .ds-sec h2 { font-size: 1.75rem; line-height: 1.15; margin: 0; } .ds-sec h2::before { content: \"\"; display: block; width: 3rem; height: .3rem; margin-bottom: .6rem; background: #c8102e; } .ds-sec summary { display: flex; align-items: center; min-height: 2.75rem; font-weight: 600; color: #c8102e; cursor: pointer; } .ds-sec summary:focus-visible { outline: 3px solid #c8102e; outline-offset: 2px; }"
+    },
+    {
+      "name": "Theme Toggle",
+      "kind": "button",
+      "description": "Ikonknapp som går igenom ljust, halvmörkt och mörkt och visar läget som gäller nu (sol, halvfylld cirkel, måne). Namnet är dold text.",
+      "html": "<button class=\"ds-theme\" type=\"button\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><path d=\"M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/></svg><span class=\"ds-sr\">Mörkt läge</span></button>",
+      "css": ".ds-theme { display: inline-flex; align-items: center; justify-content: center; width: 2.75rem; min-height: 2.75rem; padding: 0; color: #16161a; background: transparent; border: 1px solid #e4e2de; border-radius: .4rem; cursor: pointer; } .ds-theme:hover { background: #f5f4f2; } .ds-theme:focus-visible { outline: 3px solid #c8102e; outline-offset: 2px; } .ds-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }"
+    },
+    {
+      "name": "Back To Top",
+      "kind": "button",
+      "description": "Fast pil nere till höger som visas efter första scrollen.",
+      "html": "<a class=\"ds-top\" href=\"#\" aria-label=\"Till toppen\"><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" aria-hidden=\"true\"><path d=\"M12 19V5M5.5 11.5 12 5l6.5 6.5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.25\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></a>",
+      "css": ".ds-top { display: inline-flex; align-items: center; justify-content: center; width: 3rem; height: 3rem; background: #c8102e; color: #fff; border-radius: .4rem; text-decoration: none; } .ds-top:hover { background: #9a0c23; } .ds-top:focus-visible { outline: 3px solid #c8102e; outline-offset: 2px; }"
+    },
+    {
+      "name": "Page Head Band",
+      "kind": "custom",
+      "description": "Band överst på sidan med rubrik och ingress på mjukt papper.",
+      "html": "<header class=\"ds-head\"><h1>I media</h1><p>Artiklar och poddavsnitt som nämner Almtuna IS.</p></header>",
+      "css": ".ds-head { background: #f5f4f2; border-bottom: 1px solid #e4e2de; padding: 2.5rem 1rem 1.75rem; font-family: system-ui, sans-serif; color: #16161a; } .ds-head h1 { margin: 0 0 .75rem; font-size: 2.25rem; line-height: 1.15; letter-spacing: -0.01em; } .ds-head p { margin: 0; font-size: 1.25rem; color: #5d5d66; }"
     }
   ],
   "narrative": {
@@ -280,7 +349,7 @@
       "Solid röd hero-yta som sidans enda stora gest.",
       "Platta ytor med tunna linjer, inga skuggor.",
       "Systemtypsnitt, fet rubrik, generös radhöjd.",
-      "Mörkt läge följer användarens inställning.",
+      "Mörkt läge följer användarens inställning, och färglägesknappen i menyn och sidfoten låter besökaren byta själv.",
       "Kort och knappar är robusta och tydliga, inte raffinerade."
     ],
     "rules": [
