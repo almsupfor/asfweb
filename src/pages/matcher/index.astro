@@ -33,7 +33,7 @@ const uppdaterad = matchesUpdated ? new Date(matchesUpdated).toLocaleString('sv-
       <p class="notice prose">Inga kommande matcher är inlagda just nu.</p>
     ) : (
       <>
-        <ul class="list">
+        <ul class="tiles">
           {kommande.map((m) => (
             <li>
               <h3>{m.home} – {m.away}</h3>
@@ -44,7 +44,7 @@ const uppdaterad = matchesUpdated ? new Date(matchesUpdated).toLocaleString('sv-
         {fler.length > 0 && (
           <details class="more">
             <summary>Fler matcher ({fler.length})</summary>
-            <ul class="list">
+            <ul class="tiles">
               {fler.map((m) => (
                 <li>
                   <h3>{m.home} – {m.away}</h3>
@@ -60,7 +60,7 @@ const uppdaterad = matchesUpdated ? new Date(matchesUpdated).toLocaleString('sv-
     {results.length > 0 && (
       <>
         <h2 class="section-gap" id="resultat">Resultat</h2>
-        <ul class="list">
+        <ul class="tiles">
           {senaste.map((r) => (
             <li>
               <h3>{r.home} {fmtScore(r)} {r.away}</h3>
@@ -71,7 +71,7 @@ const uppdaterad = matchesUpdated ? new Date(matchesUpdated).toLocaleString('sv-
         {aldre.length > 0 && (
           <details class="more">
             <summary>Fler resultat ({aldre.length})</summary>
-            <ul class="list">
+            <ul class="tiles">
               {aldre.map((r) => (
                 <li>
                   <h3>{r.home} {fmtScore(r)} {r.away}</h3>

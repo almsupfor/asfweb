@@ -38,7 +38,7 @@ const resor: { motstandare: string; datum: string; avgang: string; transport: st
       <p class="notice prose">Inga bortamatcher är inlagda just nu.</p>
     ) : (
       <>
-        <ul class="list">
+        <ul class="tiles">
           {narmast.map((m) => (
             <li>
               <h3>{m.home} – {m.away}</h3>
@@ -49,7 +49,7 @@ const resor: { motstandare: string; datum: string; avgang: string; transport: st
         {fler.length > 0 && (
           <details class="more">
             <summary>Fler bortamatcher ({fler.length})</summary>
-            <ul class="list">
+            <ul class="tiles">
               {fler.map((m) => (
                 <li>
                   <h3>{m.home} – {m.away}</h3>

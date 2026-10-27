@@ -48,13 +48,13 @@ const uppdaterad = mediaUpdated ? new Date(mediaUpdated).toLocaleString('sv-SE',
         <>
           <h2 class:list={['sektion', i > 0 && 'section-gap']} id={s.id}>{s.namn}</h2>
           {s.id === 'podd' && <p class="prose">Inside Almtuna. Avsnitten spelas på poddens egen sida.</p>}
-          <ul class="list">
+          <ul class="tiles">
             {s.nu.map((m) => <MediaItem item={m} showSource={s.id !== 'podd'} />)}
           </ul>
           {s.aldre.length > 0 && (
             <details class="more">
               <summary>Äldre {s.enhet} ({s.aldre.length})</summary>
-              <ul class="list">
+              <ul class="tiles">
                 {s.aldre.map((m) => <MediaItem item={m} showSource={s.id !== 'podd'} />)}
               </ul>
             </details>
@@ -64,6 +64,6 @@ const uppdaterad = mediaUpdated ? new Date(mediaUpdated).toLocaleString('sv-SE',
       )
     ))}
 
-    <p class="meta section-gap">Rubrikerna hämtas från mediernas egna flöden. Vi har ingen koppling till dem.</p>
+    <p class="meta section-gap">Rubrikerna hämtas från mediernas egna flöden.</p>
   </div>
 </Base>

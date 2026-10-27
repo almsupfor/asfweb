@@ -79,12 +79,12 @@ a.card:hover h3 { text-decoration: underline; text-underline-offset: .2em; }
 .standings .pts { font-weight: 700; }
 .list.compact h3 { margin: 0; font-size: 1.0625rem; font-weight: 600; }
 .list.compact li > .meta { margin-top: 0; }
-.list a { color: var(--ink); text-decoration: underline 1px color-mix(in srgb, var(--muted) 55%, transparent); text-underline-offset: .22em; }
+.list a, .tiles a { color: var(--ink); text-decoration: underline 1px color-mix(in srgb, var(--muted) 55%, transparent); text-underline-offset: .22em; }
 .item-link { display: block; font-size: 1.125rem; font-weight: 600; line-height: 1.35; text-wrap: pretty; }
 .list li > .meta { display: block; margin-top: .25rem; }
 .no-break { white-space: nowrap; }
-.list a:visited { color: var(--muted); }
-.list a:hover, .list a:focus-visible { color: var(--red); text-decoration-color: currentColor; }
+.list a:visited, .tiles a:visited { color: var(--muted); }
+.list a:hover, .list a:focus-visible, .tiles a:hover, .tiles a:focus-visible { color: var(--red); text-decoration-color: currentColor; }
 .ext { width: .7em; height: .7em; margin-inline-start: .3em; vertical-align: .05em; }
 .jump { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.5rem 0 2rem; }
 .jump a { display: inline-flex; align-items: center; gap: .5rem; min-height: 2.75rem; padding: 0 1rem; border: 1px solid var(--line); background: var(--bg-soft); border-radius: .4rem; color: var(--ink); font-weight: 600; text-decoration: none; }
@@ -129,3 +129,14 @@ a.card:hover h3 { text-decoration: underline; text-underline-offset: .2em; }
 .js .to-top-fab { visibility: hidden; opacity: 0; }
 .js .to-top-fab.show { visibility: visible; opacity: 1; }
 @media (prefers-reduced-motion: no-preference) { .to-top-fab { transition: opacity .2s ease-out, visibility .2s; } }
+/* Rutlista: varje rad (match, resultat) i en egen ruta, flera spalter på bred skärm och en på mobil. */
+.tiles { list-style: none; margin-block: 1rem; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); }
+.tiles li { padding: 1.25rem; background: var(--bg-soft); border: 1px solid var(--line); border-radius: .6rem; }
+.tiles h3 { margin: 0 0 .25rem; font-size: 1.125rem; line-height: 1.3; }
+.tiles li > .meta { display: block; }
+/* Sånger: varje sång i en egen ruta, flera spalter på bred skärm. */
+.songs { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr)); align-items: start; margin-top: 1.5rem; }
+.song { padding: 1.25rem; background: var(--bg-soft); border: 1px solid var(--line); border-radius: .6rem; }
+.song h2 { margin: 0 0 .25rem; font-size: 1.35rem; }
+.song .meta { margin-block: 0 .25rem; }
+.lyrics { white-space: pre-line; }
