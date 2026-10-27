@@ -228,6 +228,8 @@ Sidans rubrik och ingress ligger i ett band över hela bredden: Mjukt papper med
 ### Lists
 Listor ("I media", "Matcher") ligger i en enda panel per lista: Mjukt papper, 1px Linje, 0.6rem hörn och 1.25rem sidoluft, med raderna skilda av en linje. Panelen ersätter kort runt varje rad. Titeln är en länk (List title) som är blockbred, så hela raden är en bra träffyta. Under den ligger källa och datum i dämpad grå, med datumet i `<time>`. Länken är Bläck med en tunn understrykning i dämpad grå, så att den syns som länk utan att röd text fyller sidan. Vid hover och tangentbordsfokus blir både text och understrykning röda. Besökt länk blir Dämpad grå. Röd text är avsiktligt sparsam i listor, eftersom rött mot vitt och framför allt mot mörkt blir tröttsamt i mängd.
 
+Listor som bara består av länkar (till exempel klubbens spelschema, trupp och lagsida) är kompakta: titel och källa på samma rad, titeln 1.0625rem i vikt 600 och 0.6rem luft över och under varje rad. Tabeller har en rubrik ("Tabell") och en metarad med serien. Under tabellen står, inom parentes, när den senast ändrades.
+
 Externa länkar öppnas i ny flik. Det syns som en liten ritad pil efter sista ordet och sägs som dold text "(öppnas i ny flik)". Ett skript i sidhuvudet lägger samma dolda text på andra externa länkar som saknar den.
 
 Varje sektion på I media börjar med en kort röd stapel (3rem × 0.3rem, Läktarröd) över rubriken, sedan raderna. Senaste veckan visas direkt, minst fem rader, och resten ligger bakom en inbyggd "Äldre artiklar (n)". På Matcher visas de fem närmaste matcherna och de fem senaste resultaten direkt, och resten ligger bakom "Fler matcher (n)" och "Fler resultat (n)" i samma utseende (`<details>`, rubriken i Bläck med en ritad pil som vänds när raden är öppen, röd vid hover, minst 2,75rem hög). När listan kapats står det hur många som visas.
@@ -235,8 +237,11 @@ Varje sektion på I media börjar med en kort röd stapel (3rem × 0.3rem, Läkt
 ### Pil till toppen
 En fast knapp nere till höger (3rem × 3rem, Nattfyllning/Läktarröd som fyllning med vit pil, 0.4rem hörn, ingen skugga). Den länkar till `#innehall`, så fokus följer med till innehållet. Med JavaScript visas den så fort man scrollat en liten bit (40px). Utan JavaScript syns den hela tiden. Den ligger under sidhuvudet i höjdled och respekterar säkra områden på telefoner.
 
+### Sidmeny
+Länkar till avsnitt på samma sida (till exempel Kommande, Resultat, Inför matchen på Matcher) ligger i bandet under lagvalet. De är Bläck i vikt 500 med en 2px understrykning i Linje som blir röd vid hover, i stil med huvudmenyn, så att de inte ser ut som knappar eller som röd brödtext.
+
 ### Hoppmeny
-Rad med chips ovanför en lång lista, ett per sektion med innehåll, med antalet i dämpad grå ("Herrlaget 26"). Mjukt papper, 1px linje, 0.4rem hörn, minst 2,75rem höga. Hover ger röd linje och röd text. Chipsen ordnas med A-laget först och resten efter antal. Antalet visar det kapade talet och "26 av 41" när listan är kapad. Visas bara när det finns fler än en sektion. Samma chips används som lagval på Lagen (Herrlaget, Damlaget, U20), där det valda laget har Bläck som bakgrund och Papper som text och markeras med `aria-current`.
+Rad med chips ovanför en lång lista, ett per sektion med innehåll, med antalet i dämpad grå ("Herrlaget 26"). Mjukt papper, 1px linje, 0.4rem hörn, minst 2,75rem höga. Hover ger röd linje och röd text. Chipsen ordnas med A-laget först och resten efter antal. Antalet visar det kapade talet och "26 av 41" när listan är kapad. Visas bara när det finns fler än en sektion. Samma chips används som lagval på Laget och Matcher (Herrlaget, Damlaget, U20), där det valda laget har Bläck som bakgrund och Papper som text och markeras med `aria-current`.
 
 ### Utvald ruta
 Bred ruta på startsidan under hero-ytan som lyfter fram Bortaresor: Mjukt papper, 1px Linje, 0.6rem hörn och 1.5rem luft. Vänster spalt har rubrik, en mening och knappen "Om bortaresor". Höger spalt är nästa bortamatch i samma uppbyggnad som Match-kortet (rubriken störst, matchraden i vikt 600, datum och hall i dämpad grå). Spalterna staplas under 33rem. Rutan är avsiktligt den enda i sitt slag: den lyfter fram ett av föreningens huvudsyften och ska inte kopieras till fler sektioner.
