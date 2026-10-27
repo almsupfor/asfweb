@@ -1,9 +1,9 @@
 ---
-// Val mellan lagen. Det lag som visas markeras med aria-current.
+// Val mellan lagen. Det lag som visas markeras med aria-current. `sida` väljer om länkarna går till Laget eller Matcher.
 import { lagen, type LagKey } from '../data/lagen';
-interface Props { current: LagKey; }
-const { current } = Astro.props;
+interface Props { current: LagKey; sida?: 'lagen' | 'matcher'; }
+const { current, sida = 'lagen' } = Astro.props;
 ---
 <nav class="jump" aria-label="Välj lag">
-  {lagen.map((l) => <a href={l.href} aria-current={l.key === current ? 'page' : undefined}>{l.namn}</a>)}
+  {lagen.map((l) => <a href={sida === 'matcher' ? l.matcher : l.href} aria-current={l.key === current ? 'page' : undefined}>{l.knapp}</a>)}
 </nav>

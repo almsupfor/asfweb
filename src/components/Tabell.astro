@@ -1,12 +1,16 @@
 ---
-import type { LeagueTable } from '../data/tables';
+import { tablesUpdated, type LeagueTable } from '../data/tables';
 interface Props { table: LeagueTable; }
 const { table } = Astro.props;
 const diff = (n: number) => (n > 0 ? `+${n}` : String(n));
+// Tidsstämpeln ändras bara när tabellen ändrats, så den visar senaste ändring och inte senaste försök.
+const uppdaterad = tablesUpdated ? new Date(tablesUpdated).toLocaleString('sv-SE', { dateStyle: 'long', timeStyle: 'short', timeZone: 'Europe/Stockholm' }) : null;
 ---
+<h3 class="section-gap">Tabell</h3>
+<p class="meta">{table.name}</p>
 <div class="table-scroll" tabindex="0" role="region" aria-label={`Tabell: ${table.name}`}>
   <table class="standings">
-    <caption>{table.name}</caption>
+    <caption class="sr-only">{table.name}</caption>
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -31,16 +35,4 @@ const diff = (n: number) => (n > 0 ? `+${n}` : String(n));
     </tbody>
   </table>
 </div>
-
-<style>
-  .table-scroll { overflow-x: auto; margin-block: 1rem; }
-  .standings { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: .95rem; }
-  caption { text-align: left; font-weight: 600; padding-bottom: .5rem; }
-  th, td { padding: .45rem .6rem; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
-  th[scope='row'], thead th:nth-child(2) { text-align: left; font-weight: 500; }
-  thead th { font-weight: 600; }
-  abbr { text-decoration: none; cursor: help; }
-  .ours { background: var(--bg-soft); font-weight: 700; }
-  .ours th[scope='row'] { font-weight: 700; color: var(--red); }
-  .pts { font-weight: 700; }
-</style>
+{uppdaterad && tablesUpdated && <p class="meta">(uppdaterad <time datetime={tablesUpdated}>{uppdaterad}</time>)</p>}
