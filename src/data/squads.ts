@@ -1,19 +1,22 @@
-// Trupper för klubbens lag. Fylls automatiskt av scripts/fetch-squads.mjs (se deploy.yml).
+// Spelare och deras statistik per lag. Fylls automatiskt av scripts/fetch-squads.mjs (se deploy.yml).
 import data from './squads.json';
 
 export interface Player {
   name: string;
   number: number | null;
   nationality: string | null;
-}
-export interface PositionGroup {
-  position: string;
-  players: Player[];
+  gp: number; // spelade matcher
+  g: number; // mål
+  a: number; // assist
+  tp: number; // poäng
+  pm: number; // plus/minus
+  pim: number; // utvisningsminuter
+  toi: string | null; // snittid per match, "0:00" för den som inte spelat som utespelare
 }
 
-const teams = data.teams as Record<string, PositionGroup[] | undefined>;
-export const squad = (team: 'herr' | 'dam' | 'j20'): PositionGroup[] => teams[team] ?? [];
+const teams = data.teams as Record<string, Player[] | undefined>;
+export const squad = (team: 'herr' | 'dam' | 'j20'): Player[] => teams[team] ?? [];
 export const squadUpdated: string | null = data.updated;
 
-const SV: Record<string, string> = { Goalies: 'Målvakter', Goalkeepers: 'Målvakter', Defense: 'Backar', Defensemen: 'Backar', Defenders: 'Backar', Forwards: 'Forwards' };
-export const positionLabel = (p: string) => SV[p] ?? p;
+/** Har spelat som utespelare. Målvakter och de som inte fått speltid saknar utespelarstatistik. */
+export const hasPlayed = (p: Player) => (p.toi ? p.toi !== '0:00' : p.gp > 0);

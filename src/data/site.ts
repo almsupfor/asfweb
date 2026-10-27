@@ -10,7 +10,7 @@ export const site = {
 export const nav = [
   { href: '/matcher', label: 'Matcher' },
   { href: '/bortaresor', label: 'Bortaresor' },
-  { href: '/lagen', label: 'Lagen' },
+  { href: '/laget', label: 'Laget' },
   { href: '/historia', label: 'Historia' },
   { href: '/sanger', label: 'Sånger' },
   { href: '/i-media', label: 'I media' },

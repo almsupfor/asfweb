@@ -180,7 +180,7 @@
         {
           "rank": 1,
           "team": "Almtuna IS Dam",
-          "ours": false,
+          "ours": true,
           "gp": 3,
           "w": 3,
           "otw": 0,
@@ -292,8 +292,8 @@
       "rows": [
         {
           "rank": 1,
-          "team": "Almtuna IS J20",
-          "ours": false,
+          "team": "Almtuna IS U20",
+          "ours": true,
           "gp": 11,
           "w": 8,
           "otw": 1,
