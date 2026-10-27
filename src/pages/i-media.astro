@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import { media, mediaUpdated } from '../data/media';
-import { site } from '../data/site';
+import Mail from '../components/Mail.astro';
 
 const artiklar = media.filter((m) => m.type !== 'podd').slice(0, 60);
 const avsnitt = media.filter((m) => m.type === 'podd').slice(0, 20);
@@ -15,7 +15,7 @@ const uppdaterad = mediaUpdated ? new Date(mediaUpdated).toLocaleString('sv-SE',
 
     <h2>Artiklar</h2>
     {artiklar.length === 0 ? (
-      <p class="notice prose">Inga artiklar är inlagda ännu. Har du hittat något som borde vara med? Mejla länken till <a href={`mailto:${site.email}?subject=Artikeltips`}>{site.email}</a>.</p>
+      <p class="notice prose">Inga artiklar är inlagda ännu. Har du hittat något som borde vara med? Mejla länken till <Mail subject="Artikeltips" />.</p>
     ) : (
       <ul class="list">
         {artiklar.map((m) => (

@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { site, nav } from '../data/site';
+import Mail from '../components/Mail.astro';
 
 interface Props { title?: string; description?: string; noindex?: boolean; }
 const { title, description = site.tagline, noindex = false } = Astro.props;
@@ -48,7 +49,7 @@ const canonical = new URL(path, Astro.site);
     <main id="innehall" tabindex="-1"><slot /></main>
     <footer class="site-footer">
       <div class="wrap">
-        <p><strong>{site.name}</strong> · <a href={`mailto:${site.email}`}>{site.email}</a></p>
+        <p><strong>{site.name}</strong> · <Mail /></p>
         <p class="meta">Föreningen är fristående från Almtuna IS.</p>
       </div>
     </footer>

@@ -1,12 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
-import { site } from '../data/site';
+import Mail from '../components/Mail.astro';
 ---
 <Base title="Kontakt">
   <div class="wrap page">
     <h1>Kontakt</h1>
     <div class="prose">
-      <p>Frågor, idéer eller vill du hjälpa till? Mejla oss på <a href={`mailto:${site.email}`}>{site.email}</a>.</p>
+      <p>Frågor, idéer eller vill du hjälpa till? Mejla oss på <Mail />.</p>
     </div>
   </div>
 </Base>
