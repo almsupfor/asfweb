@@ -3,11 +3,11 @@ import Base from '../layouts/Base.astro';
 import { site } from '../data/site';
 import { media, lagFor, lagNamn } from '../data/media';
 import MediaItem from '../components/MediaItem.astro';
-import { nextMatch as getNext, lastResult as getLast, fmtDay, fmtShortDay, fmtTime, fmtScore } from '../data/matches';
+import { nextMatch as getNext, lastResult as getLast, upcoming, fmtDay, fmtShortDay, fmtTime, fmtScore } from '../data/matches';
 
 const senaste = media.filter((m) => m.type !== 'podd').slice(0, 3);
-const avsnitt = media.filter((m) => m.type === 'podd').slice(0, 2);
 const kommande = getNext();
+const nastaBorta = upcoming().find((m) => !m.isHome) ?? null;
 const senastRes = getLast();
 const fmt = (d: string) => new Date(d).toLocaleDateString('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' });
 ---
@@ -18,15 +18,29 @@ const fmt = (d: string) => new Date(d).toLocaleDateString('sv-SE', { year: 'nume
       <p class="lead">{site.name} är fristående från Almtuna IS.</p>
       <div class="hero-actions">
         <a class="button" href="/bli-medlem">Bli medlem</a>
-        <a class="hero-link" href="/matcher#bortaresor">Se bortaresor</a>
+        <a class="hero-link" href="/bortaresor">Se bortaresor</a>
       </div>
     </div>
   </section>
 
   <div class="wrap page">
-    <h2>Utforska</h2>
+    <section class="feature" aria-labelledby="bortaresor-rubrik">
+      <div>
+        <h2 id="bortaresor-rubrik">Bortaresor</h2>
+        <p>Följ med Almtuna IS på bortamatcherna och var med och skapa stämning i andras hallar.</p>
+        <p><a class="button" href="/bortaresor">Om bortaresor</a></p>
+      </div>
+      {nastaBorta && (
+        <div class="match-card">
+          <h3>Nästa bortamatch</h3>
+          <p class="match">{nastaBorta.home} – {nastaBorta.away}</p>
+          <p class="meta">{fmtDay(nastaBorta.date)} · {fmtTime(nastaBorta)}{nastaBorta.venue ? ` · ${nastaBorta.venue}` : ''}</p>
+        </div>
+      )}
+    </section>
+    <h2 class="section-gap">Utforska</h2>
     <div class="cards">
-      <a class="card" href="/matcher#bortaresor"><h3>Bortaresor</h3><p>Följ med laget på resan.</p></a>
+      <a class="card" href="/lagen"><h3>Lagen</h3><p>Tabeller och länkar till trupp och schema.</p></a>
       <a class="card" href="/sanger"><h3>Sånger</h3><p>Texterna till läktarens sånger.</p></a>
       <a class="card" href="/i-media"><h3>I media</h3><p>Artiklar om Almtuna från andra tidningar.</p></a>
     </div>
@@ -60,20 +74,6 @@ const fmt = (d: string) => new Date(d).toLocaleDateString('sv-SE', { year: 'nume
           {senaste.map((m) => <MediaItem item={m} lagLabel={lagNamn[lagFor(m)]} />)}
         </ul>
         <p><a href="/i-media">Alla artiklar om Almtuna</a></p>
-      </>
-    )}
-    {avsnitt.length > 0 && (
-      <>
-        <h2 class="section-gap">Podd</h2>
-        <ul class="list prose">
-          {avsnitt.map((m) => (
-            <li>
-              <h3><a href={m.url} rel="noopener">{m.title}</a></h3>
-              <span class="meta">Inside Almtuna · {fmt(m.date)}</span>
-            </li>
-          ))}
-        </ul>
-        <p><a href="/i-media#podd">Alla avsnitt</a></p>
       </>
     )}
   </div>

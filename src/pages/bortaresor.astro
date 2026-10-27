@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Mail from '../components/Mail.astro';
+import { upcoming, fmtDay, fmtTime } from '../data/matches';
+
+const bortamatcher = upcoming().filter((m) => !m.isHome);
+// De fem närmaste bortamatcherna visas direkt, resten ligger bakom "Fler bortamatcher".
+const narmast = bortamatcher.slice(0, 5);
+const fler = bortamatcher.slice(5);
+
+// Lägg till resor här. Anmälan hanteras tills vidare via e-post.
+const resor: { motstandare: string; datum: string; avgang: string; transport: string; info?: string }[] = [];
+---
+<Base title="Bortaresor" description="Följ med Almtuna IS på bortamatcherna: föreningens resor och kommande bortamatcher.">
+  <PageHead title="Bortaresor">
+    <p class="lead prose">Följ med Almtuna IS på bortamatcherna och var med och skapa stämning i andras hallar.</p>
+  </PageHead>
+  <div class="wrap page">
+    <h2>Föreningens resor</h2>
+    {resor.length === 0 ? (
+      <p class="notice prose">Mer information om nästa bortaresa kommer. Håll utkik här eller mejla <Mail /> om du har frågor eller funderingar.</p>
+    ) : (
+      <div class="cards">
+        {resor.map((r) => (
+          <article class="card">
+            <h3>{r.motstandare}</h3>
+            <p class="meta">{r.datum} · {r.transport}, avgång {r.avgang}</p>
+            {r.info && <p>{r.info}</p>}
+            <Mail class="button" subject={`Anmälan bortaresa ${r.motstandare}`}>Anmäl dig</Mail>
+          </article>
+        ))}
+      </div>
+    )}
+
+    <h2 class="section-gap" id="bortamatcher">Kommande bortamatcher</h2>
+    {bortamatcher.length === 0 ? (
+      <p class="notice prose">Inga bortamatcher är inlagda just nu.</p>
+    ) : (
+      <>
+        <ul class="list">
+          {narmast.map((m) => (
+            <li>
+              <h3>{m.home} – {m.away}</h3>
+              <span class="meta">{fmtDay(m.date)} · {fmtTime(m)}{m.venue ? ` · ${m.venue}` : ''}{m.kind === 'training' ? ' · Träningsmatch' : ''}</span>
+            </li>
+          ))}
+        </ul>
+        {fler.length > 0 && (
+          <details class="more">
+            <summary>Fler bortamatcher ({fler.length})</summary>
+            <ul class="list">
+              {fler.map((m) => (
+                <li>
+                  <h3>{m.home} – {m.away}</h3>
+                  <span class="meta">{fmtDay(m.date)} · {fmtTime(m)}{m.venue ? ` · ${m.venue}` : ''}{m.kind === 'training' ? ' · Träningsmatch' : ''}</span>
+                </li>
+              ))}
+            </ul>
+          </details>
+        )}
+      </>
+    )}
+    <p class="meta prose"><a href="/matcher">Hela spelschemat</a></p>
+  </div>
+</Base>

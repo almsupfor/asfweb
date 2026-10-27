@@ -1,6 +1,5 @@
 ---
 import Base from '../layouts/Base.astro';
-import Mail from '../components/Mail.astro';
 import { upcoming, results, matchesUpdated, fmtDay, fmtShortDay, fmtTime, fmtScore } from '../data/matches';
 import PageHead from '../components/PageHead.astro';
 
@@ -12,14 +11,12 @@ const fler = alla.slice(5);
 const senaste = results.slice(0, 5);
 const aldre = results.slice(5);
 
-// Lägg till resor här. Anmälan hanteras tills vidare via e-post.
-const resor: { motstandare: string; datum: string; avgang: string; transport: string; info?: string }[] = [];
 const uppdaterad = matchesUpdated ? new Date(matchesUpdated).toLocaleString('sv-SE', { dateStyle: 'long', timeStyle: 'short', timeZone: 'Europe/Stockholm' }) : null;
 ---
 <Base title="Matcher" description="Spelschema och resultat för Almtuna IS.">
   <PageHead title="Matcher">
     <p class="lead prose">Spelschema och resultat för Almtuna IS herrlag i Hockeyallsvenskan. Uppdateras automatiskt.</p>
-    <p class="meta prose"><a href="#kommande">Kommande</a> · <a href="#resultat">Resultat</a> · <a href="#bortaresor">Bortaresor</a></p>
+    <p class="meta prose"><a href="#kommande">Kommande</a> · <a href="#resultat">Resultat</a> · <a href="/bortaresor">Bortaresor</a></p>
   </PageHead>
   <div class="wrap page">
     <h2 id="kommande">Kommande</h2>
@@ -76,23 +73,6 @@ const uppdaterad = matchesUpdated ? new Date(matchesUpdated).toLocaleString('sv-
           </details>
         )}
       </>
-    )}
-
-    <h2 class="section-gap" id="bortaresor">Bortaresor</h2>
-    <p class="prose">Följ med Almtuna IS på bortamatcherna och var med och skapa stämning i andras hallar.</p>
-    {resor.length === 0 ? (
-      <p class="notice prose">Mer information om nästa bortaresa kommer. Håll utkik här eller mejla <Mail /> om du har frågor eller funderingar.</p>
-    ) : (
-      <div class="cards">
-        {resor.map((r) => (
-          <article class="card">
-            <h3>{r.motstandare}</h3>
-            <p class="meta">{r.datum} · {r.transport}, avgång {r.avgang}</p>
-            {r.info && <p>{r.info}</p>}
-            <Mail class="button" subject={`Anmälan bortaresa ${r.motstandare}`}>Anmäl dig</Mail>
-          </article>
-        ))}
-      </div>
     )}
 
     <h2 class="section-gap" id="scheman">Klubbens spelscheman</h2>

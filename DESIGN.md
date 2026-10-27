@@ -238,6 +238,9 @@ En fast knapp nere till höger (3rem × 3rem, Nattfyllning/Läktarröd som fylln
 ### Hoppmeny
 Rad med chips ovanför en lång lista, ett per sektion med innehåll, med antalet i dämpad grå ("Herrlaget 26"). Mjukt papper, 1px linje, 0.4rem hörn, minst 2,75rem höga. Hover ger röd linje och röd text. Chipsen ordnas med A-laget först och resten efter antal. Antalet visar det kapade talet och "26 av 41" när listan är kapad. Visas bara när det finns fler än en sektion. Samma chips används som lagval på Lagen (Herrlaget, Damlaget, U20), där det valda laget har Bläck som bakgrund och Papper som text och markeras med `aria-current`.
 
+### Utvald ruta
+Bred ruta på startsidan under hero-ytan som lyfter fram Bortaresor: Mjukt papper, 1px Linje, 0.6rem hörn och 1.5rem luft. Vänster spalt har rubrik, en mening och knappen "Om bortaresor". Höger spalt är nästa bortamatch i samma uppbyggnad som Match-kortet (rubriken störst, matchraden i vikt 600, datum och hall i dämpad grå). Spalterna staplas under 33rem. Rutan är avsiktligt den enda i sitt slag: den lyfter fram ett av föreningens huvudsyften och ska inte kopieras till fler sektioner.
+
 ### Match-kort
 Samma kort som övriga, men utan länk. På startsidan är kortets rubrik ("Nästa match", "Senaste resultat") tydligt störst: 1.5rem, vikt 800. Matchraden under är vanlig brödtext i vikt 600 och 1.0625rem, och datum och hemma/borta ligger i dämpad grå. Så läses rubriken som rubrik och matchen som innehåll. Källan anges under korten.
 
