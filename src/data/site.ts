@@ -9,8 +9,7 @@ export const site = {
 // Lägg till eller ta bort sidor här – menyn uppdateras automatiskt.
 export const nav = [
   { href: '/matcher', label: 'Matcher' },
-  { href: '/bortaresor', label: 'Bortaresor' },
-  { href: '/bortaguiden', label: 'Bortaguiden' },
+  { href: '/lagen', label: 'Lagen' },
   { href: '/historia', label: 'Historia' },
   { href: '/sanger', label: 'Sånger' },
   { href: '/i-media', label: 'I media' },

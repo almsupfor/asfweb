@@ -1,0 +1,24 @@
+{
+  "updated": "2026-10-27T11:15:57.238Z",
+  "teams": {
+    "herr": [
+      {
+        "position": "Forwards",
+        "players": [
+          {
+            "name": "Charlie Forslund",
+            "number": 10,
+            "nationality": "SE"
+          },
+          {
+            "name": "Oscar Pentler",
+            "number": 17,
+            "nationality": "SE"
+          }
+        ]
+      }
+    ],
+    "dam": [],
+    "j20": []
+  }
+}

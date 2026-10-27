@@ -9,6 +9,8 @@
     "preview": "astro preview",
     "media": "node scripts/fetch-media.mjs",
     "matches": "node scripts/fetch-matches.mjs",
+    "squads": "node scripts/fetch-squads.mjs",
+    "tables": "node scripts/fetch-tables.mjs",
     "schedule": "node scripts/download-schedule.mjs"
   },
   "dependencies": {
