@@ -173,4 +173,9 @@ const canonical = new URL(path, Astro.site);
     .brand-short { display: inline; }
   }
   .site-footer { background: var(--bg-soft); border-top: 1px solid var(--line); padding: 2rem 0; }
+  @media (max-width: 47.99rem) {
+    .site-footer { padding: 1rem 0; }
+    .site-footer p { margin: 0; }
+    .site-footer p + p { margin-top: .25rem; }
+  }
 </style>
