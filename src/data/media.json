@@ -1,35 +1,54 @@
 {
-  "updated": "2026-10-27T10:34:14.190Z",
+  "updated": "2026-10-27T12:24:35.167Z",
   "items": [
+    {
+      "title": "VIK stekheta på träningen – inför Almtuna",
+      "source": "Vestmanlands Läns Tidning",
+      "date": "2026-10-27",
+      "url": "https://www.vlt.se/sport/vik-jagar-tredje-raka-krislaget-vantar/",
+      "lag": "a-lag"
+    },
     {
       "title": "Almtunas Blixt-förstärkning från SHL",
       "source": "Upsala Nya Tidning",
       "date": "2026-10-26",
-      "url": "https://www.unt.se/sport/ishockey/artikel/almtuna-lanar-hugo-blixt-fran-djurgarden/r5p77zwj"
+      "url": "https://www.unt.se/sport/ishockey/artikel/almtuna-lanar-hugo-blixt-fran-djurgarden/r5p77zwj",
+      "lag": "a-lag"
     },
     {
       "title": "Lånas ut av Djurgården: \"Såg ett behov\"",
       "source": "Hockeysverige",
       "date": "2026-10-26",
-      "url": "https://hockeysverige.se/shl/hugo-blixt-lan-djurgarden-dif-almtuna-hockeyallsvenskan-azPc68c1Uo6H/"
+      "url": "https://hockeysverige.se/shl/hugo-blixt-lan-djurgarden-dif-almtuna-hockeyallsvenskan-azPc68c1Uo6H/",
+      "lag": "a-lag"
     },
     {
       "title": "Almtunas starka svit mot IK Göta",
       "source": "Upsala Nya Tidning",
       "date": "2026-10-26",
-      "url": "https://www.unt.se/sport/ishockey/artikel/almtunas-starka-svit-mot-ik-gota/jvzyympr"
+      "url": "https://www.unt.se/sport/ishockey/artikel/almtunas-starka-svit-mot-ik-gota/jvzyympr",
+      "lag": "j20"
     },
     {
       "title": "Seger för Almtuna hemma mot Flemingsberg",
       "source": "Upsala Nya Tidning",
       "date": "2026-10-24",
-      "url": "https://www.unt.se/sport/ishockey/artikel/seger-for-almtuna-hemma-mot-flemingsberg/lqpqv8kr"
+      "url": "https://www.unt.se/sport/ishockey/artikel/seger-for-almtuna-hemma-mot-flemingsberg/lqpqv8kr",
+      "lag": "j20"
     },
     {
       "title": "Almtuna nya smäll – mot bottenlaget",
       "source": "Upsala Nya Tidning",
       "date": "2026-10-23",
-      "url": "https://www.unt.se/sport/ishockey/artikel/efter-nya-smallen-nu-ar-man-ju-less/rexmw05l"
+      "url": "https://www.unt.se/sport/ishockey/artikel/efter-nya-smallen-nu-ar-man-ju-less/rexmw05l",
+      "lag": "a-lag"
+    },
+    {
+      "title": "\"Almtunas problem är fler än målvaktssidan\"",
+      "source": "Upsala Nya Tidning",
+      "date": "2026-10-23",
+      "url": "https://www.unt.se/sport/ishockey/artikel/almtuna-moter-vimmerby-hemma-i-hockeyallsvenskan/rxqynekj",
+      "lag": "a-lag"
     },
     {
       "title": "9. Damspecial med Elin Lundvall och Felix Kristoffersson",
@@ -39,22 +58,67 @@
       "type": "podd"
     },
     {
+      "title": "Seger för SSK U18 mot drömmotståndet",
+      "source": "Länstidningen Södertälje",
+      "date": "2026-10-22",
+      "url": "https://www.lt.se/sport/seger-for-ssk-u18-mot-drommotstandet/",
+      "lag": "j18"
+    },
+    {
       "title": "HANSON: Vem hade trott det för några veckor sedan?",
       "source": "HockeyNews",
       "date": "2026-10-21",
-      "url": "https://hockeynews.se/nyheter/hanson-vem-hade-trott-det-for-nagra-veckor-sedan"
+      "url": "https://hockeynews.se/nyheter/hanson-vem-hade-trott-det-for-nagra-veckor-sedan",
+      "lag": "a-lag"
     },
     {
       "title": "Rögletalangen lånas ut till slut – efter ryktena",
       "source": "HockeyNews",
       "date": "2026-10-21",
-      "url": "https://hockeynews.se/nyheter/nhl-draftade-talangen-dubbelregistreras-far-chansen-i-almtuna"
+      "url": "https://hockeynews.se/nyheter/nhl-draftade-talangen-dubbelregistreras-far-chansen-i-almtuna",
+      "lag": "a-lag"
+    },
+    {
+      "title": "Efter nya bottennappet: \"Det suger ju\"",
+      "source": "Upsala Nya Tidning",
+      "date": "2026-10-21",
+      "url": "https://www.unt.se/sport/ishockey/artikel/efter-nya-bottennappet-det-suger-ju/rexmwq0l",
+      "lag": "a-lag"
+    },
+    {
+      "title": "\"Har Almtuna lurat oss?\"",
+      "source": "Upsala Nya Tidning",
+      "date": "2026-10-21",
+      "url": "https://www.unt.se/sport/ishockey/artikel/almtuna-moter-mora-i-hockeyallsvenskan-ikvall/lyxnk1zr",
+      "lag": "a-lag"
     },
     {
       "title": "Efter jättesmällen – nu kommer straffet",
       "source": "HockeyNews",
       "date": "2026-10-17",
-      "url": "https://hockeynews.se/nyheter/efter-jattesmallen-nu-kommer-straffet"
+      "url": "https://hockeynews.se/nyheter/efter-jattesmallen-nu-kommer-straffet",
+      "lag": "a-lag"
+    },
+    {
+      "title": "Stängs av i två matcher efter knätackling",
+      "source": "Upsala Nya Tidning",
+      "date": "2026-10-17",
+      "url": "https://www.unt.se/sport/ishockey/artikel/stangs-av-i-tva-matcher-efter-knatackling/rex5d6wl",
+      "lag": "a-lag"
+    },
+    {
+      "title": "Överkörda: \"Vi kan inte bara lägga oss ner\"",
+      "source": "Upsala Nya Tidning",
+      "date": "2026-10-16",
+      "url": "https://www.unt.se/sport/ishockey/artikel/almtuna-krossas-av-oskarshamn-i-hockeyallsvenskan/jp9dv7kl",
+      "lag": "a-lag"
+    },
+    {
+      "title": "Säsongens bottennapp – krossades av Oskarshamn",
+      "source": "Upsala Nya Tidning",
+      "date": "2026-10-16",
+      "url": "https://www.unt.se/sport/ishockey/artikel/almtuna-moter-oskarshamn-i-hockeyallsvenskan/rex510zl",
+      "lag": "a-lag"
     },
     {
       "title": "8. Leif Boork om tiden i Almtuna och hockeyns utmaningar",
@@ -67,7 +131,57 @@
       "title": "Domarna bad om ursäkt efter AIK:s omdiskuterade segermål",
       "source": "HockeyNews",
       "date": "2026-10-15",
-      "url": "https://hockeynews.se/nyheter/domarna-bad-om-ursakt-efter-aiks-omdiskuterade-segermal"
+      "url": "https://hockeynews.se/nyheter/domarna-bad-om-ursakt-efter-aiks-omdiskuterade-segermal",
+      "lag": "a-lag"
+    },
+    {
+      "title": "Domarna bad om ursäkt – efter felaktiga målet",
+      "source": "Upsala Nya Tidning",
+      "date": "2026-10-14",
+      "url": "https://www.unt.se/sport/ishockey/artikel/domarna-bad-om-ursakt-efter-felaktiga-malet/rkydq0ej",
+      "lag": "a-lag"
+    },
+    {
+      "title": "Trots förlusten: här går Ais från klarhet till klarhet",
+      "source": "Upsala Nya Tidning",
+      "date": "2026-10-14",
+      "url": "https://www.unt.se/sport/liverapportering/artikel/almtuna-mot-aik-i-granbyhallen/rgow29mj",
+      "lag": "a-lag"
+    },
+    {
+      "title": "Döptes efter fisken – har du hört ett coolare namn?",
+      "source": "Upsala Nya Tidning",
+      "date": "2026-10-12",
+      "url": "https://www.unt.se/sport/ishockey/artikel/marwin-jarbsjo-trivs-med-nya-livet-i-uppsala/lzdpeepr",
+      "lag": "a-lag"
+    },
+    {
+      "title": "Segergesten sågades: \"Fick höra det\"",
+      "source": "Upsala Nya Tidning",
+      "date": "2026-10-11",
+      "url": "https://www.unt.se/sport/ishockey/artikel/forsta-seniormalet-och-dansshow-av-alexander-proos/jdq7694r",
+      "lag": "a-lag"
+    },
+    {
+      "title": "Almtuna beter sig som ett topplag",
+      "source": "Upsala Nya Tidning",
+      "date": "2026-10-11",
+      "url": "https://www.unt.se/sport/ishockey/artikel/almtuna-beter-sig-som-ett-topplag/rxqm15kj",
+      "lag": "a-lag"
+    },
+    {
+      "title": "Almtuna hade svårt att hänga med i tempot",
+      "source": "Upsala Nya Tidning",
+      "date": "2026-10-09",
+      "url": "https://www.unt.se/sport/ishockey/artikel/kalmar-stoppar-almtunas-segersvit-i-toppmotet/l61xvnej",
+      "lag": "a-lag"
+    },
+    {
+      "title": "Almtuna förlorade toppmötet mot Kalmar",
+      "source": "Upsala Nya Tidning",
+      "date": "2026-10-09",
+      "url": "https://www.unt.se/sport/ishockey/artikel/almtuna-forlorade-toppmotet-mot-kalmar/r0eo39pj",
+      "lag": "a-lag"
     },
     {
       "title": "7. Hugo Hävelid: ”Drömmen nu är en bra säsong med Almtuna”",
@@ -75,6 +189,41 @@
       "date": "2026-10-08",
       "url": "https://pod.space/visynsilindbacken/7-hugo-havelid-drommen-nu-ar-en-bra-sasong-med-almtuna",
       "type": "podd"
+    },
+    {
+      "title": "Stängs av två matcher",
+      "source": "Upsala Nya Tidning",
+      "date": "2026-10-08",
+      "url": "https://www.unt.se/sport/ishockey/artikel/stangs-av-tva-matcher-/r237kevl",
+      "lag": "a-lag"
+    },
+    {
+      "title": "Den efterlängtade revanschen: \"Snudd på en femma\"",
+      "source": "Upsala Nya Tidning",
+      "date": "2026-10-07",
+      "url": "https://www.unt.se/sport/ishockey/artikel/hugo-havelid-glanste-i-almtunas-seger-mot-visby/r35g8zej",
+      "lag": "a-lag"
+    },
+    {
+      "title": "Hävelid är tillbaka – var Almtunas bäste spelare",
+      "source": "Upsala Nya Tidning",
+      "date": "2026-10-07",
+      "url": "https://www.unt.se/sport/liverapportering/artikel/almtuna-mot-visby-roma-i-hockeyallsvenskan/rgow9pej",
+      "lag": "a-lag"
+    },
+    {
+      "title": "Stora berömmet från motståndaren – innan matchen",
+      "source": "Upsala Nya Tidning",
+      "date": "2026-10-02",
+      "url": "https://www.unt.se/sport/ishockey/artikel/stora-berommet-fran-motstandaren-innan-matchen/jdq9x88r",
+      "lag": "a-lag"
+    },
+    {
+      "title": "\"Det bästa laget Almtuna haft på flera år\"",
+      "source": "Upsala Nya Tidning",
+      "date": "2026-10-02",
+      "url": "https://www.unt.se/sport/liverapportering/artikel/det-basta-laget-almtuna-haft-pa-flera-ar/r5pqd71j",
+      "lag": "a-lag"
     },
     {
       "title": "6. Målkungen Sterner och legendaren Challe Berglund",

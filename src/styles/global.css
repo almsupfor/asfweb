@@ -42,7 +42,13 @@ a.card:hover h3 { text-decoration: underline; text-underline-offset: .2em; }
 .list li { padding: 1rem 0; border-bottom: 1px solid var(--line); }
 .list h2 { margin: 0 0 .25rem; font-size: 1.35rem; }
 .list a { text-decoration: none; }
-.list a:hover { text-decoration: underline; }
+.list a:hover, .list a:focus-visible { text-decoration: underline; text-underline-offset: .2em; }
+.list a:visited { color: color-mix(in srgb, var(--red) 55%, var(--muted)); }
+.ext { width: .7em; height: .7em; margin-inline-start: .3em; vertical-align: .05em; }
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.jump { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.5rem 0 2rem; }
+.jump a { display: inline-flex; align-items: center; gap: .5rem; min-height: 2.75rem; padding: 0 1rem; border: 1px solid var(--line); background: var(--bg-soft); border-radius: .4rem; color: var(--ink); font-weight: 600; text-decoration: none; }
+.jump a:hover { border-color: var(--red); color: var(--red); }
 .hero { background: var(--red-fill); color: #fff; padding-block: clamp(3rem, 10vw, 6rem); }
 .hero h1 { color: #fff; font-size: clamp(2.75rem, 11vw, 6rem); font-weight: 800; line-height: 1.02; letter-spacing: -0.03em; text-wrap: balance; max-width: 14ch; margin-bottom: 1.25rem; }
 .hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.75rem; margin-top: 2rem; }

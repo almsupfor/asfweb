@@ -1,30 +1,77 @@
 ---
 import Base from '../layouts/Base.astro';
-import { media, mediaUpdated } from '../data/media';
+import { media, mediaUpdated, lagFor } from '../data/media';
 import Mail from '../components/Mail.astro';
+import MediaItem from '../components/MediaItem.astro';
 
-const artiklar = media.filter((m) => m.type !== 'podd').slice(0, 60);
+const alla = media.filter((m) => m.type !== 'podd');
+const artiklar = alla.filter((m) => lagFor(m) === 'a-lag').slice(0, 60);
+const damartiklar = alla.filter((m) => lagFor(m) === 'dam').slice(0, 20);
+const j20artiklar = alla.filter((m) => lagFor(m) === 'j20').slice(0, 20);
+const j18artiklar = alla.filter((m) => lagFor(m) === 'j18').slice(0, 20);
 const avsnitt = media.filter((m) => m.type === 'podd').slice(0, 20);
-const fmt = (d: string) => new Date(d).toLocaleDateString('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' });
+const sektioner = [
+  { id: 'a-laget', namn: 'A-laget', antal: artiklar.length },
+  { id: 'damlaget', namn: 'Damlaget', antal: damartiklar.length },
+  { id: 'j20', namn: 'J20', antal: j20artiklar.length },
+  { id: 'j18', namn: 'J18', antal: j18artiklar.length },
+  { id: 'podd', namn: 'Podd', antal: avsnitt.length },
+].filter((s) => s.antal > 0);
 const uppdaterad = mediaUpdated ? new Date(mediaUpdated).toLocaleString('sv-SE', { dateStyle: 'long', timeStyle: 'short', timeZone: 'Europe/Stockholm' }) : null;
 ---
 <Base title="I media" description="Artiklar och poddavsnitt om Almtuna IS från tidningar och andra medier.">
   <div class="wrap page">
     <h1>I media</h1>
-    <p class="lead prose">Artiklar och poddavsnitt om Almtuna IS. Listan uppdateras automatiskt och vi länkar till originalet.</p>
+    <p class="lead prose">Artiklar och poddavsnitt om Almtuna IS. A-laget spelar i Hockeyallsvenskan. Listan uppdateras automatiskt och vi länkar till originalet.</p>
 
-    <h2>Artiklar</h2>
+    {sektioner.length > 1 && (
+      <nav class="jump" aria-label="Hoppa till">
+        {sektioner.map((s) => <a href={`#${s.id}`}>{s.namn} <span class="meta">{s.antal}</span></a>)}
+      </nav>
+    )}
+
+    <h2 id="a-laget">A-laget</h2>
     {artiklar.length === 0 ? (
       <p class="notice prose">Inga artiklar är inlagda ännu. Har du hittat något som borde vara med? Mejla länken till <Mail subject="Artikeltips" />.</p>
     ) : (
       <ul class="list">
         {artiklar.map((m) => (
-          <li>
-            <h3><a href={m.url} target="_blank" rel="noopener noreferrer">{m.title}</a></h3>
-            <span class="meta">{m.source} · {fmt(m.date)}</span>
-          </li>
+          <MediaItem item={m} />
         ))}
       </ul>
+    )}
+
+    {damartiklar.length > 0 && (
+      <>
+        <h2 class="section-gap" id="damlaget">Damlaget</h2>
+        <ul class="list">
+          {damartiklar.map((m) => (
+            <MediaItem item={m} />
+          ))}
+        </ul>
+      </>
+    )}
+
+    {j20artiklar.length > 0 && (
+      <>
+        <h2 class="section-gap" id="j20">J20</h2>
+        <ul class="list">
+          {j20artiklar.map((m) => (
+            <MediaItem item={m} />
+          ))}
+        </ul>
+      </>
+    )}
+
+    {j18artiklar.length > 0 && (
+      <>
+        <h2 class="section-gap" id="j18">J18</h2>
+        <ul class="list">
+          {j18artiklar.map((m) => (
+            <MediaItem item={m} />
+          ))}
+        </ul>
+      </>
     )}
 
     {avsnitt.length > 0 && (
@@ -33,10 +80,7 @@ const uppdaterad = mediaUpdated ? new Date(mediaUpdated).toLocaleString('sv-SE',
         <p class="prose">Inside Almtuna. Avsnitten spelas på poddens egen sida.</p>
         <ul class="list">
           {avsnitt.map((m) => (
-            <li>
-              <h3><a href={m.url} target="_blank" rel="noopener noreferrer">{m.title}</a></h3>
-              <span class="meta">{fmt(m.date)}</span>
-            </li>
+            <MediaItem item={m} showSource={false} />
           ))}
         </ul>
       </>
