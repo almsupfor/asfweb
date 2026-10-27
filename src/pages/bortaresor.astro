@@ -14,12 +14,12 @@ const resor: { motstandare: string; datum: string; avgang: string; transport: st
 ---
 <Base title="Bortaresor" description="Följ med Almtuna IS på bortamatcherna: föreningens resor och kommande bortamatcher.">
   <PageHead title="Bortaresor">
-    <p class="lead prose">Följ med Almtuna IS på bortamatcherna och var med och skapa stämning i andras hallar.</p>
+    <p class="lead prose">Följ med Almtuna IS på bortamatcherna och heja fram laget.</p>
   </PageHead>
   <div class="wrap page">
     <h2>Föreningens resor</h2>
     {resor.length === 0 ? (
-      <p class="notice prose">Mer information om nästa bortaresa kommer. Håll utkik här eller mejla <Mail /> om du har frågor eller funderingar.</p>
+      <p class="notice prose">Mer information om nästa bortaresa kommer.<br /><br />Håll utkik här eller mejla <Mail /> om du har frågor eller funderingar.</p>
     ) : (
       <div class="cards">
         {resor.map((r) => (

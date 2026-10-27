@@ -8,10 +8,10 @@ import PageHead from '../components/PageHead.astro';
 const artiklar = media.filter((m) => m.type !== 'podd');
 // De fem senaste visas direkt, resten ligger bakom "Äldre". Taket är hur många rader en sektion får ha.
 const DIREKT = 5;
-const bygg = (id: string, namn: string, alla: typeof media, tak: number, enhet: 'artiklar' | 'avsnitt') => {
+const bygg = (id: string, namn: string, alla: typeof media, tak: number, enhet: 'artiklar' | 'avsnitt', knapp = namn) => {
   const visa = alla.slice(0, tak);
   const oppna = Math.min(DIREKT, visa.length);
-  return { id, namn, enhet, visa, total: alla.length, kapad: alla.length > visa.length, nu: visa.slice(0, oppna), aldre: visa.slice(oppna) };
+  return { id, namn, knapp, enhet, visa, total: alla.length, kapad: alla.length > visa.length, nu: visa.slice(0, oppna), aldre: visa.slice(oppna) };
 };
 const aLaget = bygg('herrlaget', 'Herrlaget',artiklar.filter((m) => lagFor(m) === 'a-lag'), 60, 'artiklar');
 // Herrlaget står först. De andra ordnas efter hur mycket de innehåller.
@@ -33,7 +33,7 @@ const uppdaterad = mediaUpdated ? new Date(mediaUpdated).toLocaleString('sv-SE',
       {uppdaterad && mediaUpdated && <p class="meta">Listan hämtades senast <time datetime={mediaUpdated}>{uppdaterad}</time>.</p>}
       {hopp.length > 1 && (
         <nav class="jump" aria-label="Hoppa till">
-          {hopp.map((s) => <a href={`#${s.id}`} aria-label={`${s.namn}, ${antalText(s)} ${enhetFor(s, s.total)}`}>{s.namn} <span class="meta" aria-hidden="true">{antalText(s)}</span></a>)}
+          {hopp.map((s) => <a href={`#${s.id}`} aria-label={`${s.knapp}, ${antalText(s)} ${enhetFor(s, s.total)}`}>{s.knapp} <span class="meta" aria-hidden="true">{antalText(s)}</span></a>)}
         </nav>
       )}
   </PageHead>

@@ -5,9 +5,9 @@ import LagNav from '../../components/LagNav.astro';
 import Tabell from '../../components/Tabell.astro';
 import Trupp from '../../components/Trupp.astro';
 import { table } from '../../data/tables';
-import { lagen } from '../../data/lagen';
+import { lagen, fulltNamn } from '../../data/lagen';
 
-// Herrlaget ligger på /lagen. Här skapas sidorna för de andra lagen.
+// Herrlaget ligger på /laget. Här skapas sidorna för de andra lagen.
 export function getStaticPaths() {
   return lagen
     .filter((l) => l.key !== 'herr')
@@ -15,20 +15,19 @@ export function getStaticPaths() {
 }
 const { lag } = Astro.props;
 ---
-<Base title={lag.namn} description={`Almtuna IS ${lag.namn}: tabell och länkar till trupp, schema och statistik.`}>
-  <PageHead title="Lagen">
-    <p class="lead prose">Almtuna IS har lag på alla nivåer, från ungdomsverksamheten till herrlaget. Här är de vi följer närmast: Herrlaget, Damlaget och U20.</p>
+<Base title={lag.namn} description={`${fulltNamn(lag)}: tabell och länkar till trupp, schema och statistik.`}>
+  <PageHead title="Laget">
+    <p class="lead prose">Välj lag för att se tabell, spelschema och länkar till trupp och statistik.</p>
     <LagNav current={lag.key} />
   </PageHead>
   <div class="wrap page">
     <h2>{lag.namn}</h2>
-    {table(lag.key) && <Tabell table={table(lag.key)!} />}
-    <ul class="list">
+    <ul class="list compact">
       <li><h3><a href={lag.schema} rel="noopener">Spelschema</a></h3><span class="meta">almtuna.com</span></li>
       <li><h3><a href={lag.statistik} rel="noopener">Trupp och statistik</a></h3><span class="meta">almtuna.com</span></li>
       <li><h3><a href={lag.lag} rel="noopener">Lagsida</a></h3><span class="meta">almtuna.com</span></li>
     </ul>
+    {table(lag.key) && <Tabell table={table(lag.key)!} />}
     <Trupp lag={lag.key} />
-    <p class="meta">Länkarna går till Almtuna IS egen webbplats. Vi är en fristående supporterförening.</p>
   </div>
 </Base>

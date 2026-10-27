@@ -1,7 +1,9 @@
 ---
-import Base from '../layouts/Base.astro';
-import { upcoming, results, matchesUpdated, fmtDay, fmtShortDay, fmtTime, fmtScore } from '../data/matches';
-import PageHead from '../components/PageHead.astro';
+import Base from '../../layouts/Base.astro';
+import { upcoming, results, matchesUpdated, fmtDay, fmtShortDay, fmtTime, fmtScore } from '../../data/matches';
+import { lagen } from '../../data/lagen';
+import PageHead from '../../components/PageHead.astro';
+import LagNav from '../../components/LagNav.astro';
 
 const alla = upcoming();
 // De fem närmaste matcherna visas direkt, resten ligger bakom "Fler matcher".
@@ -11,12 +13,19 @@ const fler = alla.slice(5);
 const senaste = results.slice(0, 5);
 const aldre = results.slice(5);
 
+const herr = lagen.find((l) => l.key === 'herr')!;
 const uppdaterad = matchesUpdated ? new Date(matchesUpdated).toLocaleString('sv-SE', { dateStyle: 'long', timeStyle: 'short', timeZone: 'Europe/Stockholm' }) : null;
 ---
 <Base title="Matcher" description="Spelschema och resultat för Almtuna IS.">
   <PageHead title="Matcher">
-    <p class="lead prose">Spelschema och resultat för Almtuna IS herrlag i Hockeyallsvenskan. Uppdateras automatiskt.</p>
-    <p class="meta prose"><a href="#kommande">Kommande</a> · <a href="#resultat">Resultat</a> · <a href="/bortaresor">Bortaresor</a></p>
+    <p class="lead prose">Spelschema och resultat för Almtuna IS herrlag i Hockeyallsvenskan.</p>
+    <LagNav current="herr" sida="matcher" />
+    <nav class="sub-nav" aria-label="På sidan">
+      <a href="#kommande">Kommande</a>
+      <a href="#resultat">Resultat</a>
+      <a href="#infor-matchen">Inför matchen</a>
+      <a href="/bortaresor">Bortaresor</a>
+    </nav>
   </PageHead>
   <div class="wrap page">
     <h2 id="kommande">Kommande</h2>
@@ -75,12 +84,16 @@ const uppdaterad = matchesUpdated ? new Date(matchesUpdated).toLocaleString('sv-
       </>
     )}
 
-    <h2 class="section-gap" id="scheman">Klubbens spelscheman</h2>
-    <p class="prose">De officiella och alltid aktuella spelscheman finns hos klubben. Tider kan ändras.</p>
-    <ul class="list">
-      <li><h3><a href="https://www.almtuna.com/game-schedule?seasonUuid=ndcf81nlb3&seriesUuid=qQ9-594cW8OWD&gameTypeUuid=qQ9-af37Ti40B&completeSeason=all&homeAway=all&allGames=all" rel="noopener">Herrlaget</a></h3><span class="meta">Hockeyallsvenskan</span></li>
-      <li><h3><a href="https://www.almtuna.com/game-schedule?seasonUuid=ndcf81nlb3&seriesUuid=qYE-42dTycW3f&gameTypeUuid=qQ9-af37Ti40B&completeSeason=all&homeAway=all&allGames=all" rel="noopener">Damlaget</a></h3></li>
-      <li><h3><a href="https://www.almtuna.com/game-schedule?seasonUuid=ndcf81nlb3&seriesUuid=qV0-8wgHrHJmG&gameTypeUuid=qQ9-af37Ti40B&completeSeason=all&homeAway=all&allGames=all" rel="noopener">U20</a></h3></li>
+    <h2 class="section-gap" id="scheman">Klubbens spelschema</h2>
+    <p class="prose">Det officiella och alltid aktuella spelschemat finns hos klubben. Tider kan ändras.</p>
+    <ul class="list compact">
+      <li><h3><a href={herr.schema} rel="noopener">Herrlaget</a></h3><span class="meta">almtuna.com</span></li>
+    </ul>
+    <h2 class="section-gap" id="infor-matchen">Inför matchen</h2>
+    <ul class="list compact">
+      <li><h3><a href="https://liveday.se/sv/stores/2bRJOsbrW5CNEjuZcGarec7mRcw" rel="noopener">Matchbiljetter</a></h3></li>
+      <li><h3><a href="https://www.almtuna.com/sasongskort" rel="noopener">Säsongskort</a></h3></li>
+      <li><h3><a href="https://www.almtuna.com/arenan" rel="noopener">Arenan</a></h3></li>
     </ul>
     {uppdaterad && <p class="meta">Senast uppdaterad {uppdaterad}. Schema och resultat kommer från klubbens spelschema, kompletterat av en kalenderfil och <a href="https://www.thesportsdb.com/team/144401">TheSportsDB</a>. Tider kan ändras.</p>}
   </div>
