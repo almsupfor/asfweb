@@ -35,7 +35,6 @@ const PAGES = [
 // Lokaltidningarnas ishockeysidor (motståndarlagens hemorter). Sidorna har inga datum och inget flöde med
 // historik, så vi tar bara teasers som nämner Almtuna och hämtar publiceringsdatum från artikeln.
 const TEASER_PAGES = [
-  { source: 'Vestmanlands Läns Tidning', url: 'https://www.vlt.se/ishockey', base: 'https://www.vlt.se' },
   { source: 'Nerikes Allehanda', url: 'https://www.na.se/ishockey', base: 'https://www.na.se' },
   { source: 'Dalademokraten', url: 'https://www.dalademokraten.se/ishockey', base: 'https://www.dalademokraten.se' },
   { source: 'Länstidningen Södertälje', url: 'https://www.lt.se/ishockey', base: 'https://www.lt.se' },
