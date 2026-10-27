@@ -11,9 +11,9 @@ export const nav = [
   { href: '/matcher', label: 'Matcher' },
   { href: '/bortaresor', label: 'Bortaresor' },
   { href: '/laget', label: 'Laget' },
-  { href: '/historia', label: 'Historia' },
   { href: '/sanger', label: 'Sånger' },
   { href: '/i-media', label: 'I media' },
+  { href: '/historia', label: 'Historia' },
   { href: '/om-oss', label: 'Om oss' },
   { href: '/kontakt', label: 'Kontakt' },
 ];
