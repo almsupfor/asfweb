@@ -13,7 +13,7 @@ export interface MediaItem {
 
 export type Lag = 'a-lag' | 'dam' | 'j20' | 'j18';
 
-// Gissar vilket lag en post gäller utifrån rubriken. Allt annat räknas som A-laget (Hockeyallsvenskan).
+// Gissar vilket lag en post gäller utifrån rubriken. Allt annat räknas som herrlaget (Hockeyallsvenskan). Nyckeln 'a-lag' är bara ett internt namn.
 // Ordgränserna är skrivna med lookaround eftersom ordgräns-tecknet i regex inte räknar å, ä och ö som bokstäver.
 // Gissar den fel? Lägg länken i LAG_OVERRIDES, den går före mönstren.
 const LAG_OVERRIDES: Record<string, Lag> = {};

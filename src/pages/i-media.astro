@@ -13,8 +13,8 @@ const bygg = (id: string, namn: string, alla: typeof media, tak: number, enhet: 
   const oppna = Math.min(DIREKT, visa.length);
   return { id, namn, enhet, visa, total: alla.length, kapad: alla.length > visa.length, nu: visa.slice(0, oppna), aldre: visa.slice(oppna) };
 };
-const aLaget = bygg('a-laget', 'A-laget', artiklar.filter((m) => lagFor(m) === 'a-lag'), 60, 'artiklar');
-// A-laget står först. De andra ordnas efter hur mycket de innehåller.
+const aLaget = bygg('herrlaget', 'Herrlaget',artiklar.filter((m) => lagFor(m) === 'a-lag'), 60, 'artiklar');
+// Herrlaget står först. De andra ordnas efter hur mycket de innehåller.
 const ovriga = [
   bygg('damlaget', 'Damlaget', artiklar.filter((m) => lagFor(m) === 'dam'), 20, 'artiklar'),
   bygg('u20', 'U20', artiklar.filter((m) => lagFor(m) === 'j20'), 20, 'artiklar'),
