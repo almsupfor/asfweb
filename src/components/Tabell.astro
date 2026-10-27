@@ -1,0 +1,46 @@
+---
+import type { LeagueTable } from '../data/tables';
+interface Props { table: LeagueTable; }
+const { table } = Astro.props;
+const diff = (n: number) => (n > 0 ? `+${n}` : String(n));
+---
+<div class="table-scroll" tabindex="0" role="region" aria-label={`Tabell: ${table.name}`}>
+  <table class="standings">
+    <caption>{table.name}</caption>
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Lag</th>
+        <th scope="col"><abbr title="Spelade">S</abbr></th>
+        <th scope="col"><abbr title="Vinster">V</abbr></th>
+        <th scope="col"><abbr title="Vinster i förlängning eller straffar">ÖV</abbr></th>
+        <th scope="col"><abbr title="Förluster i förlängning eller straffar">ÖF</abbr></th>
+        <th scope="col"><abbr title="Förluster">F</abbr></th>
+        <th scope="col"><abbr title="Målskillnad">+/-</abbr></th>
+        <th scope="col"><abbr title="Poäng">P</abbr></th>
+      </tr>
+    </thead>
+    <tbody>
+      {table.rows.map((r) => (
+        <tr class={r.ours ? 'ours' : undefined} aria-current={r.ours ? 'true' : undefined}>
+          <td>{r.rank}</td>
+          <th scope="row">{r.team}</th>
+          <td>{r.gp}</td><td>{r.w}</td><td>{r.otw}</td><td>{r.otl}</td><td>{r.l}</td><td>{diff(r.diff)}</td><td class="pts">{r.pts}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .table-scroll { overflow-x: auto; margin-block: 1rem; }
+  .standings { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: .95rem; }
+  caption { text-align: left; font-weight: 600; padding-bottom: .5rem; }
+  th, td { padding: .45rem .6rem; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  th[scope='row'], thead th:nth-child(2) { text-align: left; font-weight: 500; }
+  thead th { font-weight: 600; }
+  abbr { text-decoration: none; cursor: help; }
+  .ours { background: var(--bg-soft); font-weight: 700; }
+  .ours th[scope='row'] { font-weight: 700; color: var(--red); }
+  .pts { font-weight: 700; }
+</style>

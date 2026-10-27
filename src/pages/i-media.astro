@@ -13,7 +13,7 @@ const avsnitt = media.filter((m) => m.type === 'podd').slice(0, 20);
 const sektioner = [
   { id: 'a-laget', namn: 'A-laget', antal: artiklar.length },
   { id: 'damlaget', namn: 'Damlaget', antal: damartiklar.length },
-  { id: 'j20', namn: 'J20', antal: j20artiklar.length },
+  { id: 'u20', namn: 'U20', antal: j20artiklar.length },
   { id: 'j18', namn: 'J18', antal: j18artiklar.length },
   { id: 'podd', namn: 'Podd', antal: avsnitt.length },
 ].filter((s) => s.antal > 0);
@@ -54,7 +54,7 @@ const uppdaterad = mediaUpdated ? new Date(mediaUpdated).toLocaleString('sv-SE',
 
     {j20artiklar.length > 0 && (
       <>
-        <h2 class="section-gap" id="j20">J20</h2>
+        <h2 class="section-gap" id="u20">U20</h2>
         <ul class="list">
           {j20artiklar.map((m) => (
             <MediaItem item={m} />

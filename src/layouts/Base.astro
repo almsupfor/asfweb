@@ -1,7 +1,6 @@
 ---
 import '../styles/global.css';
 import { site, nav } from '../data/site';
-import Mail from '../components/Mail.astro';
 
 interface Props { title?: string; description?: string; noindex?: boolean; }
 const { title, description = site.tagline, noindex = false } = Astro.props;
@@ -49,7 +48,7 @@ const canonical = new URL(path, Astro.site);
     <main id="innehall" tabindex="-1"><slot /></main>
     <footer class="site-footer">
       <div class="wrap">
-        <p><strong>{site.name}</strong> · <Mail /></p>
+        <p><strong>{site.name}</strong></p>
         <p class="meta">Föreningen är fristående från Almtuna IS.</p>
       </div>
     </footer>
@@ -71,6 +70,20 @@ const canonical = new URL(path, Astro.site);
         });
       }
     </script>
+    <script>
+      // Externa länkar öppnas i nytt fönster. Gäller alla länkar på sidan, även nya.
+      for (const a of document.querySelectorAll<HTMLAnchorElement>('main a[href], footer a[href]')) {
+        if (!/^https?:$/.test(a.protocol) || a.origin === location.origin) continue;
+        a.target = '_blank';
+        a.rel = [...new Set([...a.rel.split(/\s+/), 'noopener', 'noreferrer'])].filter(Boolean).join(' ');
+        if (!a.querySelector('.sr-only')) {
+          const hint = document.createElement('span');
+          hint.className = 'sr-only';
+          hint.textContent = ' (öppnas i nytt fönster)';
+          a.append(hint);
+        }
+      }
+    </script>
   </body>
 </html>
 
@@ -90,6 +103,7 @@ const canonical = new URL(path, Astro.site);
   a:focus-visible, button:focus-visible, main:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
   main:focus-visible { outline: none; }
   .hero a:focus-visible { outline-color: #fff; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .skip-link { position: absolute; left: .5rem; top: -4rem; z-index: 20; background: var(--bg); color: var(--ink); padding: .65rem 1rem; border-radius: .4rem; border: 2px solid var(--red); font-weight: 600; }
   .skip-link:focus { top: .5rem; }
   /* Smalare än 48rem ryms inte länkarna på en rad: de läggs i en panel bakom menyknappen. */

@@ -1,0 +1,71 @@
+---
+import Base from '../layouts/Base.astro';
+import Tabell from '../components/Tabell.astro';
+import { squad, positionLabel } from '../data/squads';
+import { table } from '../data/tables';
+
+const sasong = 'ndcf81nlb3';
+const schema = (serie: string) => `https://www.almtuna.com/game-schedule?seasonUuid=${sasong}&seriesUuid=${serie}&gameTypeUuid=qQ9-af37Ti40B&completeSeason=all&homeAway=all&allGames=all`;
+const trupp = squad('herr');
+const herr = {
+  lag: 'https://www.almtuna.com/team/181c-181cv0b9i/ais1_ais/overview',
+  trupp: 'https://www.almtuna.com/team/181c-181cv0b9i/ais1_ais/stats',
+  schema: schema('qQ9-594cW8OWD'),
+};
+const ovriga = [
+  { key: 'dam' as const, namn: 'Damlaget', lag: 'https://www.almtuna.com/team/181c-ebbfvOfZG/ais1_ais/overview', statistik: 'https://www.almtuna.com/team/181c-ebbfvOfZG/ais1_ais/stats', schema: schema('qYE-42dTycW3f') },
+  { key: 'j20' as const, namn: 'U20', lag: 'https://www.almtuna.com/team/181c-97a6brSab/ais1_ais/overview', statistik: 'https://www.almtuna.com/team/181c-97a6brSab/ais1_ais/stats', schema: schema('qV0-8wgHrHJmG') },
+];
+---
+<Base title="Lagen" description="Almtuna IS herrlag i Hockeyallsvenskan, damlag och U20: länkar till trupp, schema och statistik.">
+  <div class="wrap page">
+    <h1>Lagen</h1>
+    <p class="lead prose">Almtuna IS har lag på alla nivåer, från ungdomsverksamheten till A-laget. Här är de vi följer närmast: Herrlaget, Damlaget och U20 (tidigare J20).</p>
+
+    <h2>Herrlaget</h2>
+    <p class="prose">A-laget spelar i Hockeyallsvenskan. Det är dem vi sjunger för på läktaren.</p>
+    <ul class="list">
+      <li><h3><a href="/matcher">Spelschema och resultat</a></h3><span class="meta">Här på sidan</span></li>
+      <li><h3><a href={herr.trupp} rel="noopener">Trupp och statistik 26/27</a></h3><span class="meta">almtuna.com</span></li>
+      <li><h3><a href={herr.lag} rel="noopener">Lagsida</a></h3><span class="meta">almtuna.com</span></li>
+      <li><h3><a href={herr.schema} rel="noopener">Klubbens officiella spelschema</a></h3><span class="meta">almtuna.com</span></li>
+    </ul>
+
+    {table('herr') && <Tabell table={table('herr')!} />}
+
+    {trupp.length > 0 && (
+      <>
+        <h3 class="section-gap">Spelare just nu</h3>
+        {trupp.map((g) => (
+          <>
+            <h4>{positionLabel(g.position)}</h4>
+            <ul class="list">
+              {g.players.map((p) => <li>{p.number != null ? `#${p.number} ` : ''}{p.name}</li>)}
+            </ul>
+          </>
+        ))}
+        <p class="meta">Hämtas från klubbens webbplats. Truppen för 26/27 kompletteras löpande.</p>
+      </>
+    )}
+
+    {ovriga.map((l) => (
+      <>
+        <h2 class="section-gap">{l.namn}</h2>
+        {table(l.key) && <Tabell table={table(l.key)!} />}
+        <p class="meta">
+          <a href={l.schema} rel="noopener">Spelschema</a>
+          {' '}· <a href={l.statistik} rel="noopener">Trupp och statistik</a>
+          {' '}· <a href={l.lag} rel="noopener">Lagsida</a>
+        </p>
+      </>
+    ))}
+
+    <h2 class="section-gap">Praktiskt</h2>
+    <ul class="list">
+      <li><h3><a href="https://liveday.se/sv/stores/2bRJOsbrW5CNEjuZcGarec7mRcw" rel="noopener">Matchbiljetter</a></h3></li>
+      <li><h3><a href="https://www.almtuna.com/sasongskort" rel="noopener">Säsongskort</a></h3></li>
+      <li><h3><a href="https://www.almtuna.com/arenan" rel="noopener">Arenan</a></h3></li>
+    </ul>
+    <p class="meta">Länkarna går till Almtuna IS egen webbplats. Vi är en fristående supporterförening.</p>
+  </div>
+</Base>
