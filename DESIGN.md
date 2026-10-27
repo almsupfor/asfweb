@@ -237,6 +237,9 @@ Varje sektion på I media börjar med en kort röd stapel (3rem × 0.3rem, Läkt
 ### Pil till toppen
 En fast knapp nere till höger (3rem × 3rem, Nattfyllning/Läktarröd som fyllning med vit pil, 0.4rem hörn, ingen skugga). Den länkar till `#innehall`, så fokus följer med till innehållet. Med JavaScript visas den så fort man scrollat en liten bit (40px). Utan JavaScript syns den hela tiden. Den ligger under sidhuvudet i höjdled och respekterar säkra områden på telefoner.
 
+### Rutor
+Matcher, resultat och bortamatcher visas som rutor i stället för som rader: varje post i en egen ruta (Mjukt papper, 1px Linje, 0.6rem hörn, 1.25rem luft) med rubriken i 1.125rem vikt 700 och datum, tid och hall under i dämpad grå. Rutorna ligger i ett rutnät med minst 19rem per ruta, så det blir upp till tre spalter på bred skärm och en på mobil. Fem rutor ger tre plus två. Sångerna på Sånger är rutor på samma sätt. Artiklar och poddavsnitt på I media är rutor på samma sätt: titeln som länk i Bläck med tunn understrykning och pil, och källa och datum under. Rutor används för poster som är lika stora och korta. Länklistor (spelschema, lagsida, biljetter) förblir kompakta paneler.
+
 ### Sidmeny
 Länkar till avsnitt på samma sida (till exempel Kommande, Resultat, Inför matchen på Matcher) ligger i bandet under lagvalet. De är Bläck i vikt 500 med en 2px understrykning i Linje som blir röd vid hover, i stil med huvudmenyn, så att de inte ser ut som knappar eller som röd brödtext.
 
