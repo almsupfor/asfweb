@@ -32,9 +32,9 @@ typography:
     letterSpacing: "-0.01em"
   hero:
     fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
-    fontSize: "clamp(2.75rem, 11vw, 6rem)"
+    fontSize: "clamp(2.25rem, 7vw, 4rem)"
     fontWeight: 800
-    lineHeight: 1.02
+    lineHeight: 1.05
     letterSpacing: "-0.03em"
   section:
     fontFamily: "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
@@ -166,7 +166,7 @@ Mellanläge mellan ljust och mörkt, valbart med färglägesknappen. Papper #2b2
 
 ### Hierarchy
 - **Display** (700, clamp(2rem, 5vw, 3rem), 1.15): Sidrubrik (h1) och hero.
-- **Hero** (800, clamp(2.75rem, 11vw, 6rem), 1.02, -0.03em): Enbart hero-rubriken på startsidan, max 14 tecken bred.
+- **Hero** (800, clamp(2.25rem, 7vw, 4rem), 1.05, -0.03em): Enbart hero-rubriken på startsidan, max 24 tecken bred så att den ryms på en rad på bred skärm.
 - **Headline** (700, 1.35rem, 1.15): Rubriker i listor på startsidan.
 - **List title** (600, 1.125rem, 1.35): Rubriken i raderna på I media. Det är en länk, inte en rubrik (h3), så att rubriknavigering bara listar sektioner. Sista ordet och pilen hålls ihop.
 - **Section** (700, 1.75rem, 1.15): Sektionsrubriker (h2).
@@ -242,7 +242,7 @@ Rad med chips ovanför en lång lista, ett per sektion med innehåll, med antale
 Samma kort som övriga, men utan länk. På startsidan är kortets rubrik ("Nästa match", "Senaste resultat") tydligt störst: 1.5rem, vikt 800. Matchraden under är vanlig brödtext i vikt 600 och 1.0625rem, och datum och hemma/borta ligger i dämpad grå. Så läses rubriken som rubrik och matchen som innehåll. Källan anges under korten.
 
 ### Hero
-Heltäckande Läktarröd yta med vit rubrik, ingress i Rosa dis och en vit knapp. 4rem vertikal padding. Används på startsidan.
+Heltäckande Läktarröd yta med vit rubrik, ingress i Rosa dis och en vit knapp. Låg och bred: 2 till 3,5rem vertikal padding. Används på startsidan.
 
 ## Do's and Don'ts
 
