@@ -1,0 +1,22 @@
+---
+// Spelartruppen per position. Visas bara om det finns spelare att visa.
+import { squad, positionLabel } from '../data/squads';
+import type { LagKey } from '../data/lagen';
+interface Props { lag: LagKey; }
+const { lag } = Astro.props;
+const trupp = squad(lag);
+---
+{trupp.length > 0 && (
+  <>
+    <h3 class="section-gap">Spelare just nu</h3>
+    {trupp.map((g) => (
+      <>
+        <h4>{positionLabel(g.position)}</h4>
+        <ul class="list">
+          {g.players.map((p) => <li>{p.number != null ? `#${p.number} ` : ''}{p.name}</li>)}
+        </ul>
+      </>
+    ))}
+    <p class="meta">Hämtas från klubbens webbplats. Truppen för 26/27 kompletteras löpande.</p>
+  </>
+)}

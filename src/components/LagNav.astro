@@ -1,0 +1,9 @@
+---
+// Val mellan lagen. Det lag som visas markeras med aria-current.
+import { lagen, type LagKey } from '../data/lagen';
+interface Props { current: LagKey; }
+const { current } = Astro.props;
+---
+<nav class="jump" aria-label="Välj lag">
+  {lagen.map((l) => <a href={l.href} aria-current={l.key === current ? 'page' : undefined}>{l.namn}</a>)}
+</nav>

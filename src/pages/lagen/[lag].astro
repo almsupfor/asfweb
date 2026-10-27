@@ -1,0 +1,34 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import LagNav from '../../components/LagNav.astro';
+import Tabell from '../../components/Tabell.astro';
+import Trupp from '../../components/Trupp.astro';
+import { table } from '../../data/tables';
+import { lagen } from '../../data/lagen';
+
+// Herrlaget ligger på /lagen. Här skapas sidorna för de andra lagen.
+export function getStaticPaths() {
+  return lagen
+    .filter((l) => l.key !== 'herr')
+    .map((l) => ({ params: { lag: l.href.split('/').pop() }, props: { lag: l } }));
+}
+const { lag } = Astro.props;
+---
+<Base title={lag.namn} description={`Almtuna IS ${lag.namn}: tabell och länkar till trupp, schema och statistik.`}>
+  <PageHead title="Lagen">
+    <p class="lead prose">Almtuna IS har lag på alla nivåer, från ungdomsverksamheten till A-laget. Här är de vi följer närmast: Herrlaget, Damlaget och U20.</p>
+    <LagNav current={lag.key} />
+  </PageHead>
+  <div class="wrap page">
+    <h2>{lag.namn}</h2>
+    {table(lag.key) && <Tabell table={table(lag.key)!} />}
+    <ul class="list">
+      <li><h3><a href={lag.schema} rel="noopener">Spelschema</a></h3><span class="meta">almtuna.com</span></li>
+      <li><h3><a href={lag.statistik} rel="noopener">Trupp och statistik</a></h3><span class="meta">almtuna.com</span></li>
+      <li><h3><a href={lag.lag} rel="noopener">Lagsida</a></h3><span class="meta">almtuna.com</span></li>
+    </ul>
+    <Trupp lag={lag.key} />
+    <p class="meta">Länkarna går till Almtuna IS egen webbplats. Vi är en fristående supporterförening.</p>
+  </div>
+</Base>

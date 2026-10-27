@@ -1,0 +1,39 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import LagNav from '../../components/LagNav.astro';
+import Tabell from '../../components/Tabell.astro';
+import Trupp from '../../components/Trupp.astro';
+import { table } from '../../data/tables';
+import { lagen } from '../../data/lagen';
+
+const herr = lagen.find((l) => l.key === 'herr')!;
+---
+<Base title="Lagen" description="Almtuna IS herrlag i Hockeyallsvenskan, damlag och U20: länkar till trupp, schema och statistik.">
+  <PageHead title="Lagen">
+    <p class="lead prose">Almtuna IS har lag på alla nivåer, från ungdomsverksamheten till A-laget. Här är de vi följer närmast: Herrlaget, Damlaget och U20.</p>
+    <LagNav current="herr" />
+  </PageHead>
+  <div class="wrap page">
+    <h2>Herrlaget</h2>
+    <p class="prose">A-laget spelar i Hockeyallsvenskan. Det är dem vi sjunger för på läktaren.</p>
+    <ul class="list">
+      <li><h3><a href="/matcher">Spelschema och resultat</a></h3><span class="meta">Här på sidan</span></li>
+      <li><h3><a href={herr.statistik} rel="noopener">Trupp och statistik 26/27</a></h3><span class="meta">almtuna.com</span></li>
+      <li><h3><a href={herr.lag} rel="noopener">Lagsida</a></h3><span class="meta">almtuna.com</span></li>
+      <li><h3><a href={herr.schema} rel="noopener">Klubbens officiella spelschema</a></h3><span class="meta">almtuna.com</span></li>
+    </ul>
+
+    {table('herr') && <Tabell table={table('herr')!} />}
+
+    <Trupp lag="herr" />
+
+    <h2 class="section-gap">Praktiskt</h2>
+    <ul class="list">
+      <li><h3><a href="https://liveday.se/sv/stores/2bRJOsbrW5CNEjuZcGarec7mRcw" rel="noopener">Matchbiljetter</a></h3></li>
+      <li><h3><a href="https://www.almtuna.com/sasongskort" rel="noopener">Säsongskort</a></h3></li>
+      <li><h3><a href="https://www.almtuna.com/arenan" rel="noopener">Arenan</a></h3></li>
+    </ul>
+    <p class="meta">Länkarna går till Almtuna IS egen webbplats. Vi är en fristående supporterförening.</p>
+  </div>
+</Base>
