@@ -7,6 +7,8 @@ const OUT = new URL('../src/data/tables.json', import.meta.url);
 const API = 'https://www.almtuna.com/api';
 const SERIES = { herr: 'qQ9-594cW8OWD', dam: 'qYE-42dTycW3f', j20: 'qV0-8wgHrHJmG' };
 const OUR_TEAM = '181c-181cv0b9i'; // Almtuna IS: samma klubb i alla serier, markeras i tabellen
+// Sajten skriver U20 och U18, medan API:et ibland fortfarande säger J20 och J18.
+const visningsnamn = (namn) => namn.replace(/\bJ(20|18)\b/g, 'U$1');
 const headers = { 'user-agent': 'almtunasupporter.se table-fetcher (+https://almtunasupporter.se)' };
 
 const get = async (path) => {
@@ -32,8 +34,9 @@ for (const [key, series] of Object.entries(SERIES)) {
       name,
       rows: standings.leagueStandings.map((r) => ({
         rank: r.Rank,
-        team: r.info?.teamInfo?.siteTeamDisplayName ?? r.info?.code ?? '',
-        ours: r.info?.teamInfo?.teamUuid === OUR_TEAM,
+        team: visningsnamn(r.info?.teamInfo?.siteTeamDisplayName ?? r.info?.code ?? ''),
+        // Damlaget och U20 har egna lag-id i API:et, så klubben känns också igen på namnet.
+        ours: r.info?.teamInfo?.teamUuid === OUR_TEAM || /^Almtuna IS\b/.test(r.info?.teamInfo?.siteTeamDisplayName ?? ''),
         gp: r.GP, w: r.W, otw: r.OTW, otl: r.OTL, l: r.L, diff: r.Diff, pts: r.Points,
       })),
     };

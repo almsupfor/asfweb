@@ -1,10 +1,11 @@
-// Hämtar trupperna från almtuna.com:s öppna JSON-API och sparar dem i src/data/squads.json.
-// Klubbens egen sida använder samma API. Bara namn, tröjnummer, position och nationalitet sparas.
+// Hämtar spelarlistorna från almtuna.com:s öppna JSON-API (samma anrop som statistiksidan använder)
+// och sparar dem i src/data/squads.json. Bara namn, tröjnummer och nationalitet sparas.
+// Anropet ger de spelare som finns i lagets statistik. Position saknas för de flesta, så listan delas inte upp på position.
 // Körs av GitHub Actions (se .github/workflows/deploy.yml) eller för hand: npm run squads
 import { readFile, writeFile } from 'node:fs/promises';
 
 const OUT = new URL('../src/data/squads.json', import.meta.url);
-const API = 'https://www.almtuna.com/api/sports-v2/athletes/by-team-uuid';
+const API = 'https://www.almtuna.com/api/statistics-v2/stats-info/players_summary';
 const TEAMS = { herr: '181c-181cv0b9i', dam: '181c-ebbfvOfZG', j20: '181c-97a6brSab' };
 
 let existing = { updated: null, teams: {} };
@@ -16,17 +17,32 @@ const teams = { ...existing.teams };
 let failed = 0;
 for (const [key, uuid] of Object.entries(TEAMS)) {
   try {
-    const res = await fetch(`${API}/${uuid}`, { headers: { 'user-agent': 'almtunasupporter.se squad-fetcher (+https://almtunasupporter.se)' }, signal: AbortSignal.timeout(20000) });
+    const res = await fetch(`${API}?teamUuid=${uuid}&module=players_summary&count=50`, { headers: { 'user-agent': 'almtunasupporter.se squad-fetcher (+https://almtunasupporter.se)' }, signal: AbortSignal.timeout(20000) });
     if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
-    const groups = await res.json();
-    if (!Array.isArray(groups)) throw new Error('oväntat svar');
-    teams[key] = groups.map((g) => ({
-      position: String(g.position),
-      players: (g.players ?? [])
-        .map((p) => ({ name: String(p.fullName ?? ''), number: p.jerseyNumber ?? null, nationality: p.nationality ?? null }))
-        .filter((p) => p.name)
-        .sort((a, b) => (a.number ?? 999) - (b.number ?? 999)),
-    })).filter((g) => g.players.length > 0);
+    const body = await res.json();
+    const data = Array.isArray(body) ? body[0] : body;
+    if (!Array.isArray(data?.stats)) throw new Error('oväntat svar');
+    // Tröjnummer finns ibland bara i listan "players", som har samma spelare nycklade på id.
+    const extra = new Map(Object.values(data.players ?? {}).map((p) => [p.uuid, p]));
+    const players = data.stats
+      .filter((r) => r.info?.fullName && (!r.info.team?.uuid || r.info.team.uuid === uuid))
+      .map(({ info: i, ...r }) => ({
+        name: String(i.fullName),
+        lastName: String(i.lastName ?? i.fullName),
+        number: i.number ?? extra.get(i.uuid)?.jerseyNumber ?? null,
+        nationality: i.nationality && i.nationality !== 'N/A' ? i.nationality : null,
+        gp: r.GP ?? 0,
+        g: r.G ?? 0,
+        a: r.A ?? 0,
+        tp: r.TP ?? 0,
+        pm: r.PlusMinus ?? 0,
+        pim: r.PIM ?? 0,
+        toi: r.TOI_GP ?? null, // snittid per match, "0:00" för den som inte spelat som utespelare
+      }))
+      // Flest poäng först, sedan flest mål, sedan efternamn.
+      .sort((a, b) => b.tp - a.tp || b.g - a.g || a.lastName.localeCompare(b.lastName, 'sv'))
+      .map(({ lastName, ...p }) => p);
+    teams[key] = players;
   } catch (err) {
     failed++;
     console.warn(`Hoppade över ${key}: ${err.message}`);
@@ -42,5 +58,5 @@ const changed = JSON.stringify(teams) !== JSON.stringify(existing.teams);
 // Uppdatera tidsstämpeln bara när något ändrats, så att schemat inte skapar tomma commits.
 const updated = changed ? new Date().toISOString() : existing.updated;
 await writeFile(OUT, JSON.stringify({ updated, teams }, null, 2) + '\n');
-const count = (k) => (teams[k] ?? []).reduce((n, g) => n + g.players.length, 0);
-console.log(`Herr ${count('herr')}, dam ${count('dam')}, J20 ${count('j20')} spelare.`);
+const count = (k) => (teams[k] ?? []).length;
+console.log(`Herr ${count('herr')}, dam ${count('dam')}, U20 ${count('j20')} spelare.`);
