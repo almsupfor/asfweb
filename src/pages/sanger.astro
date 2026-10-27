@@ -130,7 +130,7 @@ const lyssnaLankar = (s: { lank?: string; sok?: string[]; melodi?: string }) =>
   <div class="wrap page">
     <div class="songs">
       {sanger.map((s) => (
-        <section class="song prose">
+        <section class="song">
           <h2>{s.title}</h2>
           {s.melodi && <p class="meta">Melodi: {s.melodi}</p>}
           {lyssnaLankar(s).map((l) => (
@@ -144,17 +144,3 @@ const lyssnaLankar = (s: { lank?: string; sok?: string[]; melodi?: string }) =>
     </div>
   </div>
 </Base>
-
-<style>
-  .songs {
-    display: grid;
-    gap: 2rem;
-    margin-top: 2rem;
-  }
-  .song h2 {
-    margin-bottom: 0.25rem;
-  }
-  .lyrics {
-    white-space: pre-line;
-  }
-</style>
