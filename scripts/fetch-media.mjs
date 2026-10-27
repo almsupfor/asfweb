@@ -12,10 +12,12 @@ const MAX_ITEMS = 300;
 // all: true tar med alla poster (för flöden som bara handlar om Almtuna). type: 'podd' märker poster som poddavsnitt.
 const FEEDS = [
   { source: 'Upsala Nya Tidning', url: 'https://www.unt.se/rss' },
+  { source: 'Upsala Nya Tidning', url: 'https://www.unt.se/rss/sport' },
   { source: 'Hockeysverige', url: 'https://www.hockeysverige.se/feed/' },
   { source: 'SVT Sport', url: 'https://www.svt.se/sport/rss.xml' },
   { source: 'Expressen', url: 'https://www.expressen.se/rss/sport' },
   { source: 'Aftonbladet', url: 'https://www.aftonbladet.se/sportbladet/rss.xml' },
+  { source: 'Omni', url: 'https://omni.se/rss.xml' },
   { source: 'Sporten.com', url: 'https://www.sporten.com/feed/' },
   { source: 'HockeyNews', url: 'https://hockeynews.se/rss/lag/almtuna-is/feed.xml' },
   { source: 'Inside Almtuna', url: 'https://feed.pod.space/visynsilindbacken', all: true, type: 'podd' },
