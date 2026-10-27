@@ -64,6 +64,21 @@ a.card:hover h3 { text-decoration: underline; text-underline-offset: .2em; }
 .list { list-style: none; margin-block: 1rem; padding: 0 1.25rem; background: var(--bg-soft); border: 1px solid var(--line); border-radius: .6rem; }
 .list li { padding: 1rem 0; border-bottom: 1px solid var(--line); }
 .list li:last-child { border-bottom: 0; }
+/* Lista med bara länkar: kompaktare rader, titel och källa på samma rad. */
+.list.compact li { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 .75rem; padding: .6rem 0; }
+/* Tabeller: serietabeller och spelarstatistik. */
+.table-scroll { overflow-x: auto; margin-block: .5rem 1rem; }
+.standings { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; font-size: .9rem; }
+.standings th, .standings td { padding: .45rem .6rem; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.standings th[scope='row'], .standings:not(.players-table) thead th:nth-child(2) { text-align: left; font-weight: 500; }
+.players-table thead th:first-child { text-align: left; }
+.standings thead th { font-weight: 600; }
+.standings abbr { text-decoration: none; cursor: help; }
+.standings .ours { background: var(--bg-soft); font-weight: 700; }
+.standings .ours th[scope='row'] { font-weight: 700; color: var(--red); }
+.standings .pts { font-weight: 700; }
+.list.compact h3 { margin: 0; font-size: 1.0625rem; font-weight: 600; }
+.list.compact li > .meta { margin-top: 0; }
 .list a { color: var(--ink); text-decoration: underline 1px color-mix(in srgb, var(--muted) 55%, transparent); text-underline-offset: .22em; }
 .item-link { display: block; font-size: 1.125rem; font-weight: 600; line-height: 1.35; text-wrap: pretty; }
 .list li > .meta { display: block; margin-top: .25rem; }
@@ -76,6 +91,10 @@ a.card:hover h3 { text-decoration: underline; text-underline-offset: .2em; }
 .jump a:hover { border-color: var(--red); color: var(--red); }
 .jump a[aria-current="page"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 .jump a[aria-current="page"]:hover { color: var(--bg); }
+/* Länkar till avsnitt på samma sida: text med en understrykning som blir röd vid hover, i stil med huvudmenyn. */
+.sub-nav { display: flex; flex-wrap: wrap; gap: 0 1.5rem; margin-top: .75rem; }
+.sub-nav a { padding-block: .6rem; color: var(--ink); font-weight: 500; text-decoration: none; border-bottom: 2px solid var(--line); }
+.sub-nav a:hover { color: var(--red); border-bottom-color: var(--red); }
 .sektion::before { content: ""; display: block; width: 3rem; height: .3rem; margin-bottom: .6rem; background: var(--red); }
 .more summary { display: flex; align-items: center; min-height: 2.75rem; padding-block: .25rem; font-weight: 600; color: var(--ink); cursor: pointer; }
 .more summary::after { content: ""; width: .5rem; height: .5rem; margin-inline-start: .65rem; margin-top: -.25rem; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); }
