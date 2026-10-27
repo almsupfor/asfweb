@@ -20,7 +20,7 @@ const uppdaterad = mediaUpdated ? new Date(mediaUpdated).toLocaleString('sv-SE',
       <ul class="list">
         {artiklar.map((m) => (
           <li>
-            <h3><a href={m.url} rel="noopener">{m.title}</a></h3>
+            <h3><a href={m.url} target="_blank" rel="noopener noreferrer">{m.title}</a></h3>
             <span class="meta">{m.source} · {fmt(m.date)}</span>
           </li>
         ))}
@@ -34,7 +34,7 @@ const uppdaterad = mediaUpdated ? new Date(mediaUpdated).toLocaleString('sv-SE',
         <ul class="list">
           {avsnitt.map((m) => (
             <li>
-              <h3><a href={m.url} rel="noopener">{m.title}</a></h3>
+              <h3><a href={m.url} target="_blank" rel="noopener noreferrer">{m.title}</a></h3>
               <span class="meta">{fmt(m.date)}</span>
             </li>
           ))}
