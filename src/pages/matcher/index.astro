@@ -2,16 +2,17 @@
 import Base from '../../layouts/Base.astro';
 import { upcoming, results, matchesUpdated, fmtDay, fmtShortDay, fmtTime, fmtScore } from '../../data/matches';
 import { lagen } from '../../data/lagen';
+import { DIREKT } from '../../data/visning';
 import PageHead from '../../components/PageHead.astro';
 import LagNav from '../../components/LagNav.astro';
 
 const alla = upcoming();
-// De fem närmaste matcherna visas direkt, resten ligger bakom "Fler matcher".
-const kommande = alla.slice(0, 5);
-const fler = alla.slice(5);
-// Resultaten är sorterade med det senaste först. De fem senaste visas direkt.
-const senaste = results.slice(0, 5);
-const aldre = results.slice(5);
+// De närmaste matcherna visas direkt, resten ligger bakom "Visa fler".
+const kommande = alla.slice(0, DIREKT);
+const fler = alla.slice(DIREKT);
+// Resultaten är sorterade med det senaste först. De senaste visas direkt.
+const senaste = results.slice(0, DIREKT);
+const aldre = results.slice(DIREKT);
 
 const herr = lagen.find((l) => l.key === 'herr')!;
 const uppdaterad = matchesUpdated ? new Date(matchesUpdated).toLocaleString('sv-SE', { dateStyle: 'long', timeStyle: 'short', timeZone: 'Europe/Stockholm' }) : null;
@@ -43,7 +44,7 @@ const uppdaterad = matchesUpdated ? new Date(matchesUpdated).toLocaleString('sv-
         </ul>
         {fler.length > 0 && (
           <details class="more">
-            <summary>Fler matcher ({fler.length})</summary>
+            <summary><span class="s-closed">Visa fler ({fler.length})</span><span class="s-open">Visa färre</span></summary>
             <ul class="tiles">
               {fler.map((m) => (
                 <li>
@@ -70,7 +71,7 @@ const uppdaterad = matchesUpdated ? new Date(matchesUpdated).toLocaleString('sv-
         </ul>
         {aldre.length > 0 && (
           <details class="more">
-            <summary>Fler resultat ({aldre.length})</summary>
+            <summary><span class="s-closed">Visa fler ({aldre.length})</span><span class="s-open">Visa färre</span></summary>
             <ul class="tiles">
               {aldre.map((r) => (
                 <li>

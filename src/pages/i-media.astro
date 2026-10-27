@@ -4,10 +4,10 @@ import { media, mediaUpdated, lagFor } from '../data/media';
 import Mail from '../components/Mail.astro';
 import MediaItem from '../components/MediaItem.astro';
 import PageHead from '../components/PageHead.astro';
+import { DIREKT } from '../data/visning';
 
 const artiklar = media.filter((m) => m.type !== 'podd');
-// De fem senaste visas direkt, resten ligger bakom "Äldre". Taket är hur många rader en sektion får ha.
-const DIREKT = 5;
+// De senaste visas direkt, resten ligger bakom "Äldre". Taket är hur många rader en sektion får ha.
 const bygg = (id: string, namn: string, alla: typeof media, tak: number, enhet: 'artiklar' | 'avsnitt', knapp = namn) => {
   const visa = alla.slice(0, tak);
   const oppna = Math.min(DIREKT, visa.length);
@@ -30,7 +30,6 @@ const uppdaterad = mediaUpdated ? new Date(mediaUpdated).toLocaleString('sv-SE',
 <Base title="I media" description="Artiklar och poddavsnitt om Almtuna IS från tidningar och andra medier.">
   <PageHead title="I media">
       <p class="lead prose">Artiklar och poddavsnitt om Almtuna IS.<br />Listan uppdateras automatiskt och vi länkar till originalet.</p>
-      {uppdaterad && mediaUpdated && <p class="meta">Listan hämtades senast <time datetime={mediaUpdated}>{uppdaterad}</time>.</p>}
       {hopp.length > 1 && (
         <nav class="jump" aria-label="Hoppa till">
           {hopp.map((s) => <a href={`#${s.id}`} aria-label={`${s.knapp}, ${antalText(s)} ${enhetFor(s, s.total)}`}>{s.knapp} <span class="meta" aria-hidden="true">{antalText(s)}</span></a>)}
@@ -53,7 +52,7 @@ const uppdaterad = mediaUpdated ? new Date(mediaUpdated).toLocaleString('sv-SE',
           </ul>
           {s.aldre.length > 0 && (
             <details class="more">
-              <summary>Äldre {s.enhet} ({s.aldre.length})</summary>
+              <summary><span class="s-closed">Äldre {s.enhet} ({s.aldre.length})</span><span class="s-open">Visa färre</span></summary>
               <ul class="tiles">
                 {s.aldre.map((m) => <MediaItem item={m} showSource={s.id !== 'podd'} />)}
               </ul>
@@ -64,6 +63,6 @@ const uppdaterad = mediaUpdated ? new Date(mediaUpdated).toLocaleString('sv-SE',
       )
     ))}
 
-    <p class="meta section-gap">Rubrikerna hämtas från mediernas egna flöden.</p>
+    <p class="meta section-gap">Rubrikerna hämtas från mediernas egna flöden.{uppdaterad && mediaUpdated && <><br />Listan hämtades senast <time datetime={mediaUpdated}>{uppdaterad}</time>.</>}</p>
   </div>
 </Base>
