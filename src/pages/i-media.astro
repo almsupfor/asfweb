@@ -7,7 +7,7 @@ import PageHead from '../components/PageHead.astro';
 import { DIREKT } from '../data/visning';
 
 const artiklar = media.filter((m) => m.type !== 'podd');
-// De senaste visas direkt, resten ligger bakom "Äldre". Taket är hur många rader en sektion får ha.
+// The latest items show directly; the rest sit behind "Visa fler". The cap is how many items a section may hold.
 const bygg = (id: string, namn: string, alla: typeof media, tak: number, enhet: 'artiklar' | 'avsnitt', knapp = namn) => {
   const visa = alla.slice(0, tak);
   const oppna = Math.min(DIREKT, visa.length);
@@ -52,7 +52,7 @@ const uppdaterad = mediaUpdated ? new Date(mediaUpdated).toLocaleString('sv-SE',
           </ul>
           {s.aldre.length > 0 && (
             <details class="more">
-              <summary><span class="s-closed">Äldre {s.enhet} ({s.aldre.length})</span><span class="s-open">Visa färre</span></summary>
+              <summary><span class="s-closed">Visa fler ({s.aldre.length})</span><span class="s-open">Visa färre</span></summary>
               <ul class="tiles">
                 {s.aldre.map((m) => <MediaItem item={m} showSource={s.id !== 'podd'} />)}
               </ul>
