@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import { site } from '../data/site';
+import Mail from '../components/Mail.astro';
 import { upcoming, fmtDay, fmtTime } from '../data/matches';
 
 const bortamatcher = upcoming().filter((m) => !m.isHome);
@@ -13,7 +13,23 @@ const resor: { motstandare: string; datum: string; avgang: string; transport: st
     <h1>Bortaresor</h1>
     <p class="lead prose">Följ med Almtuna IS på bortamatcherna och var med och skapa stämning i andras hallar.</p>
 
-    <h2>Kommande bortamatcher</h2>
+    <h2>Föreningens resor</h2>
+    {resor.length === 0 ? (
+      <p class="notice prose">Mer information om nästa bortaresa kommer. Håll utkik här eller mejla <Mail /> om du har frågor eller funderingar.</p>
+    ) : (
+      <div class="cards">
+        {resor.map((r) => (
+          <article class="card">
+            <h3>{r.motstandare}</h3>
+            <p class="meta">{r.datum} · {r.transport}, avgång {r.avgang}</p>
+            {r.info && <p>{r.info}</p>}
+            <Mail class="button" subject={`Anmälan bortaresa ${r.motstandare}`}>Anmäl dig</Mail>
+          </article>
+        ))}
+      </div>
+    )}
+
+    <h2 class="section-gap">Kommande bortamatcher</h2>
     {bortamatcher.length === 0 ? (
       <p class="notice prose">Inga bortamatcher är inlagda just nu.</p>
     ) : (
@@ -27,21 +43,5 @@ const resor: { motstandare: string; datum: string; avgang: string; transport: st
       </ul>
     )}
     <p class="meta prose"><a href="/matcher">Hela spelschemat</a></p>
-
-    <h2 class="section-gap">Föreningens resor</h2>
-    {resor.length === 0 ? (
-      <p class="notice prose">Inga resor är planerade just nu. Håll utkik här eller mejla <a href={`mailto:${site.email}`}>{site.email}</a> om du vill vara med på nästa.</p>
-    ) : (
-      <div class="cards">
-        {resor.map((r) => (
-          <article class="card">
-            <h3>{r.motstandare}</h3>
-            <p class="meta">{r.datum} · {r.transport}, avgång {r.avgang}</p>
-            {r.info && <p>{r.info}</p>}
-            <a class="button" href={`mailto:${site.email}?subject=Anmälan bortaresa ${r.motstandare}`}>Anmäl dig</a>
-          </article>
-        ))}
-      </div>
-    )}
   </div>
 </Base>
