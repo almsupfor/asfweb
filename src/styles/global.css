@@ -52,6 +52,9 @@ a.card:hover { border-color: var(--red); }
 a.card:hover h3 { text-decoration: underline; text-underline-offset: .2em; }
 .section-gap { margin-top: 2.5rem; }
 .match { margin: 0 0 .25rem; font-weight: 700; font-size: 1.25rem; line-height: 1.3; }
+/* Matchkortet på startsidan: rubriken är tydligt störst, matchraden är vanlig brödtext i halvfet vikt. */
+.match-card h3 { margin-bottom: .75rem; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; }
+.match-card .match { font-size: 1.0625rem; font-weight: 600; }
 .meta { color: var(--muted); font-size: .9rem; }
 .notice { border: 1px solid var(--line); background: var(--bg-soft); padding: .75rem 1rem; border-radius: .4rem; }
 .list { list-style: none; margin-block: 1rem; padding: 0 1.25rem; background: var(--bg-soft); border: 1px solid var(--line); border-radius: .6rem; }

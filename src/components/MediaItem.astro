@@ -3,8 +3,8 @@
 // Det syns som en pil och sägs till skärmläsare, eftersom webbläsaren annars byter flik utan förvarning.
 import type { MediaItem } from '../data/media';
 
-interface Props { item: MediaItem; showSource?: boolean; }
-const { item, showSource = true } = Astro.props;
+interface Props { item: MediaItem; showSource?: boolean; lagLabel?: string; }
+const { item, showSource = true, lagLabel } = Astro.props;
 const date = new Date(item.date);
 const label = date.toLocaleDateString('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' });
 // Sista ordet och pilen hålls ihop så att pilen aldrig hamnar ensam på en egen rad.
@@ -14,5 +14,5 @@ const head = words.join(' ');
 ---
 <li>
   <a class="item-link" href={item.url} target="_blank" rel="noopener noreferrer">{head && `${head} `}<span class="no-break">{last}<svg class="ext" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M4.5 2H10v5.5M10 2 2.5 9.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></span><span class="sr-only"> (öppnas i ny flik)</span></a>
-  <span class="meta">{showSource && `${item.source} · `}<time datetime={item.date}>{label}</time></span>
+  <span class="meta">{showSource && `${item.source} · `}<time datetime={item.date}>{label}</time>{lagLabel && ` · ${lagLabel}`}</span>
 </li>

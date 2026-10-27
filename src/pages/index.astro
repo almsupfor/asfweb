@@ -1,7 +1,8 @@
 ---
 import Base from '../layouts/Base.astro';
 import { site } from '../data/site';
-import { media } from '../data/media';
+import { media, lagFor, lagNamn } from '../data/media';
+import MediaItem from '../components/MediaItem.astro';
 import { nextMatch as getNext, lastResult as getLast, fmtDay, fmtShortDay, fmtTime, fmtScore } from '../data/matches';
 
 const senaste = media.filter((m) => m.type !== 'podd').slice(0, 3);
@@ -23,12 +24,18 @@ const fmt = (d: string) => new Date(d).toLocaleDateString('sv-SE', { year: 'nume
   </section>
 
   <div class="wrap page">
+    <h2>Utforska</h2>
+    <div class="cards">
+      <a class="card" href="/matcher#bortaresor"><h3>Bortaresor</h3><p>Följ med laget på resan.</p></a>
+      <a class="card" href="/sanger"><h3>Sånger</h3><p>Texterna till läktarens sånger.</p></a>
+      <a class="card" href="/i-media"><h3>I media</h3><p>Artiklar om Almtuna från andra tidningar.</p></a>
+    </div>
     {(kommande || senastRes) && (
       <>
-        <h2>Matcher</h2>
+        <h2 class="section-gap">Matcher</h2>
         <div class="cards">
           {kommande && (
-            <div class="card">
+            <div class="card match-card">
               <h3>Nästa match</h3>
               <p class="match">{kommande.home} – {kommande.away}</p>
               <p class="meta">{fmtDay(kommande.date)} · {fmtTime(kommande)}</p>
@@ -36,7 +43,7 @@ const fmt = (d: string) => new Date(d).toLocaleDateString('sv-SE', { year: 'nume
             </div>
           )}
           {senastRes && (
-            <div class="card">
+            <div class="card match-card">
               <h3>Senaste resultat</h3>
               <p class="match">{senastRes.home} {fmtScore(senastRes)} {senastRes.away}</p>
               <p class="meta">{fmtShortDay(senastRes.date)}</p>
@@ -50,12 +57,7 @@ const fmt = (d: string) => new Date(d).toLocaleDateString('sv-SE', { year: 'nume
       <>
         <h2 class="section-gap">Senast i media</h2>
         <ul class="list prose">
-          {senaste.map((m) => (
-            <li>
-              <h3><a href={m.url} rel="noopener">{m.title}</a></h3>
-              <span class="meta">{m.source} · {fmt(m.date)}</span>
-            </li>
-          ))}
+          {senaste.map((m) => <MediaItem item={m} lagLabel={lagNamn[lagFor(m)]} />)}
         </ul>
         <p><a href="/i-media">Alla artiklar om Almtuna</a></p>
       </>
@@ -74,11 +76,5 @@ const fmt = (d: string) => new Date(d).toLocaleDateString('sv-SE', { year: 'nume
         <p><a href="/i-media#podd">Alla avsnitt</a></p>
       </>
     )}
-    <h2 class="section-gap">Utforska</h2>
-    <div class="cards">
-      <a class="card" href="/matcher#bortaresor"><h3>Bortaresor</h3><p>Följ med laget på resan.</p></a>
-      <a class="card" href="/sanger"><h3>Sånger</h3><p>Texterna till läktarens sånger.</p></a>
-      <a class="card" href="/i-media"><h3>I media</h3><p>Artiklar om Almtuna från andra tidningar.</p></a>
-    </div>
   </div>
 </Base>

@@ -236,10 +236,10 @@ Varje sektion på I media börjar med en kort röd stapel (3rem × 0.3rem, Läkt
 En fast knapp nere till höger (3rem × 3rem, Nattfyllning/Läktarröd som fyllning med vit pil, 0.4rem hörn, ingen skugga). Den länkar till `#innehall`, så fokus följer med till innehållet. Med JavaScript visas den så fort man scrollat en liten bit (40px). Utan JavaScript syns den hela tiden. Den ligger under sidhuvudet i höjdled och respekterar säkra områden på telefoner.
 
 ### Hoppmeny
-Rad med chips ovanför en lång lista, ett per sektion med innehåll, med antalet i dämpad grå ("A-laget 26"). Mjukt papper, 1px linje, 0.4rem hörn, minst 2,75rem höga. Hover ger röd linje och röd text. Chipsen ordnas med A-laget först och resten efter antal. Antalet visar det kapade talet och "26 av 41" när listan är kapad. Visas bara när det finns fler än en sektion. Samma chips används som lagval på Lagen (Herrlaget, Damlaget, U20), där det valda laget har Bläck som bakgrund och Papper som text och markeras med `aria-current`.
+Rad med chips ovanför en lång lista, ett per sektion med innehåll, med antalet i dämpad grå ("Herrlaget 26"). Mjukt papper, 1px linje, 0.4rem hörn, minst 2,75rem höga. Hover ger röd linje och röd text. Chipsen ordnas med A-laget först och resten efter antal. Antalet visar det kapade talet och "26 av 41" när listan är kapad. Visas bara när det finns fler än en sektion. Samma chips används som lagval på Lagen (Herrlaget, Damlaget, U20), där det valda laget har Bläck som bakgrund och Papper som text och markeras med `aria-current`.
 
 ### Match-kort
-Samma kort som övriga, men utan länk. Matchraden är fet och 1.25rem (`.match`), datum och hemma/borta i dämpad grå. Källan anges under korten.
+Samma kort som övriga, men utan länk. På startsidan är kortets rubrik ("Nästa match", "Senaste resultat") tydligt störst: 1.5rem, vikt 800. Matchraden under är vanlig brödtext i vikt 600 och 1.0625rem, och datum och hemma/borta ligger i dämpad grå. Så läses rubriken som rubrik och matchen som innehåll. Källan anges under korten.
 
 ### Hero
 Heltäckande Läktarröd yta med vit rubrik, ingress i Rosa dis och en vit knapp. 4rem vertikal padding. Används på startsidan.

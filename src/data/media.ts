@@ -12,6 +12,8 @@ export interface MediaItem {
 }
 
 export type Lag = 'a-lag' | 'dam' | 'j20' | 'j18';
+// Namn att visa för varje lag, till exempel där artiklar från flera lag blandas.
+export const lagNamn: Record<Lag, string> = { 'a-lag': 'Herrlaget', dam: 'Damlaget', j20: 'U20', j18: 'U18' };
 
 // Gissar vilket lag en post gäller utifrån rubriken. Allt annat räknas som herrlaget (Hockeyallsvenskan). Nyckeln 'a-lag' är bara ett internt namn.
 // Ordgränserna är skrivna med lookaround eftersom ordgräns-tecknet i regex inte räknar å, ä och ö som bokstäver.
