@@ -1,6 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
+import { upcoming, fmtDay, fmtTime } from '../data/matches';
+import { travelEstimate, fmtDuration, ARRIVE_BEFORE } from '../data/arenor';
+// Kommande bortamatcher i serien. Schemat byggs in när sajten byggs och uppdateras av schemat i deploy.yml.
+const awayMatches = upcoming()
+  .filter((m) => !m.isHome && m.kind === 'league')
+  .map((m) => ({ m, travel: travelEstimate(m) }));
 ---
 <Base title="Admin" noindex>
   <PageHead title="Admin">
@@ -30,10 +36,24 @@ import PageHead from '../components/PageHead.astro';
 
       <h2 class="section-gap" id="form-title">Ny resa</h2>
       <form id="trip-form" class="signup" novalidate>
+        {awayMatches.length > 0 && (
+          <div class="field">
+            <label for="t-match">Välj kommande bortamatch (fyller i titel och datum)</label>
+            <select id="t-match">
+              <option value="">Annan resa, skriv själv</option>
+              {awayMatches.map(({ m, travel }) => (
+                <option value={`${m.date}|${m.home} – ${m.away}`} data-departure={travel?.departure} data-hint={travel ? `Restid ungefär ${fmtDuration(travel.busMinutes)} med buss, inklusive rast och marginal. För att vara på plats ${ARRIVE_BEFORE} minuter före nedsläpp (${travel.arrive}${travel.preliminary ? ', preliminär matchtid' : ''}) föreslås avgång ${travel.departure}. Justera vid behov.` : 'Ingen avgångstid föreslås för den här matchen (hallen saknas i listan, till exempel Visby med färja, eller matchtiden är inte fastställd).'}>
+                  {fmtDay(m.date)} · {m.home} – {m.away}{m.venue ? ` (${m.venue})` : ''} · {fmtTime(m)}
+                </option>
+              ))}
+            </select>
+            <p class="meta" id="t-match-hint" aria-live="polite" hidden></p>
+          </div>
+        )}
         <div class="field"><label for="t-title">Titel (till exempel Mora IK – Almtuna IS)</label><input id="t-title" type="text" maxlength="120" required /></div>
         <div class="field"><label for="t-date">Datum</label><input id="t-date" type="date" required /></div>
         <div class="field"><label for="t-time">Avgångstid</label><input id="t-time" type="time" /></div>
-        <div class="field"><label for="t-place">Avgångsplats</label><input id="t-place" type="text" maxlength="120" /></div>
+        <div class="field"><label for="t-place">Avgångsplats</label><input id="t-place" type="text" maxlength="120" value="Gränby ishall" /></div>
         <div class="field"><label for="t-pm">Pris för medlemmar (kr)</label><input id="t-pm" type="number" min="0" step="1" required /></div>
         <div class="field"><label for="t-po">Pris för övriga (kr)</label><input id="t-po" type="number" min="0" step="1" required /></div>
         <div class="field"><label for="t-cap">Antal platser</label><input id="t-cap" type="number" min="1" step="1" required /></div>
@@ -292,11 +312,28 @@ import PageHead from '../components/PageHead.astro';
     editingId = null;
     tripForm.reset();
     f('t-open').checked = true;
+    const pick = document.getElementById('t-match') as HTMLSelectElement | null;
+    if (pick) pick.value = '';
+    $('t-match-hint').hidden = true;
     $('form-title').textContent = 'Ny resa';
     $('trip-cancel').hidden = true;
     tripError.hidden = true;
   }
   $('trip-cancel').addEventListener('click', resetForm);
+
+  // Picking an upcoming away match fills in title, date and a suggested departure time (when the arena is known).
+  $<HTMLSelectElement>('t-match')?.addEventListener('change', (e) => {
+    const select = e.target as HTMLSelectElement;
+    const [date, title] = select.value.split('|');
+    const hint = $('t-match-hint');
+    hint.hidden = !date;
+    if (!date) return;
+    const option = select.selectedOptions[0];
+    f('t-title').value = title;
+    f('t-date').value = date;
+    hint.textContent = option.dataset.hint ?? '';
+    if (option.dataset.departure) f('t-time').value = option.dataset.departure;
+  });
 
   tripForm.addEventListener('submit', async (e) => {
     e.preventDefault();
