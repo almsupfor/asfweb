@@ -58,6 +58,8 @@ a.card:hover h3 { text-decoration: underline; text-underline-offset: .2em; }
 .feature p:last-child { margin-bottom: 0; }
 /* Matchkortet på startsidan: rubriken är tydligt störst, matchraden är vanlig brödtext i halvfet vikt. */
 .match-card h3 { margin-bottom: .75rem; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; }
+/* I rutan på startsidan ligger rubriken i höjd med "Bortaresor" bredvid, utan webbläsarens övre avstånd. */
+.feature .match-card h3 { margin-top: 0; }
 .match-card .match { font-size: 1.0625rem; font-weight: 600; }
 .meta { color: var(--muted); font-size: .9rem; }
 .notice { border: 1px solid var(--line); background: var(--bg-soft); padding: .75rem 1rem; border-radius: .4rem; }
