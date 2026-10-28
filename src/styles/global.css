@@ -52,13 +52,16 @@ a.card:hover { border-color: var(--red); }
 a.card:hover h3 { text-decoration: underline; text-underline-offset: .2em; }
 .section-gap { margin-top: 2.5rem; }
 .match { margin: 0 0 .25rem; font-weight: 700; font-size: 1.25rem; line-height: 1.3; }
-.feature { display: grid; gap: 1.5rem 2.5rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); align-items: start; padding: 1.5rem; background: var(--bg-soft); border: 1px solid var(--line); border-radius: .6rem; }
+/* Bortaresor och nästa bortaresa på startsidan: två rutor bredvid varandra, i samma stil som .card. */
+/* Två rutor först när de blir minst 24rem breda, annars fyller knappen i den högra rutan nästan hela bredden. */
+.feature { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr)); }
+.feature > * { padding: 1.25rem; background: var(--bg-soft); border: 1px solid var(--line); border-radius: .6rem; }
 .feature h2 { margin: 0 0 .5rem; }
 .feature p { margin-block: 0 1rem; }
 .feature p:last-child { margin-bottom: 0; }
 /* Matchkortet på startsidan: rubriken är tydligt störst, matchraden är vanlig brödtext i halvfet vikt. */
 .match-card h3 { margin-bottom: .75rem; font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; }
-/* I rutan på startsidan ligger rubriken i höjd med "Bortaresor" bredvid, utan webbläsarens övre avstånd. */
+/* Rubriken i rutan ligger i höjd med "Bortaresor" bredvid, utan webbläsarens övre avstånd. */
 .feature .match-card h3 { margin-top: 0; }
 .match-card .match { font-size: 1.0625rem; font-weight: 600; }
 .meta { color: var(--muted); font-size: .9rem; }
