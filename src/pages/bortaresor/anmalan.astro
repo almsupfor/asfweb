@@ -1,0 +1,221 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+---
+<Base title="Anmälan till bortaresa" description="Anmäl dig till föreningens bortaresa.">
+  <PageHead title="Anmälan">
+    <p class="lead prose" id="trip-heading">Laddar resan …</p>
+  </PageHead>
+  <div class="wrap page">
+    <p class="notice prose" id="trip-status" role="status">Laddar resan …</p>
+    <div class="prose" id="trip-info" hidden></div>
+
+    <form id="signup" class="signup prose" hidden novalidate>
+      <h2>Passagerare</h2>
+      <div id="passengers"></div>
+      <p><button type="button" class="button-secondary" id="add-passenger">Lägg till passagerare</button></p>
+
+      <h2 class="section-gap">Kontaktuppgifter</h2>
+      <div class="field">
+        <label for="email">E-post</label>
+        <input id="email" type="email" autocomplete="email" maxlength="254" required />
+      </div>
+      <div class="field">
+        <label for="phone">Mobilnummer</label>
+        <input id="phone" type="tel" autocomplete="tel" maxlength="30" required />
+      </div>
+      <div class="field hp" aria-hidden="true">
+        <label for="website">Lämna det här fältet tomt</label>
+        <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <label class="check" for="privacy">
+        <input id="privacy" type="checkbox" />
+        <span>Jag har läst <a href="/integritet">hur föreningen hanterar mina uppgifter</a>.</span>
+      </label>
+
+      <p class="sum" id="sum" aria-live="polite"></p>
+      <p class="form-error" id="form-error" role="alert" hidden></p>
+      <p><button type="submit" class="button" id="submit">Anmäl</button></p>
+      <p class="meta">Medlemskap kontrolleras av föreningen. Ange bara att du är medlem om du är det.</p>
+    </form>
+
+    <div class="prose" id="done" hidden></div>
+    <p class="meta"><a href="/bortaresor">Till alla bortaresor</a></p>
+  </div>
+</Base>
+
+<script>
+  import { supabase } from '../../lib/supabase';
+  import { el, errorText, fmtTripDate, fmtTripTime, kr, type Trip, type Spots } from '../../lib/trips';
+
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+  const MAX_PASSENGERS = 8;
+
+  const heading = $('trip-heading');
+  const status = $('trip-status');
+  const info = $('trip-info');
+  const form = $<HTMLFormElement>('signup');
+  const list = $('passengers');
+  const addBtn = $<HTMLButtonElement>('add-passenger');
+  const sum = $('sum');
+  const errorBox = $('form-error');
+  const submit = $<HTMLButtonElement>('submit');
+  const done = $('done');
+
+  let trip: Trip | null = null;
+  let maxPassengers = MAX_PASSENGERS;
+
+  const tripId = new URLSearchParams(location.search).get('resa');
+  if (tripId) load(tripId);
+  else fail('Ingen resa är vald. Gå till bortaresorna och välj en resa.');
+
+  function fail(text: string) {
+    heading.textContent = 'Anmälan';
+    status.textContent = text;
+    status.hidden = false;
+    form.hidden = true;
+  }
+
+  async function load(id: string) {
+    const [tripRes, spotsRes] = await Promise.all([
+      supabase.from('trips').select('*').eq('id', id).eq('published', true).maybeSingle(),
+      supabase.rpc('trip_spots'),
+    ]);
+    trip = (tripRes.data as Trip | null) ?? null;
+    if (tripRes.error || !trip) return fail('Resan hittades inte.');
+    const spots = ((spotsRes.data ?? []) as Spots[]).find((s) => s.trip_id === trip!.id);
+    const left = trip.capacity - (spots?.taken ?? 0);
+
+    const when = [fmtTripDate(trip.trip_date), fmtTripTime(trip.departure_time) && `avgång ${fmtTripTime(trip.departure_time)}`, trip.departure_place].filter(Boolean).join(' · ');
+    heading.textContent = `${trip.title}. ${when}.`;
+    document.title = `Anmälan: ${trip.title}`;
+
+    info.replaceChildren(
+      el('p', {}, `Pris: medlem ${kr(trip.price_member)}, övriga ${kr(trip.price_other)}. Lediga platser: ${Math.max(left, 0)} av ${trip.capacity}.`),
+      ...(trip.info ?? '').split(/\n{2,}/).filter(Boolean).map((t) => el('p', {}, t)),
+    );
+    info.hidden = false;
+
+    if (!trip.is_open) return fail('Anmälan är stängd för den här resan.');
+    if (left <= 0) return fail('Resan är full.');
+
+    maxPassengers = Math.min(MAX_PASSENGERS, left);
+    status.hidden = true;
+    form.hidden = false;
+    addPassenger();
+    update();
+  }
+
+  function addPassenger() {
+    const n = list.children.length + 1;
+    const row = el('fieldset', { class: 'passenger' },
+      el('legend', {}, `Passagerare ${n}`),
+      field(`first-${n}`, 'Förnamn', 'given-name'),
+      field(`last-${n}`, 'Efternamn', 'family-name'),
+      el('label', { class: 'check', for: `member-${n}` },
+        el('input', { id: `member-${n}`, type: 'checkbox' }),
+        el('span', {}, 'Medlem av Almtuna Supporterförening'),
+      ),
+    );
+    if (n > 1) {
+      const remove = el('button', { type: 'button', class: 'button-secondary' }, 'Ta bort passagerare');
+      remove.addEventListener('click', () => {
+        row.remove();
+        renumber();
+        update();
+      });
+      row.append(remove);
+    }
+    row.addEventListener('change', update);
+    list.append(row);
+    update();
+  }
+
+  function field(id: string, label: string, autocomplete: string) {
+    return el('div', { class: 'field' },
+      el('label', { for: id }, label),
+      el('input', { id, type: 'text', autocomplete: n_a(autocomplete), maxlength: '80', required: '' }),
+    );
+  }
+  // Passengers after the first one are other people, so the browser should not autofill them with the visitor's own name.
+  function n_a(a: string) {
+    return list.children.length === 0 ? a : 'off';
+  }
+
+  function renumber() {
+    [...list.children].forEach((row, i) => {
+      const n = i + 1;
+      row.querySelector('legend')!.textContent = `Passagerare ${n}`;
+    });
+  }
+
+  function passengers() {
+    return [...list.children].map((row) => {
+      const inputs = row.querySelectorAll('input');
+      return { first_name: inputs[0].value.trim(), last_name: inputs[1].value.trim(), is_member: inputs[2].checked };
+    });
+  }
+
+  function total() {
+    if (!trip) return 0;
+    return passengers().reduce((s, p) => s + (p.is_member ? trip!.price_member : trip!.price_other), 0);
+  }
+
+  function update() {
+    const n = list.children.length;
+    addBtn.disabled = n >= maxPassengers;
+    sum.textContent = trip ? `Summa: ${kr(total())} för ${n} ${n === 1 ? 'person' : 'personer'}.` : '';
+  }
+
+  addBtn.addEventListener('click', addPassenger);
+
+  function showError(text: string) {
+    errorBox.textContent = text;
+    errorBox.hidden = false;
+    errorBox.scrollIntoView({ block: 'nearest' });
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorBox.hidden = true;
+    if (!trip) return;
+
+    const people = passengers();
+    if (people.some((p) => !p.first_name || !p.last_name)) return showError(errorText('invalid_passenger'));
+    const email = $<HTMLInputElement>('email').value.trim();
+    const phone = $<HTMLInputElement>('phone').value.trim();
+    if (!email) return showError(errorText('invalid_email'));
+    if (!phone) return showError(errorText('invalid_phone'));
+    if (!$<HTMLInputElement>('privacy').checked) return showError(errorText('privacy_not_accepted'));
+
+    submit.disabled = true;
+    // A filled-in hidden field means a robot. Pretend it worked and send nothing.
+    if ($<HTMLInputElement>('website').value) return finish(people[0].first_name, total(), 'BOT00000');
+
+    const { data, error } = await supabase.rpc('book_trip', {
+      p_trip_id: trip.id,
+      p_email: email,
+      p_phone: phone,
+      p_passengers: people,
+      p_privacy_accepted: true,
+    });
+    if (error) {
+      submit.disabled = false;
+      return showError(errorText(error.message));
+    }
+    finish(people[0].first_name, data.total_price as number, String(data.booking_id).slice(0, 8).toUpperCase());
+  });
+
+  function finish(first: string, totalPrice: number, reference: string) {
+    form.hidden = true;
+    done.replaceChildren(
+      el('h2', {}, `Tack, ${first}!`),
+      el('p', {}, `Din anmälan är registrerad. Summa: ${kr(totalPrice)}.`),
+      el('p', {}, `Din referens är ${reference}. Spara den, så kan föreningen hitta din anmälan.`),
+      el('p', {}, 'Läs informationen om resan ovan för hur du betalar och var vi samlas.'),
+    );
+    done.hidden = false;
+    done.scrollIntoView({ block: 'start' });
+  }
+</script>

@@ -9,9 +9,6 @@ const bortamatcher = upcoming().filter((m) => !m.isHome);
 // De närmaste bortamatcherna visas direkt, resten ligger bakom "Visa fler".
 const narmast = bortamatcher.slice(0, DIREKT);
 const fler = bortamatcher.slice(DIREKT);
-
-// Lägg till resor här. Anmälan hanteras tills vidare via e-post.
-const resor: { motstandare: string; datum: string; avgang: string; transport: string; info?: string }[] = [];
 ---
 <Base title="Bortaresor" description="Följ med Almtuna IS på bortamatcherna: föreningens resor och kommande bortamatcher.">
   <PageHead title="Bortaresor">
@@ -19,20 +16,9 @@ const resor: { motstandare: string; datum: string; avgang: string; transport: st
   </PageHead>
   <div class="wrap page">
     <h2>Föreningens resor</h2>
-    {resor.length === 0 ? (
+    <div id="trips" aria-live="polite">
       <p class="notice prose">Mer information om nästa bortaresa kommer.<br /><br />Håll utkik här eller mejla <Mail /> om du har frågor eller funderingar.</p>
-    ) : (
-      <div class="cards">
-        {resor.map((r) => (
-          <article class="card">
-            <h3>{r.motstandare}</h3>
-            <p class="meta">{r.datum} · {r.transport}, avgång {r.avgang}</p>
-            {r.info && <p>{r.info}</p>}
-            <Mail class="button" subject={`Anmälan bortaresa ${r.motstandare}`}>Anmäl dig</Mail>
-          </article>
-        ))}
-      </div>
-    )}
+    </div>
 
     <h2 class="section-gap" id="bortamatcher">Kommande bortamatcher</h2>
     {bortamatcher.length === 0 ? (
@@ -65,3 +51,45 @@ const resor: { motstandare: string; datum: string; avgang: string; transport: st
     <p class="meta prose"><a href="/matcher">Hela spelschemat</a></p>
   </div>
 </Base>
+
+<script>
+  // Trips come from the database. The notice above stays if there are none, or if the request fails.
+  import { supabase } from '../lib/supabase';
+  import { el, fmtTripDate, fmtTripTime, kr, type Trip, type Spots } from '../lib/trips';
+
+  const root = document.getElementById('trips');
+  if (root) load(root);
+
+  async function load(root: HTMLElement) {
+    const today = new Date().toLocaleDateString('sv-SE');
+    const [tripsRes, spotsRes] = await Promise.all([
+      supabase.from('trips').select('*').eq('published', true).gte('trip_date', today).order('trip_date'),
+      supabase.rpc('trip_spots'),
+    ]);
+    const trips = (tripsRes.data ?? []) as Trip[];
+    if (tripsRes.error || trips.length === 0) return;
+    const spots = new Map(((spotsRes.data ?? []) as Spots[]).map((s) => [s.trip_id, s]));
+
+    const list = el('ul', { class: 'tiles trip-cards' });
+    for (const t of trips) {
+      const taken = spots.get(t.id)?.taken ?? 0;
+      const full = taken >= t.capacity;
+      const when = [fmtTripDate(t.trip_date), fmtTripTime(t.departure_time) && `avgång ${fmtTripTime(t.departure_time)}`, t.departure_place].filter(Boolean).join(' · ');
+      const action = !t.is_open
+        ? el('p', { class: 'trip-state' }, 'Anmälan är stängd')
+        : full
+          ? el('p', { class: 'trip-state' }, 'Fullt')
+          : el('a', { class: 'button', href: `/bortaresor/anmalan/?resa=${t.id}` }, 'Till anmälan');
+      list.append(
+        el('li', {},
+          el('h3', {}, t.title),
+          el('p', { class: 'meta' }, when),
+          el('p', { class: 'trip-prices' }, el('span', {}, `Medlem ${kr(t.price_member)}`), el('span', {}, `Övriga ${kr(t.price_other)}`)),
+          el('p', { class: 'trip-spots' }, `Anmälda ${taken} / ${t.capacity}`),
+          action,
+        ),
+      );
+    }
+    root.replaceChildren(list);
+  }
+</script>

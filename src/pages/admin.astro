@@ -1,0 +1,316 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+---
+<Base title="Admin" noindex>
+  <PageHead title="Admin">
+    <p class="lead prose">Skapa bortaresor och se vilka som har anmält sig.</p>
+  </PageHead>
+  <div class="wrap page">
+    <p class="notice prose" id="admin-status" role="status">Laddar …</p>
+
+    <section id="login" class="prose" hidden>
+      <h2>Logga in</h2>
+      <p>Skriv din e-postadress, så skickar vi en inloggningslänk.</p>
+      <form id="login-form" class="signup" novalidate>
+        <div class="field">
+          <label for="login-email">E-post</label>
+          <input id="login-email" type="email" autocomplete="email" required />
+        </div>
+        <p class="form-error" id="login-error" role="alert" hidden></p>
+        <p><button type="submit" class="button">Skicka inloggningslänk</button></p>
+      </form>
+    </section>
+
+    <section id="panel" hidden>
+      <p class="meta">Inloggad som <span id="who"></span>. <button type="button" class="link-button" id="logout">Logga ut</button></p>
+
+      <h2>Resor</h2>
+      <div id="trips-admin"></div>
+
+      <h2 class="section-gap" id="form-title">Ny resa</h2>
+      <form id="trip-form" class="signup" novalidate>
+        <div class="field"><label for="t-title">Titel (till exempel Mora IK – Almtuna IS)</label><input id="t-title" type="text" maxlength="120" required /></div>
+        <div class="field"><label for="t-date">Datum</label><input id="t-date" type="date" required /></div>
+        <div class="field"><label for="t-time">Avgångstid</label><input id="t-time" type="time" /></div>
+        <div class="field"><label for="t-place">Avgångsplats</label><input id="t-place" type="text" maxlength="120" /></div>
+        <div class="field"><label for="t-pm">Pris för medlemmar (kr)</label><input id="t-pm" type="number" min="0" step="1" required /></div>
+        <div class="field"><label for="t-po">Pris för övriga (kr)</label><input id="t-po" type="number" min="0" step="1" required /></div>
+        <div class="field"><label for="t-cap">Antal platser</label><input id="t-cap" type="number" min="1" step="1" required /></div>
+        <div class="field"><label for="t-info">Information (till exempel hur man betalar och var vi samlas)</label><textarea id="t-info" rows="5" maxlength="2000"></textarea></div>
+        <label class="check" for="t-pub"><input id="t-pub" type="checkbox" /><span>Publicerad (syns för besökare)</span></label>
+        <label class="check" for="t-open"><input id="t-open" type="checkbox" checked /><span>Anmälan öppen</span></label>
+        <p class="form-error" id="trip-error" role="alert" hidden></p>
+        <p>
+          <button type="submit" class="button" id="trip-save">Spara resa</button>
+          <button type="button" class="button-secondary" id="trip-cancel" hidden>Avbryt ändring</button>
+        </p>
+      </form>
+    </section>
+  </div>
+</Base>
+
+<script>
+  import { supabase } from '../lib/supabase';
+  import { el, fmtTripDate, kr, type Trip } from '../lib/trips';
+  import type { Session } from '@supabase/supabase-js';
+
+  const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
+  const status = $('admin-status');
+  const loginSection = $('login');
+  const panel = $('panel');
+  const tripsBox = $('trips-admin');
+  const tripForm = $<HTMLFormElement>('trip-form');
+  const tripError = $('trip-error');
+
+  let editingId: string | null = null;
+  // undefined until the first session check has run, so "nobody is logged in" is also handled once.
+  let currentUser: string | null | undefined = undefined;
+
+  interface Booking {
+    id: string;
+    email: string;
+    phone: string;
+    total_price: number;
+    created_at: string;
+    passengers: { first_name: string; last_name: string; is_member: boolean; price: number }[];
+  }
+
+  // ---- Login -------------------------------------------------------------
+
+  async function route(session: Session | null) {
+    const id = session?.user.id ?? null;
+    if (id === currentUser) return;
+    currentUser = id;
+    if (!session) {
+      panel.hidden = true;
+      loginSection.hidden = false;
+      status.hidden = true;
+      return;
+    }
+    loginSection.hidden = true;
+    const { data } = await supabase.rpc('am_i_admin');
+    if (data !== true) {
+      panel.hidden = true;
+      status.textContent = `Du är inloggad som ${session.user.email}, men har inte administratörsbehörighet.`;
+      status.hidden = false;
+      status.append(' ', logoutButton());
+      return;
+    }
+    status.hidden = true;
+    $('who').textContent = session.user.email ?? '';
+    panel.hidden = false;
+    await loadTrips();
+  }
+
+  function logoutButton() {
+    const b = el('button', { type: 'button', class: 'link-button' }, 'Logga ut');
+    b.addEventListener('click', () => supabase.auth.signOut());
+    return b;
+  }
+  $('logout').addEventListener('click', () => supabase.auth.signOut());
+
+  $('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const box = $('login-error');
+    const email = $<HTMLInputElement>('login-email').value.trim().toLowerCase();
+    box.hidden = true;
+    if (!email) {
+      box.textContent = 'Skriv din e-postadress.';
+      box.hidden = false;
+      return;
+    }
+    const { error } = await supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: `${location.origin}/admin/` } });
+    if (error) {
+      box.textContent = 'Det gick inte att skicka länken. Kontrollera adressen, eller be en administratör bjuda in dig.';
+      box.hidden = false;
+      return;
+    }
+    status.textContent = `Vi har skickat en inloggningslänk till ${email}. Öppna den i den här webbläsaren.`;
+    status.hidden = false;
+  });
+
+  supabase.auth.getSession().then(({ data }) => route(data.session));
+  supabase.auth.onAuthStateChange((_event, session) => route(session));
+
+  // ---- Trips --------------------------------------------------------------
+
+  async function loadTrips() {
+    const [tripsRes, passRes] = await Promise.all([
+      supabase.from('trips').select('*').order('trip_date', { ascending: false }),
+      supabase.from('passengers').select('trip_id'),
+    ]);
+    if (tripsRes.error) {
+      tripsBox.replaceChildren(el('p', { class: 'notice' }, 'Det gick inte att hämta resorna.'));
+      return;
+    }
+    const counts = new Map<string, number>();
+    for (const p of (passRes.data ?? []) as { trip_id: string }[]) counts.set(p.trip_id, (counts.get(p.trip_id) ?? 0) + 1);
+    const trips = (tripsRes.data ?? []) as Trip[];
+    if (trips.length === 0) {
+      tripsBox.replaceChildren(el('p', { class: 'notice prose' }, 'Inga resor är skapade än. Skapa en nedan.'));
+      return;
+    }
+    tripsBox.replaceChildren(...trips.map((t) => tripCard(t, counts.get(t.id) ?? 0)));
+  }
+
+  function tripCard(t: Trip, taken: number) {
+    const bookings = el('div', { class: 'admin-bookings', hidden: '' });
+    const show = el('button', { type: 'button', class: 'button-secondary' }, 'Visa anmälda');
+    show.addEventListener('click', async () => {
+      if (!bookings.hidden) {
+        bookings.hidden = true;
+        show.textContent = 'Visa anmälda';
+        return;
+      }
+      await loadBookings(t, bookings);
+      bookings.hidden = false;
+      show.textContent = 'Dölj anmälda';
+    });
+    const edit = el('button', { type: 'button', class: 'button-secondary' }, 'Redigera');
+    edit.addEventListener('click', () => startEdit(t));
+    const del = el('button', { type: 'button', class: 'button-secondary' }, 'Ta bort resa');
+    del.addEventListener('click', async () => {
+      if (!confirm(`Ta bort "${t.title}" och alla anmälningar till den? Det går inte att ångra.`)) return;
+      const { error } = await supabase.from('trips').delete().eq('id', t.id);
+      if (error) alert('Det gick inte att ta bort resan.');
+      await loadTrips();
+    });
+    return el('div', { class: 'admin-trip' },
+      el('h3', {}, t.title),
+      el('p', { class: 'meta' }, `${fmtTripDate(t.trip_date)} · ${t.published ? 'Publicerad' : 'Utkast'} · ${t.is_open ? 'Öppen' : 'Stängd'} · Anmälda ${taken} / ${t.capacity} · Medlem ${kr(t.price_member)}, övriga ${kr(t.price_other)}`),
+      el('p', { class: 'admin-actions' }, show, edit, del),
+      bookings,
+    );
+  }
+
+  async function loadBookings(t: Trip, box: HTMLElement) {
+    const { data, error } = await supabase
+      .from('bookings')
+      .select('id, email, phone, total_price, created_at, passengers(first_name, last_name, is_member, price)')
+      .eq('trip_id', t.id)
+      .order('created_at');
+    if (error) {
+      box.replaceChildren(el('p', { class: 'notice' }, 'Det gick inte att hämta anmälningarna.'));
+      return;
+    }
+    const bookings = (data ?? []) as Booking[];
+    if (bookings.length === 0) {
+      box.replaceChildren(el('p', { class: 'meta' }, 'Ingen har anmält sig än.'));
+      return;
+    }
+    const rows: Node[] = [];
+    for (const b of bookings) {
+      const del = el('button', { type: 'button', class: 'link-button' }, 'Ta bort anmälan');
+      del.addEventListener('click', async () => {
+        if (!confirm('Ta bort hela anmälan? Det går inte att ångra.')) return;
+        await supabase.from('bookings').delete().eq('id', b.id);
+        await loadTrips();
+      });
+      b.passengers.forEach((p, i) =>
+        rows.push(
+          el('tr', {},
+            el('th', { scope: 'row' }, `${p.first_name} ${p.last_name}`),
+            el('td', {}, p.is_member ? 'Medlem' : 'Övrig'),
+            el('td', {}, kr(p.price)),
+            el('td', {}, i === 0 ? b.email : ''),
+            el('td', {}, i === 0 ? b.phone : ''),
+            el('td', {}, i === 0 ? new Date(b.created_at).toLocaleString('sv-SE', { dateStyle: 'short', timeStyle: 'short' }) : ''),
+            el('td', {}, i === 0 ? b.id.slice(0, 8).toUpperCase() : ''),
+            el('td', {}, i === 0 ? del : ''),
+          ),
+        ),
+      );
+    }
+    const csv = el('button', { type: 'button', class: 'button-secondary' }, 'Exportera som CSV');
+    csv.addEventListener('click', () => downloadCsv(t, bookings));
+    box.replaceChildren(
+      el('div', { class: 'table-scroll', tabindex: '0', role: 'region', 'aria-label': 'Anmälda' },
+        el('table', { class: 'standings admin-table' },
+          el('thead', {}, el('tr', {}, ...['Namn', 'Typ', 'Pris', 'E-post', 'Mobil', 'Anmäld', 'Referens', ''].map((h) => el('th', { scope: 'col' }, h)))),
+          el('tbody', {}, ...rows),
+        ),
+      ),
+      el('p', {}, csv),
+    );
+  }
+
+  function downloadCsv(t: Trip, bookings: Booking[]) {
+    const q = (s: string | number) => `"${String(s).replace(/"/g, '""')}"`;
+    const lines = [['Namn', 'Typ', 'Pris', 'E-post', 'Mobil', 'Anmäld', 'Referens'].map(q).join(';')];
+    for (const b of bookings) {
+      for (const p of b.passengers) {
+        lines.push([`${p.first_name} ${p.last_name}`, p.is_member ? 'Medlem' : 'Övrig', p.price, b.email, b.phone, b.created_at, b.id.slice(0, 8).toUpperCase()].map(q).join(';'));
+      }
+    }
+    // The leading BOM makes Excel read the file as UTF-8.
+    const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    const a = el('a', { href: URL.createObjectURL(blob), download: `anmalda-${t.trip_date}.csv` });
+    document.body.append(a);
+    a.click();
+    a.remove();
+  }
+
+  // ---- Create and edit ------------------------------------------------------
+
+  const f = (id: string) => $<HTMLInputElement>(id);
+
+  function startEdit(t: Trip) {
+    editingId = t.id;
+    $('form-title').textContent = 'Redigera resa';
+    f('t-title').value = t.title;
+    f('t-date').value = t.trip_date;
+    f('t-time').value = t.departure_time?.slice(0, 5) ?? '';
+    f('t-place').value = t.departure_place ?? '';
+    f('t-pm').value = String(t.price_member);
+    f('t-po').value = String(t.price_other);
+    f('t-cap').value = String(t.capacity);
+    $<HTMLTextAreaElement>('t-info').value = t.info ?? '';
+    f('t-pub').checked = t.published;
+    f('t-open').checked = t.is_open;
+    $('trip-cancel').hidden = false;
+    tripForm.scrollIntoView({ block: 'start' });
+  }
+
+  function resetForm() {
+    editingId = null;
+    tripForm.reset();
+    f('t-open').checked = true;
+    $('form-title').textContent = 'Ny resa';
+    $('trip-cancel').hidden = true;
+    tripError.hidden = true;
+  }
+  $('trip-cancel').addEventListener('click', resetForm);
+
+  tripForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    tripError.hidden = true;
+    const row = {
+      title: f('t-title').value.trim(),
+      trip_date: f('t-date').value,
+      departure_time: f('t-time').value || null,
+      departure_place: f('t-place').value.trim() || null,
+      price_member: Number(f('t-pm').value),
+      price_other: Number(f('t-po').value),
+      capacity: Number(f('t-cap').value),
+      info: $<HTMLTextAreaElement>('t-info').value.trim() || null,
+      published: f('t-pub').checked,
+      is_open: f('t-open').checked,
+    };
+    if (!row.title || !row.trip_date || !Number.isFinite(row.price_member) || !Number.isFinite(row.price_other) || !(row.capacity > 0) || f('t-pm').value === '' || f('t-po').value === '') {
+      tripError.textContent = 'Fyll i titel, datum, båda priserna och antal platser.';
+      tripError.hidden = false;
+      return;
+    }
+    const { error } = editingId
+      ? await supabase.from('trips').update(row).eq('id', editingId)
+      : await supabase.from('trips').insert(row);
+    if (error) {
+      tripError.textContent = 'Det gick inte att spara resan.';
+      tripError.hidden = false;
+      return;
+    }
+    resetForm();
+    await loadTrips();
+  });
+</script>
