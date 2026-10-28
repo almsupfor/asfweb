@@ -12,6 +12,7 @@ export interface Trip {
   is_open: boolean;
   published: boolean;
   info: string | null;
+  external_url: string | null; // external page where this trip's sign-up happens instead of the form
 }
 
 export interface Spots {
@@ -26,6 +27,17 @@ export const fmtTripDate = (d: string) =>
 export const fmtTripTime = (t: string | null) => (t ? t.slice(0, 5) : null);
 
 export const kr = (n: number) => `${n} kr`;
+
+/** The external sign-up link of a trip, or null unless it is an https address (database text is never trusted as a link). */
+export const externalLink = (url: string | null | undefined): string | null => {
+  if (!url) return null;
+  try {
+    const u = new URL(url);
+    return u.protocol === 'https:' ? u.href : null;
+  } catch {
+    return null;
+  }
+};
 
 // The database raises short codes; these are the texts shown to visitors.
 const ERRORS: Record<string, string> = {
