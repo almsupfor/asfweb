@@ -118,9 +118,10 @@ const canonical = new URL(path, Astro.site);
       }
     </script>
     <script>
-      // Externa länkar öppnas i ny flik. Gäller alla länkar på sidan, även nya.
-      for (const a of document.querySelectorAll<HTMLAnchorElement>('main a[href], footer a[href]')) {
-        if (!/^https?:$/.test(a.protocol) || a.origin === location.origin) continue;
+      // Externa länkar öppnas i ny flik. Gäller alla länkar på sidan, även de som läggs till senare
+      // (till exempel resorna på Bortaresor, som hämtas från databasen när sidan redan har laddat).
+      const markExternal = (a: HTMLAnchorElement) => {
+        if (!/^https?:$/.test(a.protocol) || a.origin === location.origin) return;
         a.target = '_blank';
         a.rel = [...new Set([...a.rel.split(/\s+/), 'noopener', 'noreferrer'])].filter(Boolean).join(' ');
         if (!a.querySelector('.sr-only')) {
@@ -129,7 +130,19 @@ const canonical = new URL(path, Astro.site);
           hint.textContent = ' (öppnas i ny flik)';
           a.append(hint);
         }
-      }
+      };
+      const markAll = (root: ParentNode) => root.querySelectorAll<HTMLAnchorElement>('a[href]').forEach(markExternal);
+      const regions = document.querySelectorAll('main, footer');
+      regions.forEach(markAll);
+      new MutationObserver((records) => {
+        for (const r of records) {
+          for (const n of r.addedNodes) {
+            if (!(n instanceof Element)) continue;
+            if (n instanceof HTMLAnchorElement) markExternal(n);
+            markAll(n);
+          }
+        }
+      }).observe(document.body, { childList: true, subtree: true });
     </script>
   </body>
 </html>
