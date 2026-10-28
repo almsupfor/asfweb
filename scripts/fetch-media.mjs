@@ -7,6 +7,8 @@ import { readFile, writeFile } from 'node:fs/promises';
 const OUT = new URL('../src/data/media.json', import.meta.url);
 const MATCH = /almtuna/i;
 const MAX_ITEMS = 300;
+// Artiklar som bara nämner Almtuna i förbifarten och som tas bort även om ett flöde ger dem.
+const EXCLUDE = ['https://hockeysverige.se/hockeyallsvenskan/william-alftberg-spelade-skadad-blir-borta-lange-vimmerby-hc-auUlA9E8cCF8/'];
 
 // Lägg till fler flöden här. Bara flöden som mediet själv publicerar för spridning.
 // all: true tar med alla poster (för flöden som bara handlar om Almtuna). type: 'podd' märker poster som poddavsnitt.
@@ -90,6 +92,28 @@ async function readPage({ source, url, base }) {
 
 const UA = { 'user-agent': 'almtunasupporter.se media-fetcher (+https://almtunasupporter.se)' };
 
+// Hockeysveriges klubbsida: artiklar som redaktionen själv taggat med Almtuna IS (inget RSS-flöde finns).
+// Datumet står som "oktober 26, 2026".
+const MONTHS = ['januari', 'februari', 'mars', 'april', 'maj', 'juni', 'juli', 'augusti', 'september', 'oktober', 'november', 'december'];
+async function readClubPage({ source, url, base }) {
+  const res = await fetch(url, { headers: UA, signal: AbortSignal.timeout(20000) });
+  if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+  const html = await res.text();
+  const items = [];
+  for (const block of html.split('<article class="SectionArticlesList').slice(1)) {
+    const path = block.match(/list-card__headline-link"[^>]*href="([^"]+)">([\s\S]*?)<\/a>/);
+    const d = block.match(/<time[^>]*>(\S+) (\d+), (\d{4})<\/time>/);
+    const month = d && MONTHS.indexOf(d[1].toLowerCase());
+    if (!path || !d || month < 0) continue;
+    // Hockeysverige taggar även motståndarens artiklar med Almtuna; behåll bara de där Almtuna syns i rubrik eller länk.
+    if (!MATCH.test(`${path[2]} ${path[1]}`)) continue;
+    const date = `${d[3]}-${String(month + 1).padStart(2, '0')}-${d[2].padStart(2, '0')}`;
+    items.push({ title: decode(path[2]), source, date, url: base + path[1] });
+  }
+  return items;
+}
+const CLUB_PAGES = [{ source: 'Hockeysverige', url: 'https://hockeysverige.se/klubb/almtuna-is/', base: 'https://hockeysverige.se' }];
+
 async function readTeasers({ source, url, base }, known) {
   const res = await fetch(url, { headers: UA, signal: AbortSignal.timeout(20000) });
   if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
@@ -140,6 +164,17 @@ for (const page of PAGES) {
   }
 }
 
+for (const page of CLUB_PAGES) {
+  try {
+    for (const item of await readClubPage(page)) {
+      if (!byUrl.has(item.url)) { byUrl.set(item.url, item); added++; }
+    }
+  } catch (err) {
+    failed++;
+    console.warn(`Hoppade över ${page.source}: ${err.message}`);
+  }
+}
+
 for (const page of TEASER_PAGES) {
   try {
     for (const item of await readTeasers(page, byUrl)) {
@@ -153,7 +188,7 @@ for (const page of TEASER_PAGES) {
 }
 
 // Alla flöden föll bort: lämna filen orörd så att en driftstörning inte tömmer sidan.
-if (failed === FEEDS.length + PAGES.length + TEASER_PAGES.length) {
+if (failed === FEEDS.length + PAGES.length + CLUB_PAGES.length + TEASER_PAGES.length) {
   console.error('Inga flöden gick att läsa. Behåller befintlig data.');
   process.exit(0);
 }
@@ -185,7 +220,7 @@ for (const item of byUrl.values()) {
   } catch {}
 }
 
-const items = [...byUrl.values()].sort((a, b) => b.date.localeCompare(a.date)).slice(0, MAX_ITEMS);
+const items = [...byUrl.values()].filter((i) => !EXCLUDE.includes(i.url)).sort((a, b) => b.date.localeCompare(a.date)).slice(0, MAX_ITEMS);
 const changed = added > 0 || JSON.stringify(items) !== JSON.stringify(existing.items);
 // Uppdatera tidsstämpeln bara när något ändrats, så att schemat inte skapar tomma commits.
 const updated = changed ? new Date().toISOString() : existing.updated;
