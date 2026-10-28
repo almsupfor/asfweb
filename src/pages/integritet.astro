@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Mail from '../components/Mail.astro';
+---
+<Base title="Integritet" description="Hur Almtuna Supporterförening hanterar uppgifter vid anmälan till bortaresor.">
+  <PageHead title="Integritet">
+    <p class="lead prose">Så här hanterar föreningen dina uppgifter när du anmäler dig till en bortaresa.</p>
+  </PageHead>
+  <div class="wrap page">
+    <p class="notice prose">Det här är ett utkast som styrelsen ska granska innan anmälan öppnas på riktigt.</p>
+
+    <div class="prose">
+      <h2>Vilka uppgifter vi sparar</h2>
+      <p>När du anmäler dig sparar vi namnet på varje passagerare, om passageraren är medlem, den e-postadress och det mobilnummer du anger, vilken resa det gäller och när anmälan gjordes.</p>
+
+      <h2>Varför</h2>
+      <p>Vi använder uppgifterna för att planera resan, kunna nå dig om något ändras och kontrollera medlemskap och betalning. Vi använder dem inte till något annat.</p>
+
+      <h2>Vem som kan se dem</h2>
+      <p>Bara de i föreningens styrelse som arrangerar resan och har administratörsåtkomst. Vi säljer eller lämnar inte ut uppgifterna. Uppgifterna lagras hos vår databasleverantör Supabase på servrar inom EU.</p>
+
+      <h2>Hur länge vi sparar dem</h2>
+      <p>[Styrelsen ska ange hur länge uppgifterna sparas, till exempel till en viss tid efter resan.]</p>
+
+      <h2>Dina rättigheter</h2>
+      <p>Du kan be att få veta vilka uppgifter vi har om dig, få dem rättade eller raderade. Mejla <Mail subject="Mina uppgifter" /> så hjälper vi dig.</p>
+
+      <h2>Vem som ansvarar</h2>
+      <p>Almtuna Supporterförening är ansvarig för uppgifterna. [Styrelsen ska komplettera med organisationsnummer och kontaktuppgifter.]</p>
+    </div>
+  </div>
+</Base>
