@@ -58,7 +58,7 @@ const canonical = new URL(path, Astro.site);
     <main id="innehall" tabindex="-1"><slot /></main>
     <footer class="site-footer">
       <div class="wrap">
-        <p><strong>{site.name}</strong></p>
+        <p><small>{site.name}<br />Org.nr {site.orgNr}</small></p>
         <p class="meta">Föreningen är fristående från Almtuna IS. <a href="/integritet">Integritet</a></p>
       </div>
     </footer>
