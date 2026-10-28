@@ -129,7 +129,7 @@ const lyssnaLankar = (s: { lank?: string; sok?: string[]; melodi?: string }) =>
   </PageHead>
   <div class="wrap page">
     <div class="songs">
-      {sanger.map((s) => (
+      {[...sanger].sort((a, b) => a.title.localeCompare(b.title, 'sv')).map((s) => (
         <section class="song">
           <h2>{s.title}</h2>
           {s.melodi && <p class="meta">Melodi: {s.melodi}</p>}
