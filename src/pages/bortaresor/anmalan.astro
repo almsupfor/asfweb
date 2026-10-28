@@ -51,7 +51,7 @@ import { site } from '../../data/site';
 
 <script>
   import { supabase } from '../../lib/supabase';
-  import { el, errorText, fmtTripDate, fmtTripTime, kr, type Trip, type Spots } from '../../lib/trips';
+  import { el, errorText, externalLink, fmtTripDate, fmtTripTime, kr, type Trip, type Spots } from '../../lib/trips';
 
   const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
   const MAX_PASSENGERS = 8;
@@ -96,12 +96,22 @@ import { site } from '../../data/site';
     document.title = `Anmälan: ${trip.title}`;
 
     info.replaceChildren(
-      el('p', {}, `Pris: medlem ${kr(trip.price_member)}, övriga ${kr(trip.price_other)}. Lediga platser: ${Math.max(left, 0)} av ${trip.capacity}.`),
+      el('p', {}, externalLink(trip.external_url)
+        ? `Pris: medlem ${kr(trip.price_member)}, övriga ${kr(trip.price_other)}.`
+        : `Pris: medlem ${kr(trip.price_member)}, övriga ${kr(trip.price_other)}. Lediga platser: ${Math.max(left, 0)} av ${trip.capacity}.`),
       ...(trip.info ?? '').split(/\n{2,}/).filter(Boolean).map((t) => el('p', {}, t)),
     );
     info.hidden = false;
 
     if (!trip.is_open) return fail('Anmälan är stängd för den här resan.');
+    const ext = externalLink(trip.external_url);
+    if (ext) {
+      // Sign-up for this trip happens on an external page, so the form is not offered.
+      status.replaceChildren('Anmälan till den här resan sker via en extern länk. ', el('a', { href: ext, rel: 'noopener noreferrer' }, 'Gå till länken och anmäl dig där'), '.');
+      status.hidden = false;
+      form.hidden = true;
+      return;
+    }
     if (left <= 0) return fail('Resan är full.');
 
     maxPassengers = Math.min(MAX_PASSENGERS, left);
