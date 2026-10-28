@@ -55,7 +55,7 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
             <select id="t-match">
               <option value="">Annan resa, skriv själv</option>
               {awayMatches.map(({ m, travel }) => (
-                <option value={`${m.date}|${m.home} – ${m.away}`} data-departure={travel?.departure} data-hint={travel ? `Restid ungefär ${fmtDuration(travel.busMinutes)} med buss, inklusive rast och marginal. För att vara på plats ${ARRIVE_BEFORE} minuter före nedsläpp (${travel.arrive}${travel.preliminary ? ', preliminär matchtid' : ''}) föreslås avgång ${travel.departure}. Justera vid behov.` : 'Ingen avgångstid föreslås för den här matchen (hallen saknas i listan, till exempel Visby med färja, eller matchtiden är inte fastställd).'}>
+                <option value={`${m.date}|${m.home} – ${m.away}`} data-departure={travel?.departure} data-hint={travel ? `Restid ungefär ${fmtDuration(travel.busMinutes)} med buss, inklusive rast och marginal. För att vara på plats ${ARRIVE_BEFORE} minuter före nedsläpp (${travel.arrive}${travel.preliminary ? ', preliminär matchtid' : ''}) föreslås avgång ${travel.departure}. Justera vid behov.` : 'Ingen avgångstid föreslås för den här matchen (troligen pga. okänd ishall, färjetransport eller ej fastställd matchtid).'}>
                   {fmtDay(m.date)} · {m.home} – {m.away}{m.venue ? ` (${m.venue})` : ''} · {fmtTime(m)}
                 </option>
               ))}
