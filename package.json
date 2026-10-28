@@ -14,6 +14,7 @@
     "schedule": "node scripts/download-schedule.mjs"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.118.0",
     "astro": "^5.0.0"
   }
 }
