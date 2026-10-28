@@ -1,0 +1,75 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+import PageHead from '../components/PageHead.astro';
+
+const paragrafer = [
+  { rubrik: '§ 1 Ändamål', punkter: [
+    'Föreningen är en ideell supporterförening med syfte att samla och engagera supportrar kring Almtuna IS, främja gemenskap och positiv supporterkultur samt på olika sätt stödja Almtuna IS.',
+    'Föreningen är självständig och fattar egna beslut.',
+  ] },
+  { rubrik: '§ 2 Medlemskap', punkter: [
+    'Medlemskap är öppet för den som stödjer föreningens ändamål och betalar fastställd medlemsavgift.',
+    'Styrelsen beslutar om medlemskap enligt dessa stadgar.',
+  ] },
+  { rubrik: '§ 3 Medlemsavgift', punkter: [
+    'Medlemsavgiften fastställs av ordinarie årsmöte.',
+  ] },
+  { rubrik: '§ 4 Styrelsen', punkter: [
+    'Styrelsen består av minst fem ledamöter: ordförande, sekreterare, kassör och minst två ordinarie ledamöter.',
+    'Årsmötet kan även välja suppleanter.',
+  ] },
+  { rubrik: '§ 5 Styrelsens uppgifter', punkter: [
+    'Styrelsen ansvarar för föreningens verksamhet, ekonomi och att årsmötets beslut genomförs.',
+    'Styrelsen är beslutsför när mer än hälften av de valda ledamöterna deltar i beslutet.',
+  ] },
+  { rubrik: '§ 6 Firmateckning', punkter: [
+    'Föreningens firma tecknas av ordföranden och kassören var för sig, om inte styrelsen genom särskilt beslut bestämmer annat.',
+  ] },
+  { rubrik: '§ 7 Revisor', punkter: [
+    'Föreningen ska ha minst en revisor.',
+    'Revisorn ska granska föreningens ekonomi och styrelsens förvaltning och lämna en revisionsberättelse till årsmötet.',
+    'Revisor får inte samtidigt vara ledamot eller suppleant i styrelsen.',
+  ] },
+  { rubrik: '§ 8 Årsmöte', punkter: [
+    'Ordinarie årsmöte hålls en gång per år.',
+    'Kallelse skickas till medlemmarna senast två veckor före årsmötet.',
+  ] },
+  { rubrik: '§ 9 Årsmötets dagordning', punkter: [
+    'Vid ordinarie årsmöte ska bland annat följande behandlas: mötets öppnande, val av mötesfunktionärer, fastställande av röstlängd, fråga om mötet utlysts korrekt, fastställande av dagordning, verksamhetsberättelse, ekonomisk berättelse, revisionsberättelse, ansvarsfrihet, medlemsavgift, val av styrelse, val av revisor och övriga frågor.',
+  ] },
+  { rubrik: '§ 10 Rösträtt', punkter: [
+    'Medlem som har betalat medlemsavgiften har en röst vid årsmötet.',
+    'Rösträtten är personlig.',
+  ] },
+  { rubrik: '§ 11 Extra föreningsmöte', punkter: [
+    'Extra föreningsmöte hålls när styrelsen finner det nödvändigt eller när minst en tredjedel av de röstberättigade medlemmarna skriftligen begär det.',
+  ] },
+  { rubrik: '§ 12 Stadgeändring', punkter: [
+    'För ändring av stadgarna krävs beslut av årsmöte med minst två tredjedelars majoritet av avgivna röster.',
+  ] },
+  { rubrik: '§ 13 Upplösning', punkter: [
+    'Beslut om upplösning fattas av årsmöte med minst två tredjedelars majoritet.',
+    'Vid upplösning ska kvarvarande tillgångar, efter att skulder betalats, användas för ett ideellt ändamål som ligger nära föreningens syfte.',
+    'Årsmötet beslutar om detta.',
+  ] },
+  { rubrik: '§ 14 Verksamhets- och räkenskapsår', punkter: [
+    'Föreningens verksamhets- och räkenskapsår är kalenderår.',
+  ] },
+];
+---
+<Base title="Stadgar">
+  <PageHead title="Stadgar">
+    <p class="lead">Senast ändrade 2026-09-05.</p>
+  </PageHead>
+  <div class="wrap page">
+    <div class="prose">
+      {paragrafer.map((p) => (
+        <>
+          <h2>{p.rubrik}</h2>
+          <ul>{p.punkter.map((t) => <li>{t}</li>)}</ul>
+        </>
+      ))}
+    </div>
+  </div>
+</Base>

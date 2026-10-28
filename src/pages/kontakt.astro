@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
 import Mail from '../components/Mail.astro';
 import PageHead from '../components/PageHead.astro';
 ---
@@ -8,6 +9,7 @@ import PageHead from '../components/PageHead.astro';
   <div class="wrap page">
     <div class="prose">
       <p>Frågor, idéer eller vill du hjälpa till? <br /><br />Mejla oss på <Mail />.</p>
+      <p class="meta">{site.name}, org.nr {site.orgNr}</p>
     </div>
   </div>
 </Base>
