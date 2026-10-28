@@ -1,12 +1,14 @@
 ---
 // Spelarstatistik för ett lag. Visas bara om det finns spelare att visa.
-import { squad, squadUpdated, hasPlayed } from '../data/squads';
+import { squad, goalkeepers, squadUpdated, hasPlayed } from '../data/squads';
 import type { LagKey } from '../data/lagen';
 interface Props { lag: LagKey; }
 const { lag } = Astro.props;
 const alla = squad(lag);
+const malvakter = goalkeepers(lag);
+const keeperNames = new Set(malvakter.map((k) => k.name));
 const spelat = alla.filter(hasPlayed);
-const utan = alla.filter((p) => !hasPlayed(p));
+const utan = alla.filter((p) => !hasPlayed(p) && !keeperNames.has(p.name));
 const diff = (n: number) => (n > 0 ? `+${n}` : String(n));
 // Tidsstämpeln ändras bara när något ändrats, så den visar senaste ändring och inte senaste försök.
 const uppdaterad = squadUpdated ? new Date(squadUpdated).toLocaleString('sv-SE', { dateStyle: 'long', timeStyle: 'short', timeZone: 'Europe/Stockholm' }) : null;
@@ -41,9 +43,38 @@ const uppdaterad = squadUpdated ? new Date(squadUpdated).toLocaleString('sv-SE',
         </table>
       </div>
     )}
+    {malvakter.length > 0 && (
+      <>
+        <h3 class="section-gap">Målvakter denna säsong</h3>
+        <div class="table-scroll" tabindex="0" role="region" aria-label="Målvaktsstatistik">
+          <table class="standings players-table">
+            <caption class="sr-only">Målvaktsstatistik denna säsong</caption>
+            <thead>
+              <tr>
+                <th scope="col">Målvakt</th>
+                <th scope="col"><abbr title="Spelade matcher">S</abbr></th>
+                <th scope="col"><abbr title="Räddningsprocent">RÄDD%</abbr></th>
+                <th scope="col"><abbr title="Insläppta mål per match">SNITT</abbr></th>
+                <th scope="col"><abbr title="Insläppta mål">IM</abbr></th>
+                <th scope="col"><abbr title="Hållna nollor">NOLL</abbr></th>
+                <th scope="col"><abbr title="Speltid i minuter">MIN</abbr></th>
+              </tr>
+            </thead>
+            <tbody>
+              {malvakter.map((k) => (
+                <tr>
+                  <th scope="row">{k.name}</th>
+                  <td>{k.gp}</td><td class="pts">{k.svsPerc ?? '–'}</td><td>{k.gaa ?? '–'}</td><td>{k.ga}</td><td>{k.so}</td><td>{k.mip ?? '–'}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </>
+    )}
     {uppdaterad && squadUpdated && <p class="meta">(uppdaterad <time datetime={squadUpdated}>{uppdaterad}</time>)</p>}
     {utan.length > 0 && (
-      <p class="meta">Målvakter och spelare utan speltid som utespelare, utan statistik här: {utan.map((p) => p.name).join(', ')}.</p>
+      <p class="meta">Spelare utan speltid, utan statistik här: {utan.map((p) => p.name).join(', ')}.</p>
     )}
   </>
 )}

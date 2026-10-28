@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-27T21:34:40.945Z",
+  "updated": "2026-10-28T10:13:31.617Z",
   "teams": {
     "herr": [
       {
@@ -869,6 +869,74 @@
         "pm": 0,
         "pim": 0,
         "toi": null
+      }
+    ]
+  },
+  "keepers": {
+    "herr": [
+      {
+        "name": "Hugo Hävelid",
+        "gp": 9,
+        "svs": 193,
+        "ga": 27,
+        "svsPerc": "87.73",
+        "gaa": "3.46",
+        "so": 0,
+        "mip": "468:16"
+      },
+      {
+        "name": "Tim Forslund",
+        "gp": 7,
+        "svs": 154,
+        "ga": 20,
+        "svsPerc": "88.51",
+        "gaa": "3.18",
+        "so": 1,
+        "mip": "377:13"
+      }
+    ],
+    "dam": [
+      {
+        "name": "Tyra Fredin",
+        "gp": 2,
+        "svs": 25,
+        "ga": 5,
+        "svsPerc": "83.33",
+        "gaa": "2.50",
+        "so": 0,
+        "mip": null
+      },
+      {
+        "name": "Andrea Bachmann",
+        "gp": 1,
+        "svs": 20,
+        "ga": 0,
+        "svsPerc": "100.00",
+        "gaa": "0",
+        "so": 1,
+        "mip": null
+      }
+    ],
+    "j20": [
+      {
+        "name": "Theodore Bedier Eriksson",
+        "gp": 6,
+        "svs": 153,
+        "ga": 7,
+        "svsPerc": "95.62",
+        "gaa": "1.17",
+        "so": 1,
+        "mip": null
+      },
+      {
+        "name": "Leon De La Gardie",
+        "gp": 5,
+        "svs": 150,
+        "ga": 16,
+        "svsPerc": "90.36",
+        "gaa": "3.19",
+        "so": 0,
+        "mip": null
       }
     ]
   }
