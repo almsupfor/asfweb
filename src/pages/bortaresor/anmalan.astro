@@ -225,9 +225,9 @@ import { site } from '../../data/site';
     form.hidden = true;
     done.replaceChildren(
       el('h2', {}, `Tack, ${first}!`),
-      el('p', {}, `Din plats är reserverad. Summa att betala: ${kr(totalPrice)}.`),
+      el('p', {}, `Din plats är reserverad. Summa: ${kr(totalPrice)}.`),
       el('p', {}, `Din referens är ${reference}. Spara den, så kan föreningen hitta din anmälan.`),
-      el('p', {}, 'Betalningen sker på plats. Läs informationen om resan ovan för hur och var vi samlas.'),
+      el('p', {}, 'Du betalar inget nu. Information om betalning kommer efter bekräftelsen. Läs informationen om resan ovan för mer om resan och var vi samlas.'),
     );
     done.hidden = false;
     done.scrollIntoView({ block: 'start' });
