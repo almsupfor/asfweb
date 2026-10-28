@@ -47,6 +47,7 @@ Ny sida: skapa fil i `src/pages/` och lägg till i `nav`.
 - **Admin (`/admin`):** inloggning med e-postlänk (`shouldCreateUser: false`, användaren måste finnas i Supabase Auth och i `admins`). Skapa/redigera/ta bort resor, se anmälda, kryssa ”Betald”, exportera CSV, ta bort anmälan. Resor väljs ur en lista med kommande bortamatcher ur schemat, som fyller titel, datum och en föreslagen avgångstid (`arenor.ts`: bilrestid från Gränby ishall × 1,15, rast från 3 h, på plats 30 min före nedsläpp; Visby saknas för färja). Avgångsplatsen är förifylld ”Gränby ishall”. Informationsmallen (`infoDraft`, `infoDraftExternal` överst i `admin.astro`) läggs in när man väljer match; en publicerad resa med `[hakparentes]` kvar i texten sparas inte.
 - **Migrationer:** skriv SQL i `supabase/migrations/` och be **användaren köra den i Supabase SQL Editor**. Auto-läget nekar att jag kör `apply_migration` (”Production Deploy”) och att jag skriver mina egna behörighetsregler. Jag kan verifiera efteråt med `execute_sql` (läsfrågor; `project_id` krävs).
 - **Startsidan:** kortet ”Nästa bortamatch” (byggt från schemat) ersätts i webbläsaren av ”Nästa bortaresa” när det finns en publicerad resa med datum från och med idag, med samma knapp som på Bortaresor (`tripAction()` i `src/lib/trips.ts`). Finns ingen resa, eller om anropet misslyckas, står matchkortet kvar. Startsidan använder vanlig `fetch` mot Supabase i stället för supabase-js för att hålla sidan lätt.
+- **Gallring:** anmälningar (och deras passagerare, via kaskad) raderas automatiskt **två år efter resans datum** av ett nattligt `pg_cron`-jobb (`delete-old-bookings`, 03:15 UTC) som kör `private.delete_old_bookings(730)`. Funktionen får bara köras av databasen och vägrar värden under 1. Resorna själva ligger kvar. Tiden står på två ställen som ska vara lika: jobbet (migrationen `delete_old_bookings.sql`) och texten under ”Hur länge vi sparar dem” på `/integritet`. Raderingen är permanent och tar med ”Betald”-markeringen, så exportera CSV i admin först om styrelsen behöver ett underlag. Anmälningstabellen är inte bokföringen; om föreningen är bokföringsskyldig avgör revisorn vad som ska sparas längre.
 - Texten i en resas information visas som ren text (inga länkar), så att databastext aldrig kan släppa in HTML.
 
 ### Sånger (`src/pages/sanger.astro`)
@@ -79,12 +80,13 @@ Ny sida: skapa fil i `src/pages/` och lägg till i `nav`.
 - **Sajten är uppe på almtunasupporter.se** (Cloudflare framför GitHub Pages). Förrådet är `almsupfor/asfweb`, `main`. Kolla `git status` och `git log` innan du antar något.
 - Sajten har setts i webbläsare, bland annat som emulerad telefon (375 px) via Chrome DevTools-protokollet: inga sidledsscrollar, tabellerna scrollar i `.table-scroll`. Inte sedd på en riktig telefon. Några länkar är under 24 px höjd (till exempel melodilänkarna på Sånger).
 - `.impeccable/design.json` ligger efter DESIGN.md (spelartabell, rutor, sidmeny m.fl.): kör `/impeccable document`. Senaste kritiken (I media) var 27/36 och sidorna har ändrats mycket sedan dess.
-- Bortaresor och anmälan: se avsnittet ovan. `/integritet` är ett utkast som styrelsen ska granska (lagringstid m.m.).
+- Bortaresor och anmälan: se avsnittet ovan. `/integritet` har org.nr, kontaktuppgifter och lagringstid (två år) ifyllda men är fortfarande märkt som utkast tills styrelsen har granskat den.
 
 ## Öppna punkter / idéer
 
 - Bekräfta/ändra kontaktmejl, Swish-nummer, logotyp, färgprofil. Innehåll saknas: bortaguide per hall (hallnamnen finns i schemat), historia, exakta `lank`-videor till sångerna.
-- Fråga klubben om det är okej att läsa almtuna.com:s statistik-API (tabeller, trupper, målvakter).
+- Fråga klubben om det är okej att läsa almtuna.com:s statistik-API (tabeller, trupper, målvakter). Mejlutkast finns; avsändaren ska skicka det.
+- Fråga revisorn om föreningen är bokföringsskyldig (näringsverksamhet, tillgångar, stadgar) och vad som då ska sparas utöver anmälningarna.
 - Matchdata: schemat är en nedladdad kopia; ICS-filens ägare (en bekant, malmstrom.xyz) uppdaterar kanske inte mer i år. TheSportsDB:s villkor för publik användning är obekräftade.
 - Inside Almtuna (insidealmtuna.se) har inget nyhetsflöde (utkast till förfrågan skrevs, ej skickat).
 - Idéer: ”Lägg till i kalender” (bygg `.ics` från `matches.json`), matchdag-läge på startsidan, bortaguide per hall, varning om schemat är gammalt, `og:image`, sitemap/robots, markera i admins matchlista vilka matcher som redan har en resa, fler mediekällor/YouTube-kanal (`@almtuna_official`, kanal-ID `UCt2rm4AZ9HH0E7mz-EFiC8A`; kräver Atom-stöd i `fetch-media.mjs`).
