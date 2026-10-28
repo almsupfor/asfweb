@@ -8,12 +8,25 @@ const awayMatches = upcoming()
   .filter((m) => !m.isHome && m.kind === 'league')
   .map((m) => ({ m, travel: travelEstimate(m) }));
 // Pre-filled draft for the Information box on a new trip. Text in [brackets] is filled in or removed per trip.
-// The textarea's default content, so form.reset() restores it; startEdit() overwrites it with the saved text.
+// Exposed as data-draft on the textarea and inserted when a match is picked, so a fresh form stays empty.
+// infoDraft is for sign-up on the site. infoDraftExternal (data-draft-external) is used instead while an external link is filled in:
+// sign-up happens elsewhere and payment is at the bus.
 const infoDraft = `Sista anmälningsdag är [veckodag datum]. Resan genomförs vid tillräckligt många anmälda, och vi bekräftar [veckodag datum].
 
 Anmälan är bindande efter bekräftelsen.
 
 Du betalar inget nu. Information om betalning kommer efter bekräftelsen. [Du får den på den e-postadress du anmäler med.]
+
+Matchbiljett ingår inte i priset och köps separat. [Mer information om biljetter kommer.]
+
+Hemfärd sker direkt efter matchen.
+
+Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
+const infoDraftExternal = `Sista anmälningsdag är [veckodag datum]. Resan genomförs vid tillräckligt många anmälda, och vi bekräftar [veckodag datum].
+
+Anmälan görs via länken.
+
+Du betalar inget i förväg. Betalning sker på plats vid bussen. [Så här betalar du: Swish / kontant.]
 
 Matchbiljett ingår inte i priset och köps separat. [Mer information om biljetter kommer.]
 
@@ -70,7 +83,7 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
         <div class="field"><label for="t-pm">Pris för medlemmar (kr)</label><input id="t-pm" type="number" min="0" step="1" required /></div>
         <div class="field"><label for="t-po">Pris för övriga (kr)</label><input id="t-po" type="number" min="0" step="1" required /></div>
         <div class="field"><label for="t-cap">Antal platser</label><input id="t-cap" type="number" min="1" step="1" required /></div>
-        <div class="field"><label for="t-info">Information (till exempel hur man betalar och var vi samlas)</label><textarea id="t-info" rows="5" maxlength="2000">{infoDraft}</textarea></div>
+        <div class="field"><label for="t-info">Information (till exempel hur man betalar och var vi samlas)</label><textarea id="t-info" rows="5" maxlength="2000" data-draft={infoDraft} data-draft-external={infoDraftExternal}></textarea></div>
         <label class="check" for="t-pub"><input id="t-pub" type="checkbox" /><span>Publicerad (syns för besökare)</span></label>
         <label class="check" for="t-open"><input id="t-open" type="checkbox" checked /><span>Anmälan öppen</span></label>
         <div class="field"><label for="t-ext">Extern länk för anmälan (valfritt). Om den är ifylld sker anmälan där i stället för i formuläret.</label><input id="t-ext" type="url" maxlength="300" placeholder="https://..." /></div>
@@ -348,6 +361,18 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
     f('t-date').value = date;
     hint.textContent = option.dataset.hint ?? '';
     if (option.dataset.departure) f('t-time').value = option.dataset.departure;
+    const info = $<HTMLTextAreaElement>('t-info');
+    if (!info.value.trim()) info.value = draftFor(f('t-ext').value.trim() ? 'external' : 'form');
+  });
+
+  // The information template that fits how sign-up works for this trip.
+  const draftFor = (kind: 'form' | 'external') => $<HTMLTextAreaElement>('t-info').dataset[kind === 'external' ? 'draftExternal' : 'draft'] ?? '';
+
+  // Adding or removing the external link swaps the template, but only while the text is still an untouched template.
+  f('t-ext').addEventListener('input', () => {
+    const want = f('t-ext').value.trim() ? 'external' : 'form';
+    const box = $<HTMLTextAreaElement>('t-info');
+    if (box.value === draftFor(want === 'external' ? 'form' : 'external')) box.value = draftFor(want);
   });
 
   tripForm.addEventListener('submit', async (e) => {
@@ -373,6 +398,12 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
     }
     if (row.external_url && !externalLink(row.external_url)) {
       tripError.textContent = 'Den externa länken måste börja med https://.';
+      tripError.hidden = false;
+      return;
+    }
+    // Placeholders such as [veckodag datum] must not reach visitors. A draft (not published) may keep them.
+    if (row.published && row.info && /\[[^\]]*\]/.test(row.info)) {
+      tripError.textContent = 'Informationen innehåller fortfarande text inom [hakparentes]. Fyll i eller ta bort den innan du publicerar, eller spara som utkast.';
       tripError.hidden = false;
       return;
     }
