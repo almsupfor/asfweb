@@ -8,8 +8,6 @@ const { subject = '', class: cls } = Astro.props;
 const [user, domain] = site.email.split('@');
 const custom = Astro.slots.has('default');
 ---
-<a class={cls} data-mail-u={user} data-mail-d={domain} data-mail-s={subject} data-mail-text={custom ? undefined : ''}>{custom ? <slot /> : `${user} (snabel-a) ${domain}`}</a>
-
 <script>
   document.querySelectorAll<HTMLAnchorElement>('a[data-mail-u]').forEach((a) => {
     const address = `${a.dataset.mailU}@${a.dataset.mailD}`;
@@ -18,3 +16,4 @@ const custom = Astro.slots.has('default');
     if (a.dataset.mailText !== undefined) a.textContent = address;
   });
 </script>
+<a class={cls} data-mail-u={user} data-mail-d={domain} data-mail-s={subject} data-mail-text={custom ? undefined : ''}>{custom ? <slot /> : `${user} (snabel-a) ${domain}`}</a>
