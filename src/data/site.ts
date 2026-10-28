@@ -2,6 +2,7 @@ export const site = {
   name: 'Almtuna Supporterförening',
   short: 'ASF',
   tagline: 'Vi stöttar Almtuna IS – från Uppsala, hela vägen.',
+  orgNr: '802558-1714',
   // Temporär Gmail-adress. Byt till info@almtunasupporter.se när den är på plats.
   email: 'almtunasupporter@gmail.com',
   // Adressen till föreningens Facebook-grupp. Lämna tom så länge den inte finns; länken visas då inte.
