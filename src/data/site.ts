@@ -4,6 +4,8 @@ export const site = {
   tagline: 'Vi stöttar Almtuna IS – från Uppsala, hela vägen.',
   // Temporär Gmail-adress. Byt till info@almtunasupporter.se när den är på plats.
   email: 'almtunasupporter@gmail.com',
+  // Adressen till föreningens Facebook-grupp. Lämna tom så länge den inte finns; länken visas då inte.
+  facebookGroup: 'https://www.facebook.com/groups/121469757864190',
 };
 
 // Lägg till eller ta bort sidor här – menyn uppdateras automatiskt.

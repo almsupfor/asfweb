@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PageHead from '../../components/PageHead.astro';
+import { site } from '../../data/site';
 ---
 <Base title="Anmälan till bortaresa" description="Anmäl dig till föreningens bortaresa.">
   <PageHead title="Anmälan">
@@ -41,6 +42,9 @@ import PageHead from '../../components/PageHead.astro';
     </form>
 
     <div class="prose" id="done" hidden></div>
+    {site.facebookGroup && (
+      <p class="meta">Frågor och samåkning: <a href={site.facebookGroup} rel="noopener">föreningens Facebook-grupp</a>.</p>
+    )}
     <p class="meta"><a href="/bortaresor">Till alla bortaresor</a></p>
   </div>
 </Base>
@@ -211,9 +215,9 @@ import PageHead from '../../components/PageHead.astro';
     form.hidden = true;
     done.replaceChildren(
       el('h2', {}, `Tack, ${first}!`),
-      el('p', {}, `Din anmälan är registrerad. Summa: ${kr(totalPrice)}.`),
+      el('p', {}, `Din plats är reserverad. Summa att betala: ${kr(totalPrice)}.`),
       el('p', {}, `Din referens är ${reference}. Spara den, så kan föreningen hitta din anmälan.`),
-      el('p', {}, 'Läs informationen om resan ovan för hur du betalar och var vi samlas.'),
+      el('p', {}, 'Betalningen sker på plats. Läs informationen om resan ovan för hur och var vi samlas.'),
     );
     done.hidden = false;
     done.scrollIntoView({ block: 'start' });

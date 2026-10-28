@@ -72,6 +72,7 @@ import PageHead from '../components/PageHead.astro';
     email: string;
     phone: string;
     total_price: number;
+    paid: boolean;
     created_at: string;
     passengers: { first_name: string; last_name: string; is_member: boolean; price: number }[];
   }
@@ -187,7 +188,7 @@ import PageHead from '../components/PageHead.astro';
   async function loadBookings(t: Trip, box: HTMLElement) {
     const { data, error } = await supabase
       .from('bookings')
-      .select('id, email, phone, total_price, created_at, passengers(first_name, last_name, is_member, price)')
+      .select('id, email, phone, total_price, paid, created_at, passengers(first_name, last_name, is_member, price)')
       .eq('trip_id', t.id)
       .order('created_at');
     if (error) {
@@ -207,6 +208,20 @@ import PageHead from '../components/PageHead.astro';
         await supabase.from('bookings').delete().eq('id', b.id);
         await loadTrips();
       });
+      const paid = el('input', { type: 'checkbox', 'aria-label': `Betald, referens ${b.id.slice(0, 8).toUpperCase()}` });
+      paid.checked = b.paid;
+      paid.addEventListener('change', async () => {
+        const want = paid.checked;
+        paid.disabled = true;
+        const { error: upErr } = await supabase.from('bookings').update({ paid: want }).eq('id', b.id);
+        paid.disabled = false;
+        if (upErr) {
+          paid.checked = !want;
+          alert('Det gick inte att spara betalstatus.');
+          return;
+        }
+        b.paid = want;
+      });
       b.passengers.forEach((p, i) =>
         rows.push(
           el('tr', {},
@@ -217,6 +232,7 @@ import PageHead from '../components/PageHead.astro';
             el('td', {}, i === 0 ? b.phone : ''),
             el('td', {}, i === 0 ? new Date(b.created_at).toLocaleString('sv-SE', { dateStyle: 'short', timeStyle: 'short' }) : ''),
             el('td', {}, i === 0 ? b.id.slice(0, 8).toUpperCase() : ''),
+            el('td', {}, i === 0 ? paid : ''),
             el('td', {}, i === 0 ? del : ''),
           ),
         ),
@@ -227,7 +243,7 @@ import PageHead from '../components/PageHead.astro';
     box.replaceChildren(
       el('div', { class: 'table-scroll', tabindex: '0', role: 'region', 'aria-label': 'Anmälda' },
         el('table', { class: 'standings admin-table' },
-          el('thead', {}, el('tr', {}, ...['Namn', 'Typ', 'Pris', 'E-post', 'Mobil', 'Anmäld', 'Referens', ''].map((h) => el('th', { scope: 'col' }, h)))),
+          el('thead', {}, el('tr', {}, ...['Namn', 'Typ', 'Pris', 'E-post', 'Mobil', 'Anmäld', 'Referens', 'Betald', ''].map((h) => el('th', { scope: 'col' }, h)))),
           el('tbody', {}, ...rows),
         ),
       ),
@@ -237,10 +253,10 @@ import PageHead from '../components/PageHead.astro';
 
   function downloadCsv(t: Trip, bookings: Booking[]) {
     const q = (s: string | number) => `"${String(s).replace(/"/g, '""')}"`;
-    const lines = [['Namn', 'Typ', 'Pris', 'E-post', 'Mobil', 'Anmäld', 'Referens'].map(q).join(';')];
+    const lines = [['Namn', 'Typ', 'Pris', 'E-post', 'Mobil', 'Anmäld', 'Referens', 'Betald'].map(q).join(';')];
     for (const b of bookings) {
       for (const p of b.passengers) {
-        lines.push([`${p.first_name} ${p.last_name}`, p.is_member ? 'Medlem' : 'Övrig', p.price, b.email, b.phone, b.created_at, b.id.slice(0, 8).toUpperCase()].map(q).join(';'));
+        lines.push([`${p.first_name} ${p.last_name}`, p.is_member ? 'Medlem' : 'Övrig', p.price, b.email, b.phone, b.created_at, b.id.slice(0, 8).toUpperCase(), b.paid ? 'Ja' : 'Nej'].map(q).join(';'));
       }
     }
     // The leading BOM makes Excel read the file as UTF-8.
