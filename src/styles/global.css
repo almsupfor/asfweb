@@ -65,6 +65,7 @@ a.card:hover h3 { text-decoration: underline; text-underline-offset: .2em; }
 .feature .match-card h3 { margin-top: 0; }
 .match-card .match { font-size: 1.0625rem; font-weight: 600; }
 .meta { color: var(--muted); font-size: .9rem; }
+.site-footer p, .site-footer a { color: var(--muted); }
 .notice { border: 1px solid var(--line); background: var(--bg-soft); padding: .75rem 1rem; border-radius: .4rem; }
 .list { list-style: none; margin-block: 1rem; padding: 0 1.25rem; background: var(--bg-soft); border: 1px solid var(--line); border-radius: .6rem; }
 .list li { padding: 1rem 0; border-bottom: 1px solid var(--line); }
