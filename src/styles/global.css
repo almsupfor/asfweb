@@ -145,7 +145,7 @@ a.card:hover h3 { text-decoration: underline; text-underline-offset: .2em; }
 /* Forms: trip sign-up and the admin page. */
 .field { margin-block: 0 1rem; }
 .field label { display: block; margin-bottom: .25rem; font-weight: 600; }
-input[type='text'], input[type='email'], input[type='tel'], input[type='date'], input[type='time'], input[type='number'], textarea, select { width: 100%; max-width: 28rem; padding: .6rem .75rem; font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--muted); border-radius: .4rem; }
+input[type='text'], input[type='email'], input[type='tel'], input[type='url'], input[type='date'], input[type='time'], input[type='number'], textarea, select { width: 100%; max-width: 28rem; padding: .6rem .75rem; font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--muted); border-radius: .4rem; }
 textarea { max-width: 36rem; }
 select { max-width: 36rem; }
 input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 3px solid var(--red); outline-offset: 2px; }
