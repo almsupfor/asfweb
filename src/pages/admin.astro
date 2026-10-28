@@ -377,6 +377,8 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
 
   tripForm.addEventListener('submit', async (e) => {
     e.preventDefault();
+    const question = editingId ? 'Spara ändringarna i resan?' : 'Skapa resan och visa den på sajten?';
+    if (!confirm(question)) return;
     tripError.hidden = true;
     const row = {
       title: f('t-title').value.trim(),
