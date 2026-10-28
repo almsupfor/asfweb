@@ -20,17 +20,17 @@ Fristående fansröst. Föreningen är oberoende från Almtuna IS och sidan är 
 
 ## Operating Context
 
-Medlemskap och anmälan till bortaresor sker i dag via e-post/Swish. Förebild för funktioner (inte kopia): vastrasidan.se (Västra Sidan, IK Sirius).
+Medlemskap sker i dag via e-post. Anmälan till bortaresor sker just nu via en extern länk (ett Facebook-inlägg) och betalning vid bussen. Sajten har ett eget system för anmälan på sajten (reservation, admin för styrelsen), tänkt att användas när betalning kan ske online. Förebild för funktioner (inte kopia): vastrasidan.se (Västra Sidan, IK Sirius).
 
 ## Capabilities and Constraints
 
-- Astro 5, helt statisk, inget backend. Hosting: GitHub Pages, Cloudflare för DNS.
-- Fas 2 (ej påbörjad): medlemsregister, anmälan till bortaresor med platsräknare och biljettstatistik via Supabase. Sidan ska kunna få detta utan omskrivning.
+- Astro 5, statisk sajt utan eget backend. Hosting: GitHub Pages, Cloudflare för DNS. Sajten är uppe på almtunasupporter.se.
+- Bortaresor, anmälan och admin ligger i Supabase (projektet `almtunasupporter`), anropade direkt från webbläsaren med en publik nyckel och radnivåskydd. Byggt: resor, anmälan med platsräknare och passagerare, extern länk som alternativ, betalstatus och CSV-export för styrelsen. Ej byggt: medlemsregister, biljettstatistik, betalning på sajten. Integritetstexten (`/integritet`) är ett utkast som föreningen ska granska.
 - Egna nyheter och krönikor är borttagna ur sajten (beslut 2026-10-26). "I media" listar länkar till artiklar från andra medier och läses från `src/data/media.ts`. Listan fylls automatiskt av `scripts/fetch-media.mjs` (GitHub Actions var tredje timme) från mediernas egna RSS-flöden. Den länkar bara med rubrik, källa och datum och kopierar aldrig artikeltext.
-- Spelschema och resultat: klubbens officiella lista (inklistrad text i `src/data/schedule-official.txt`, hämtad 2026-10-27) är huvudkälla. En egengjord iCal-fil på malmstrom.xyz (`src/data/schedule.ics`) fyller i träningsmatcher och stämde med klubbens lista på 51 av 52 serie­matcher. Inget synkas mot källan; nya versioner hämtas för hand. Klubbens egen lista har tiden 0:00 för två matcher (29 jan, 26 feb), som visas som "19:00 (preliminärt)" eftersom de är fredagar. Tabell och automatiska bortaresor (anmälan) är inte byggda. TheSportsDB:s villkor för publik användning är inte bekräftade.
+- Spelschema och resultat: klubbens officiella lista (inklistrad text i `src/data/schedule-official.txt`, hämtad 2026-10-27) är huvudkälla. En egengjord iCal-fil på malmstrom.xyz (`src/data/schedule.ics`) fyller i träningsmatcher och stämde med klubbens lista på 51 av 52 serie­matcher. Inget synkas mot källan; nya versioner hämtas för hand. Klubbens egen lista har tiden 0:00 för två matcher (29 jan, 26 feb), som visas som "19:00 (preliminärt)" eftersom de är fredagar. Serietabeller, trupper och målvaktsstatistik hämtas automatiskt från almtuna.com:s öppna statistik-API (klubben har inte godkänt det; föreningen bör fråga). TheSportsDB:s villkor för publik användning är inte bekräftade.
 - Principen: sidan ska inte kräva manuellt underhåll. Innehåll som kan hållas aktuellt automatiskt ska göras så, så att besökare har en anledning att komma tillbaka.
 - Kontaktmejl: just nu den temporära adressen `almtunasupporter@gmail.com`. På sikt troligen `info@almtunasupporter.se`, men det är obekräftat. Byts på ett ställe i `src/data/site.ts`.
-- Obekräftat: Swish-nummer, medlemsavgift.
+- Medlemsavgiften är 100 kr (står på Bli medlem). Föreningens org.nr står i sidfoten. Obekräftat: Swish-nummer och bankkonto (betalning sker tills vidare vid bussen).
 
 ## Brand Commitments
 
@@ -45,5 +45,5 @@ Ingen riktig logotyp, inga bilder, inga medlemsuppgifter. Innehåll återstår: 
 
 - Supportrarnas egen röst, inte klubbens.
 - Inget påhittat: saknade fakta lämnas öppna eller märks tydligt.
-- Byggd för att växa: statisk idag, redo för dynamiska funktioner i fas 2.
+- Byggd för att växa: statisk sajt, med dynamiska funktioner bara där besökare själva ändrar något (bortaresor och anmälan).
 - Fungerar för både veteraner och nya fans.

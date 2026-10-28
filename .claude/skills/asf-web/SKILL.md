@@ -1,40 +1,52 @@
 ---
 name: asf-web
-description: Projektkunskap för almtunasupporter.se (Almtuna Supporterförening). Använd när du ändrar sidor, meny, innehåll, layout/CSS, design eller publicering (GitHub Pages + Cloudflare) i detta repo, eller när du återupptar arbetet och behöver veta läget och vad som återstår.
+description: Projektkunskap för almtunasupporter.se (Almtuna Supporterförening). Använd när du ändrar sidor, meny, innehåll, layout/CSS, design, bortaresor/anmälan/admin (Supabase) eller publicering (GitHub Pages + Cloudflare) i detta repo, eller när du återupptar arbetet och behöver veta läget och vad som återstår.
 ---
 
 # Almtuna Supporterförening – webbplats
 
-Sida för supporterföreningen till ishockeylaget Almtuna IS (Uppsala), som spelar i HockeyAllsvenskan. Domän: **almtunasupporter.se** (ägs av föreningen, ligger hos Loopia). Föreningen är **fristående** från Almtuna IS och sidan ska inte se ut som klubbens officiella. Språk: svenska (`lang="sv"`).
+Sida för supporterföreningen till ishockeylaget Almtuna IS (Uppsala), som spelar i HockeyAllsvenskan. Domän: **almtunasupporter.se** (ägs av föreningen, ligger bakom Cloudflare och är uppe sedan 2026-10-28). Föreningen är **fristående** från Almtuna IS och sidan ska inte se ut som klubbens officiella. Språk: svenska (`lang="sv"`).
 
-Datapipelines (artiklar, schema, resultat) beskrivs i skillen `asf-data`. Produkt och design finns i `PRODUCT.md` och `DESIGN.md` (läs dem först; `.impeccable/design.json` är sidecar till DESIGN.md).
+Datapipelines (artiklar, schema, resultat, tabeller, trupper) beskrivs i skillen `asf-data`. Produkt och design finns i `PRODUCT.md` och `DESIGN.md` (läs dem först; `.impeccable/design.json` är sidecar till DESIGN.md och ligger efter, se *Läget*).
 
 ## Principer (bindande)
 
 - **Sidan ska inte kräva manuellt underhåll.** Sånt som kan hållas aktuellt automatiskt ska göras så, så att folk har skäl att komma tillbaka.
 - **Inget påhittat.** Saknade fakta lämnas öppna eller märks som obekräftade/preliminära. Hitta inte på avgifter, Swish-nummer, bilder, logotyp eller klubbemblem.
 - **Bara länka, kopiera aldrig artikeltext.** Rubrik, källa, datum, länk.
-- **Läs inte privata gränssnitt.** Skrapa eller anropa inte interna API:er (till exempel almtuna.com:s eller hockeyallsvenskan.se:s). Använd öppna RSS/iCal eller klistra in text som användaren ger.
+- **Läs bara det som är öppet.** Använd öppna RSS/iCal, inklistrad text från användaren eller almtuna.com:s öppna statistik-API (se `asf-data`; klubben har inte godkänt det och villkoren är inte kontrollerade, så föreningen bör fråga klubben). Skrapa inga andra privata gränssnitt (till exempel hockeyallsvenskan.se) och lägg inte till fler anrop mot almtuna.com utan att fråga användaren.
+- **Sajten säger Herrlaget, U20 och U18** (inte A-laget, J20 eller J18). Interna nycklar kan fortfarande heta `a-lag`, `j20`, `j18`.
 - Svara användaren på svenska, kort och ärligt om vad som inte är verifierat (till exempel ”har inte sett sidan i webbläsare”).
 
 ## Teknik och beslut
 
-- **Astro 5, helt statisk**, inget UI-ramverk, inget backend. Node 22.
-- **Hosting:** GitHub Pages via `.github/workflows/deploy.yml`. Cloudflare ska ligga framför som DNS (steg i *Läget* nedan). `public/CNAME` = `almtunasupporter.se`.
-- **Fas 1 (nu):** statiskt. Medlemskap och bortaresor-anmälan sker via e-post/Swish tills vidare.
-- **Fas 2 (ej påbörjad):** medlemsregister, anmälan till bortaresor med platsräknare, biljettstatistik via Supabase med sidan som statisk frontend. Artiklar och matcher kan fortsätta vara filer; bara det besökare själva ändrar kräver databas.
+- **Astro 5, statisk sajt** utan UI-ramverk. Node 22. Det enda som körs i webbläsaren mot en databas är bortaresor, anmälan och admin (Supabase, se nedan).
+- **Hosting:** GitHub Pages via `.github/workflows/deploy.yml` (push till `main` och cron var tredje timme), Cloudflare framför som DNS. `public/CNAME` = `almtunasupporter.se`.
 - Förebild för funktioner (inte kopia): vastrasidan.se (Västra Sidan, IK Sirius).
+- Medlemsregister och biljettstatistik är inte byggda. Medlemskap sker via e-post.
 
 ## Struktur
 
-- `src/data/site.ts` – namn, `short` (”ASF”), tagline, e-post (**temporärt `almtunasupporter@gmail.com`**, på sikt troligen `info@almtunasupporter.se`, byts på ett ställe) och `nav`. Nuvarande meny: Matcher, Bortaresor, Bortaguiden, Historia, Sånger, I media, Om oss, Kontakt. ”Bli medlem” ligger hårdkodad i `Base.astro`.
-- `src/layouts/Base.astro` – `<head>` (canonical, Open Graph, theme-color, `noindex` via prop för 404), header, footer, menyskript, header-CSS (`<style is:global>`).
-- `src/styles/global.css` – tokens och utilitiklasser: `.wrap`, `.page`, `.prose`, `.lead`, `.button`, `.cards`, `.card`, `.notice`, `.list`, `.meta`, `.match`, `.section-gap`, `.hero`, `.hero-actions`, `.hero-link`.
-- `src/pages/` – `index` (hero, Matcher, Senast i media, Podd, Utforska), `matcher`, `bortaresor`, `i-media`, `bortaguiden`, `historia`, `sanger`, `om-oss`, `bli-medlem`, `kontakt`, `404`.
-- `src/data/*.ts|json|ics|txt`, `scripts/*.mjs` – se `asf-data`.
-- Nyheter och Krönikor togs bort 2026-10-26 på användarens begäran (sidor, `src/content/`, `content.config.ts`). ”I media” ersätter dem.
+- `src/data/site.ts` – namn, `short` (”ASF”), tagline, `orgNr`, `email` (**temporärt `almtunasupporter@gmail.com`**, på sikt troligen `info@almtunasupporter.se`, byts på ett ställe), `facebookGroup` (adressen till föreningens grupp; tom = länken visas inte) och `nav`. Nuvarande meny: Matcher, Bortaresor, Laget, Sånger, I media, Historia, Om oss, Kontakt. ”Bli medlem” och temaknappen ligger i `Base.astro`.
+- `src/data/lagen.ts` – de tre lagen (`herr`, `dam`, `j20`) med adresser och länkar till klubbens sidor. `visning.ts` – `DIREKT` (6) = antal rutor som visas före ”Visa fler”. `arenor.ts` – körtid från Gränby ishall till bortahallarna. `supabase.ts` – publik projekt-URL och publishable key.
+- `src/layouts/Base.astro` – `<head>` (canonical, Open Graph, theme-color, `noindex` via prop), header, footer (org.nr), menyskript, skript som gör **externa länkar till länkar i ny flik** (även sådana som läggs till efter laddning, via `MutationObserver`), header-CSS (`<style is:global>`).
+- `src/styles/global.css` – tokens och utilitiklasser: `.wrap`, `.page`, `.prose`, `.lead`, `.button`, `.tiles`, `.notice`, `.list`, `.meta`, `.section-gap`, formulärstilar (`.field`, `input`, `select`, `textarea`), m.fl.
+- `src/components/` – `LagNav`, `Mail`, `MediaItem`, `PageHead`, `Tabell`, `ThemeToggle`, `Trupp`. `src/lib/` – `supabase.ts` (klient), `trips.ts` (typer, formatering, felmeddelanden, `externalLink`, `el`-hjälpare).
+- `src/pages/` – `index`, `matcher/` (herrlaget på `/matcher`, dam och U20 via `[lag]`), `laget/` (`index` + `[lag]`: tabell, trupp, målvakter), `bortaresor` + `bortaresor/anmalan`, `admin`, `i-media`, `historia`, `sanger`, `om-oss`, `stadgar`, `bli-medlem`, `kontakt`, `integritet` (utkast), `404`. `/bortaguiden` skickas vidare till `/matcher` (redirect i `astro.config.mjs`).
+- `src/data/*.ts|json|ics|txt`, `scripts/*.mjs` – se `asf-data`. `supabase/migrations/` – SQL som användaren kör (se nedan).
+- Nyheter och Krönikor togs bort 2026-10-26 på användarens begäran. ”I media” ersätter dem.
 
 Ny sida: skapa fil i `src/pages/` och lägg till i `nav`.
+
+### Bortaresor, anmälan och admin (Supabase)
+
+- **Projekt:** `almtunasupporter` (ref `wwzyddczkgucflhzmcga`, eu-west-1). Webbkoden har bara projekt-URL och publishable key. Aldrig service_role-nyckel, databaslösenord eller hemligheter i chatt eller förråd.
+- **Databas:** `trips` (titel, datum, avgångstid/-plats, `price_member`/`price_other`, `capacity`, `is_open`, `published`, `info`, `external_url`), `bookings` (`paid`), `passengers` (platser räknas per passagerare), `admins`, funktionerna `book_trip()`, `trip_spots()` (avsiktligt öppna för anon) och `private.is_admin()`. RLS är på; anon läser bara publicerade resor. Admin får bara ändra `bookings.paid`, inte kontaktuppgifter eller pris.
+- **Anmälan:** formulär med flera passagerare, medlem/övrig, summa, integritetskryss, honeypot och referens efter anmälan. Det är en **reservation** utan betalning på sajten. Bekräftelsen: ”Du betalar inget nu. Information om betalning kommer efter bekräftelsen.”
+- **Extern länk:** en resa med `external_url` (bara `https://`) visar ”Anmäl dig via extern länk” i stället för formuläret. **Nuläge:** anmälan sker via ett Facebook-inlägg och betalning vid bussen. **Framtid:** anmälan på sajten och betalning online.
+- **Admin (`/admin`):** inloggning med e-postlänk (`shouldCreateUser: false`, användaren måste finnas i Supabase Auth och i `admins`). Skapa/redigera/ta bort resor, se anmälda, kryssa ”Betald”, exportera CSV, ta bort anmälan. Resor väljs ur en lista med kommande bortamatcher ur schemat, som fyller titel, datum och en föreslagen avgångstid (`arenor.ts`: bilrestid från Gränby ishall × 1,15, rast från 3 h, på plats 30 min före nedsläpp; Visby saknas för färja). Avgångsplatsen är förifylld ”Gränby ishall”. Informationsmallen (`infoDraft`, `infoDraftExternal` överst i `admin.astro`) läggs in när man väljer match; en publicerad resa med `[hakparentes]` kvar i texten sparas inte.
+- **Migrationer:** skriv SQL i `supabase/migrations/` och be **användaren köra den i Supabase SQL Editor**. Auto-läget nekar att jag kör `apply_migration` (”Production Deploy”) och att jag skriver mina egna behörighetsregler. Jag kan verifiera efteråt med `execute_sql` (läsfrågor; `project_id` krävs).
+- Texten i en resas information visas som ren text (inga länkar), så att databastext aldrig kan släppa in HTML.
 
 ### Sånger (`src/pages/sanger.astro`)
 
@@ -45,8 +57,8 @@ Ny sida: skapa fil i `src/pages/` och lägg till i `nav`.
 
 ### Header (har ändrats flera gånger)
 
-- Från 48rem: två rader. Överst varumärke (vänster) och ”Bli medlem”; under alla länkar på en rad som radbryts vid behov. Ingen hamburgare.
-- Under 48rem: varumärke, ”Bli medlem” och menyknapp på en rad. Länkarna öppnas som en panel som läggs **över** innehållet (skjuter inte ned sidan). Under 30rem är menyknappen bara ikon; under 21rem kortas namnet till ”ASF”. ”Bli medlem” och menyknappen är lika höga (2,75rem).
+- Från 48rem: två rader. Överst varumärke (vänster), temaknapp och ”Bli medlem”; under alla länkar på en rad som radbryts vid behov. Ingen hamburgare.
+- Under 48rem: varumärke, temaknapp, ”Bli medlem” och menyknapp på en rad. Länkarna öppnas som en panel som läggs **över** innehållet (skjuter inte ned sidan). Under 30rem är menyknappen bara ikon; under 21rem kortas namnet till ”ASF”. ”Bli medlem” och menyknappen är lika höga (2,75rem).
 - `js`-klassen sätts i `<head>`. Utan JavaScript ligger länkarna öppna. Esc stänger panelen och fokus flyttas.
 - Hoppa-över-länk till `#innehall`, synligt fokus (3px röd kontur, vit på hero), `scroll-padding-top` för sticky header.
 
@@ -59,22 +71,22 @@ Ny sida: skapa fil i `src/pages/` och lägg till i `nav`.
 - Bredd `--max: 80rem`, sidomarginal `clamp(1rem, 3vw, 2rem)`, brödtext `.prose` 42rem.
 - Använd `padding-block` på `.page`/`.hero`, **inte** `padding: X 0` (skriver över `.wrap`-marginalen).
 - Undvik tjock färgad sidokant på kort/notiser (hooken flaggar det); `.notice` har jämn tunn ram. Kort som länkar: text i bläck, bara rubriken röd.
+- **Externa länkar öppnas i ny flik** med dold text ”(öppnas i ny flik)”; skriptet i `Base.astro` sköter det även för länkar som skapas i efterhand. Pilen efter länktexten sätts för hand i listorna på I media.
 
-## Läget (2026-10-27)
+## Läget (2026-10-28)
 
-- Allt är committat och pushat (`almsupfor/asfweb`, `main`, första commit `9f2c316`). Kolla `git status` innan du antar något (denna skill och `asf-data` lades till efteråt).
-- **GitHub Pages är inte påslaget** och förrådet är **privat**: på gratisplanen kräver Pages ett publikt förråd. Workflowen (inkl. schemat var tredje timme) körs men deploy misslyckas tills Pages är på med **Settings → Pages → Source: GitHub Actions**.
-- **Domän/Cloudflare, ej gjort:** Namnservrarna är hos Loopia (`ns1/ns2.loopia.se`), A-posterna pekar på Loopia (194.9.94.85/86), ingen `www`, ingen MX. Plan: lägg domänen i Cloudflare, ta bort Loopia-A-posterna, lägg A `@` → 185.199.108.153/.109.153/.110.153/.111.153 och CNAME `www` → `almsupfor.github.io`, **DNS only (grått moln)** tills GitHub utfärdat HTTPS; byt namnservrar hos Loopia; ange `almtunasupporter.se` som Custom domain i Pages och kryssa Enforce HTTPS; sedan valfritt orange moln med SSL ”Full (strict)”. Kontrollera IP-adresserna mot GitHubs dokumentation. Idé: Cloudflare Email Routing för `info@almtunasupporter.se` → Gmail.
-- På `github.io/asfweb/` blir sajten trasig (byggd för domänrot, ingen `base`). Väntat tills domänen är kopplad.
-- **Sajten har aldrig setts i en webbläsare.** Allt är verifierat via build, HTML-utdata och detektor. Första uppgift när dev/Pages körs: titta på 360, 600, 1000, 1300 px i ljust och mörkt läge (särskilt headern och hero-rubrikens radbrytning).
-- Kvalitetsstatus: kritik 18/28 (före ändringar), audit 20/20 (kodnivå, ej renderad).
+- **Sajten är uppe på almtunasupporter.se** (Cloudflare framför GitHub Pages). Förrådet är `almsupfor/asfweb`, `main`. Kolla `git status` och `git log` innan du antar något.
+- Sajten har setts i webbläsare, bland annat som emulerad telefon (375 px) via Chrome DevTools-protokollet: inga sidledsscrollar, tabellerna scrollar i `.table-scroll`. Inte sedd på en riktig telefon. Några länkar är under 24 px höjd (till exempel melodilänkarna på Sånger).
+- `.impeccable/design.json` ligger efter DESIGN.md (spelartabell, rutor, sidmeny m.fl.): kör `/impeccable document`. Senaste kritiken (I media) var 27/36 och sidorna har ändrats mycket sedan dess.
+- Bortaresor och anmälan: se avsnittet ovan. `/integritet` är ett utkast som styrelsen ska granska (lagringstid m.m.).
 
 ## Öppna punkter / idéer
 
-- Bekräfta/ändra kontaktmejl, Swish-nummer, medlemsavgift, logotyp, färgprofil, styrelse/stadgar. Innehåll saknas: bortaguide per hall (hallnamnen finns i schemat), historia, exakta `lank`-videor till sångerna.
-- Matchdata: schemat är en nedladdad kopia; ICS-filens ägare (en bekant, malmstrom.xyz) uppdaterar kanske inte mer i år. TheSportsDB:s villkor för publik användning är obekräftade. Tabell och full resultatdata kräver deras betalnivå ($9/mån enligt deras prissida) eller annan källa.
-- Inside Almtuna (insidealmtuna.se) har inget nyhetsflöde (utkast till förfrågan skrevs, ej skickat). Klubben kan tillfrågas om kalender/flöde.
-- Idéer: ”Lägg till i kalender” (bygg `.ics` från `matches.json`), matchdag-läge på startsidan, bortaguide per hall, varning om schemat är gammalt, `og:image`, sitemap/robots, fler mediekällor/YouTube-kanal (`@almtuna_official`, kanal-ID `UCt2rm4AZ9HH0E7mz-EFiC8A`; kräver Atom-stöd i `fetch-media.mjs`, flödet gav 404/500 vid test).
+- Bekräfta/ändra kontaktmejl, Swish-nummer, logotyp, färgprofil. Innehåll saknas: bortaguide per hall (hallnamnen finns i schemat), historia, exakta `lank`-videor till sångerna.
+- Fråga klubben om det är okej att läsa almtuna.com:s statistik-API (tabeller, trupper, målvakter).
+- Matchdata: schemat är en nedladdad kopia; ICS-filens ägare (en bekant, malmstrom.xyz) uppdaterar kanske inte mer i år. TheSportsDB:s villkor för publik användning är obekräftade.
+- Inside Almtuna (insidealmtuna.se) har inget nyhetsflöde (utkast till förfrågan skrevs, ej skickat).
+- Idéer: ”Lägg till i kalender” (bygg `.ics` från `matches.json`), matchdag-läge på startsidan, bortaguide per hall, varning om schemat är gammalt, `og:image`, sitemap/robots, markera i admins matchlista vilka matcher som redan har en resa, fler mediekällor/YouTube-kanal (`@almtuna_official`, kanal-ID `UCt2rm4AZ9HH0E7mz-EFiC8A`; kräver Atom-stöd i `fetch-media.mjs`).
 
 ## Kommandon
 
@@ -84,6 +96,8 @@ npm run dev        # http://localhost:4321
 npm run build      # måste gå igenom före commit
 npm run media      # hämta artiklar och poddavsnitt
 npm run matches    # bygg om matches.json (schema + resultat)
+npm run squads     # trupper och målvakter
+npm run tables     # serietabeller
 npm run schedule   # ladda ner ny ICS (för hand)
 ```
 
@@ -91,7 +105,9 @@ npm run schedule   # ladda ner ny ICS (för hand)
 
 - **Efter varje redigering av `Base.astro` eller andra stora filer: kontrollera den byggda HTML:en** (`dist/index.html`: header, footer, `<main>`). Ett fel byte raderade en gång hela sidhuvudet och sidfoten utan att bygget klagade.
 - **Skriv filer med regex/backslash via Write/Edit, inte via shell-heredoc.** Heredocs har tappat backslashar (`\s`, `\n`, `\\`) och gett trasiga reguljära uttryck. Vid Python-ersättningar: använd långa, unika söksträngar och `assert` att de finns; `index()` på kort text träffar fel förekomst.
+- **Stilar i sidors egna `<style>`-block (scoped) tappas i `npm run dev`.** Lägg stilar i `src/styles/global.css`.
+- **Skärmdumpar och mobiltest:** Chrome headless (`--headless=new --screenshot=...`) går inte under ca 500 px. För telefonbredd, starta Chrome med `--remote-debugging-port` och använd `Emulation.setDeviceMetricsOverride` via DevTools-protokollet (Node 22 har inbyggd `WebSocket`). Servera den byggda sajten (`dist`) med `python3 -m http.server`.
 - Python på Windows saknar tidszoner (`zoneinfo` kräver `tzdata`); räkna tid i Node (`Intl`).
 - Konsolen visar svenska tecken som `�`; datafilerna är giltig UTF-8.
 - Kör `~/.claude/skills/impeccable/scripts/impeccable detect --json src` efter UI-ändringar (ska ge `[]`). `/impeccable critique|audit|polish` är bra avstämningar; kritik lagras i `.impeccable/critique/`.
-- Pusha bara när användaren ber om det. Commit-meddelanden på svenska med attributionsraderna.
+- **Commit-meddelanden och kodkommentarer på engelska**, med attributionsraderna. Sajtens texter och svar till användaren på svenska. Pusha bara när användaren ber om det.
