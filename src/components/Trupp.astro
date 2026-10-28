@@ -35,7 +35,8 @@ const uppdaterad = squadUpdated ? new Date(squadUpdated).toLocaleString('sv-SE',
           <tbody>
             {spelat.map((p) => (
               <tr>
-                <th scope="row">{p.number != null ? `#${p.number} ` : ''}{p.name}</th>
+                {/* Tröjnummer är dolda tills klubben har lagt in dem för hela laget: <th>{p.number != null ? `#${p.number} ` : ''}{p.name}</th> */}
+                <th scope="row">{p.name}</th>
                 <td>{p.gp}</td><td>{p.g}</td><td>{p.a}</td><td class="pts">{p.tp}</td><td>{diff(p.pm)}</td><td>{p.pim}</td>
               </tr>
             ))}
