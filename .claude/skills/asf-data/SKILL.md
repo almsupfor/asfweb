@@ -7,7 +7,7 @@ description: Dataflöden och automatik för almtunasupporter.se: artiklar och po
 
 All hämtad data (artiklar, matcher, tabeller, trupper) ligger som **filer i git**. GitHub Actions kör skripten var tredje timme, sparar ändringar som en commit på `main` och bygger om och publicerar sajten. Sidorna är statiska HTML. Det enda som ligger i en databas är bortaresor och anmälningar (Supabase, se skillen `asf-web`).
 
-**almtuna.com:s statistik-API.** Tabeller, trupper och målvakter läses från `https://www.almtuna.com/api/statistics-v2/...`, samma öppna JSON-API som klubbens egen statistiksida använder (ingen inloggning). Klubben har inte godkänt det och villkoren är inte kontrollerade; föreningen bör fråga klubben. Använd det lugnt: bara namn, tröjnummer, nationalitet och statistik sparas, anropen är få och skripten presenterar sig med en tydlig användaragent. Lägg inte till fler anrop utan att fråga användaren.
+**almtuna.com:s statistik-API.** Tabeller, trupper och målvakter läses från `https://www.almtuna.com/api/statistics-v2/...`, samma öppna JSON-API som klubbens egen statistiksida använder (ingen inloggning). Klubben har inte godkänt det och villkoren är inte kontrollerade; föreningen bör fråga klubben. Använd det lugnt: bara namn, tröjnummer, nationalitet och statistik sparas, anropen är få (ca 12 per hämtning, en hämtning per dygn) och skripten presenterar sig med en tydlig användaragent. Lägg inte till fler anrop utan att fråga användaren.
 
 ## I media (`src/data/media.json`)
 
@@ -52,7 +52,7 @@ All hämtad data (artiklar, matcher, tabeller, trupper) ligger som **filer i git
 
 ## Schemat (GitHub Actions)
 
-`.github/workflows/deploy.yml`: triggas av push till `main`, cron `17 */3 * * *` och manuellt. Steg: `npm ci` → `npm run media` → `npm run matches` → `npm run squads` → `npm run tables` → (om inte push) commit av `src/data/media.json`, `matches.json`, `squads.json` och `tables.json` till `main` (meddelande ”Uppdatera artiklar och matcher”) → `npm run build` → deploy till Pages. Kräver `permissions: contents: write`. Schemalagda jobb körs bara på standardgrenen och kan pausas i inaktiva förråd (oklart om botens egna commits räknas som aktivitet). Misslyckas steget om grenen har skyddsregler.
+`.github/workflows/deploy.yml`: triggas av push till `main`, cron `17 */3 * * *` och manuellt. Steg: `npm ci` → `npm run media` → `npm run matches` → `npm run squads` → `npm run tables` (de två sista bara på dygnsschemat `23 4 * * *`, alltså ca 05–06 svensk tid, och vid manuell körning, **inte vid push** och inte var tredje timme, för att belasta klubbens API så lite som möjligt) → (om inte push) commit av `src/data/media.json`, `matches.json`, `squads.json` och `tables.json` till `main` (meddelande ”Uppdatera artiklar och matcher”) → `npm run build` → deploy till Pages. Kräver `permissions: contents: write`. Schemalagda jobb körs bara på standardgrenen och kan pausas i inaktiva förråd (oklart om botens egna commits räknas som aktivitet). Misslyckas steget om grenen har skyddsregler.
 
 ## Ändra eller felsöka
 

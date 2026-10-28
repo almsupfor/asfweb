@@ -4,8 +4,11 @@ on:
   push:
     branches: [main]
   schedule:
-    # Hämtar nya artiklar om Almtuna var tredje timme och bygger om sidan.
+    # Hämtar nya artiklar och matcher var tredje timme och bygger om sidan.
     - cron: '17 */3 * * *'
+    # En gång per dygn (ca 05-06 svensk tid) hämtas dessutom trupper, målvakter och tabeller från klubbens statistik-API.
+    # Samma värde används i villkoren nedan; ändra båda om tiden ändras.
+    - cron: '23 4 * * *'
   workflow_dispatch:
 
 permissions:
@@ -31,9 +34,13 @@ jobs:
         run: npm run media
       - name: Hämta nästa match och senaste resultat
         run: npm run matches
+      # Trupper, målvakter och tabeller hämtas bara en gång per dygn och vid manuell körning, inte vid varje push,
+      # för att belasta klubbens statistik-API så lite som möjligt. Bygget använder annars de sparade filerna.
       - name: Hämta trupper
+        if: github.event_name == 'workflow_dispatch' || github.event.schedule == '23 4 * * *'
         run: npm run squads
       - name: Hämta tabeller
+        if: github.event_name == 'workflow_dispatch' || github.event.schedule == '23 4 * * *'
         run: npm run tables
       - name: Spara nya artiklar i förrådet
         if: github.event_name != 'push'
