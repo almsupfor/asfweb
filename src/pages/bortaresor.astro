@@ -55,7 +55,7 @@ const fler = bortamatcher.slice(DIREKT);
 <script>
   // Trips come from the database. The notice above stays if there are none, or if the request fails.
   import { supabase } from '../lib/supabase';
-  import { el, externalLink, fmtTripDate, fmtTripTime, kr, type Trip, type Spots } from '../lib/trips';
+  import { el, externalLink, kr, tripAction, tripWhen, type Trip, type Spots } from '../lib/trips';
 
   const root = document.getElementById('trips');
   if (root) load(root);
@@ -74,22 +74,14 @@ const fler = bortamatcher.slice(DIREKT);
     for (const t of trips) {
       const taken = spots.get(t.id)?.taken ?? 0;
       const full = taken >= t.capacity;
-      const when = [fmtTripDate(t.trip_date), fmtTripTime(t.departure_time) && `avgång ${fmtTripTime(t.departure_time)}`, t.departure_place].filter(Boolean).join(' · ');
       const ext = externalLink(t.external_url);
-      const action = !t.is_open
-        ? el('p', { class: 'trip-state' }, 'Anmälan är stängd')
-        : ext
-          ? el('a', { class: 'button', href: ext, rel: 'noopener noreferrer' }, 'Anmäl dig via extern länk')
-          : full
-          ? el('p', { class: 'trip-state' }, 'Fullt')
-          : el('a', { class: 'button', href: `/bortaresor/anmalan/?resa=${t.id}` }, 'Till anmälan');
       list.append(
         el('li', {},
           el('h3', {}, t.title),
-          el('p', { class: 'meta' }, when),
+          el('p', { class: 'meta' }, tripWhen(t)),
           el('p', { class: 'trip-prices' }, el('span', {}, `Medlem ${kr(t.price_member)}`), el('span', {}, `Övriga ${kr(t.price_other)}`)),
           ext ? el('p', { class: 'trip-spots' }, 'Anmälan sker via extern länk') : el('p', { class: 'trip-spots' }, `Anmälda ${taken} / ${t.capacity}`),
-          action,
+          tripAction(t, full),
         ),
       );
     }

@@ -30,13 +30,16 @@ const fmt = (d: string) => new Date(d).toLocaleDateString('sv-SE', { year: 'nume
         <p>Följ med på bortamatcherna och heja fram Almtuna IS.</p>
         <p><a class="button" href="/bortaresor">Om bortaresor</a></p>
       </div>
-      {nastaBorta && (
-        <div class="match-card">
-          <h3>Nästa bortamatch</h3>
-          <p class="match">{nastaBorta.home} – {nastaBorta.away}</p>
-          <p class="meta">{fmtDay(nastaBorta.date)} · {fmtTime(nastaBorta)}{nastaBorta.venue ? ` · ${nastaBorta.venue}` : ''}</p>
-        </div>
-      )}
+      {/* Visar nästa bortamatch. Finns en publicerad bortaresa ersätter skriptet nedan kortet med den. */}
+      <div class="match-card" id="next-away" hidden={!nastaBorta}>
+        {nastaBorta && (
+          <>
+            <h3>Nästa bortamatch</h3>
+            <p class="match">{nastaBorta.home} – {nastaBorta.away}</p>
+            <p class="meta">{fmtDay(nastaBorta.date)} · {fmtTime(nastaBorta)}{nastaBorta.venue ? ` · ${nastaBorta.venue}` : ''}</p>
+          </>
+        )}
+      </div>
     </section>
     <h2 class="section-gap">Utforska</h2>
     <div class="cards">
@@ -78,3 +81,38 @@ const fmt = (d: string) => new Date(d).toLocaleDateString('sv-SE', { year: 'nume
     )}
   </div>
 </Base>
+
+<script>
+  // The next published trip replaces "Nästa bortamatch". Without one, or if the request fails, the card stays as built.
+  // Plain fetch (not supabase-js) keeps the front page light.
+  import { SUPABASE_URL, SUPABASE_KEY } from '../data/supabase';
+  import { el, tripAction, tripWhen, kr, type Trip, type Spots } from '../lib/trips';
+
+  const card = document.getElementById('next-away');
+  if (card) load(card);
+
+  async function load(card: HTMLElement) {
+    try {
+      const today = new Date().toLocaleDateString('sv-SE');
+      const headers = { apikey: SUPABASE_KEY };
+      const [tripRes, spotsRes] = await Promise.all([
+        fetch(`${SUPABASE_URL}/rest/v1/trips?select=*&published=eq.true&trip_date=gte.${today}&order=trip_date.asc&limit=1`, { headers }),
+        fetch(`${SUPABASE_URL}/rest/v1/rpc/trip_spots`, { method: 'POST', headers: { ...headers, 'Content-Type': 'application/json' }, body: '{}' }),
+      ]);
+      if (!tripRes.ok) return;
+      const [trip] = (await tripRes.json()) as Trip[];
+      if (!trip) return;
+      const spots = spotsRes.ok ? ((await spotsRes.json()) as Spots[]).find((s) => s.trip_id === trip.id) : undefined;
+      card.replaceChildren(
+        el('h3', {}, 'Nästa bortaresa'),
+        el('p', { class: 'match' }, trip.title),
+        el('p', { class: 'meta' }, tripWhen(trip)),
+        el('p', { class: 'meta' }, `Medlem ${kr(trip.price_member)}, övriga ${kr(trip.price_other)}`),
+        el('p', {}, tripAction(trip, (spots?.taken ?? 0) >= trip.capacity)),
+      );
+      card.hidden = false;
+    } catch {
+      // Keep the match card.
+    }
+  }
+</script>

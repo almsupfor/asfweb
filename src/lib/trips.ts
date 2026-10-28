@@ -39,6 +39,19 @@ export const externalLink = (url: string | null | undefined): string | null => {
   }
 };
 
+/** Date, departure time and place of a trip on one line. */
+export const tripWhen = (t: Trip) =>
+  [fmtTripDate(t.trip_date), fmtTripTime(t.departure_time) && `avgång ${fmtTripTime(t.departure_time)}`, t.departure_place].filter(Boolean).join(' · ');
+
+/** The call to action for a trip: the external sign-up link, the sign-up page, or the reason sign-up is not possible. */
+export const tripAction = (t: Trip, full: boolean): HTMLElement => {
+  const ext = externalLink(t.external_url);
+  if (!t.is_open) return el('p', { class: 'trip-state' }, 'Anmälan är stängd');
+  if (ext) return el('a', { class: 'button', href: ext, rel: 'noopener noreferrer' }, 'Anmäl dig via extern länk');
+  if (full) return el('p', { class: 'trip-state' }, 'Fullt');
+  return el('a', { class: 'button', href: `/bortaresor/anmalan/?resa=${t.id}` }, 'Till anmälan');
+};
+
 // The database raises short codes; these are the texts shown to visitors.
 const ERRORS: Record<string, string> = {
   privacy_not_accepted: 'Du måste godkänna hur föreningen hanterar dina uppgifter.',
