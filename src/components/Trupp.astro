@@ -23,13 +23,13 @@ const uppdaterad = squadUpdated ? new Date(squadUpdated).toLocaleString('sv-SE',
           <caption class="sr-only">Spelarstatistik denna säsong</caption>
           <thead>
             <tr>
-              <th scope="col">Spelare</th>
-              <th scope="col"><abbr title="Spelade matcher">S</abbr></th>
-              <th scope="col"><abbr title="Mål">M</abbr></th>
-              <th scope="col"><abbr title="Assist">A</abbr></th>
-              <th scope="col"><abbr title="Poäng">P</abbr></th>
-              <th scope="col"><abbr title="Plus/minus">+/-</abbr></th>
-              <th scope="col"><abbr title="Utvisningsminuter">UTV</abbr></th>
+              <th scope="col"><button type="button" class="sort-btn">Spelare</button></th>
+              <th scope="col"><button type="button" class="sort-btn"><abbr title="Spelade matcher">S</abbr></button></th>
+              <th scope="col"><button type="button" class="sort-btn"><abbr title="Mål">M</abbr></button></th>
+              <th scope="col"><button type="button" class="sort-btn"><abbr title="Assist">A</abbr></button></th>
+              <th scope="col"><button type="button" class="sort-btn"><abbr title="Poäng">P</abbr></button></th>
+              <th scope="col"><button type="button" class="sort-btn"><abbr title="Plus/minus">+/-</abbr></button></th>
+              <th scope="col"><button type="button" class="sort-btn"><abbr title="Utvisningsminuter">UTV</abbr></button></th>
             </tr>
           </thead>
           <tbody>
@@ -37,7 +37,7 @@ const uppdaterad = squadUpdated ? new Date(squadUpdated).toLocaleString('sv-SE',
               <tr>
                 {/* Tröjnummer är dolda tills klubben har lagt in dem för hela laget: <th>{p.number != null ? `#${p.number} ` : ''}{p.name}</th> */}
                 <th scope="row">{p.name}</th>
-                <td>{p.gp}</td><td>{p.g}</td><td>{p.a}</td><td class="pts">{p.tp}</td><td>{diff(p.pm)}</td><td>{p.pim}</td>
+                <td data-v={p.gp}>{p.gp}</td><td data-v={p.g}>{p.g}</td><td data-v={p.a}>{p.a}</td><td class="pts" data-v={p.tp}>{p.tp}</td><td data-v={p.pm}>{diff(p.pm)}</td><td data-v={p.pim}>{p.pim}</td>
               </tr>
             ))}
           </tbody>
@@ -52,20 +52,20 @@ const uppdaterad = squadUpdated ? new Date(squadUpdated).toLocaleString('sv-SE',
             <caption class="sr-only">Målvaktsstatistik denna säsong</caption>
             <thead>
               <tr>
-                <th scope="col">Målvakt</th>
-                <th scope="col"><abbr title="Spelade matcher">S</abbr></th>
-                <th scope="col"><abbr title="Räddningsprocent">RÄDD%</abbr></th>
-                <th scope="col"><abbr title="Insläppta mål per match">SNITT</abbr></th>
-                <th scope="col"><abbr title="Insläppta mål">IM</abbr></th>
-                <th scope="col"><abbr title="Hållna nollor">NOLL</abbr></th>
-                <th scope="col"><abbr title="Speltid i minuter">MIN</abbr></th>
+                <th scope="col"><button type="button" class="sort-btn">Målvakt</button></th>
+                <th scope="col"><button type="button" class="sort-btn"><abbr title="Spelade matcher">S</abbr></button></th>
+                <th scope="col"><button type="button" class="sort-btn"><abbr title="Räddningsprocent">RÄDD%</abbr></button></th>
+                <th scope="col"><button type="button" class="sort-btn"><abbr title="Insläppta mål per match">SNITT</abbr></button></th>
+                <th scope="col"><button type="button" class="sort-btn"><abbr title="Insläppta mål">IM</abbr></button></th>
+                <th scope="col"><button type="button" class="sort-btn"><abbr title="Hållna nollor">NOLL</abbr></button></th>
+                <th scope="col"><button type="button" class="sort-btn"><abbr title="Speltid i minuter">MIN</abbr></button></th>
               </tr>
             </thead>
             <tbody>
               {malvakter.map((k) => (
                 <tr>
                   <th scope="row">{k.name}</th>
-                  <td>{k.gp}</td><td class="pts">{k.svsPerc ?? '–'}</td><td>{k.gaa ?? '–'}</td><td>{k.ga}</td><td>{k.so}</td><td>{k.mip ?? '–'}</td>
+                  <td data-v={k.gp}>{k.gp}</td><td class="pts" data-v={k.svsPerc}>{k.svsPerc ?? '–'}</td><td data-v={k.gaa}>{k.gaa ?? '–'}</td><td data-v={k.ga}>{k.ga}</td><td data-v={k.so}>{k.so}</td><td data-v={k.mip}>{k.mip ?? '–'}</td>
                 </tr>
               ))}
             </tbody>
@@ -79,3 +79,31 @@ const uppdaterad = squadUpdated ? new Date(squadUpdated).toLocaleString('sv-SE',
     )}
   </>
 )}
+<script>
+  // Klick på en kolumnrubrik sorterar tabellen. Namn stigande först, siffror fallande först. Nytt klick vänder.
+  document.querySelectorAll<HTMLTableElement>('.players-table').forEach((table) => {
+    const body = table.tBodies[0];
+    const heads = [...table.tHead!.rows[0].cells];
+    heads.forEach((th, col) => {
+      th.querySelector('button')?.addEventListener('click', () => {
+        const text = col === 0;
+        const dir = th.getAttribute('aria-sort') === (text ? 'ascending' : 'descending') ? (text ? 1 : -1) * -1 : text ? 1 : -1;
+        const val = (tr: HTMLTableRowElement) => {
+          const c = tr.cells[col];
+          if (text) return c.textContent!.trim();
+          const v = c.dataset.v;
+          return v === undefined || v === '' ? null : Number(v);
+        };
+        const rows = [...body.rows];
+        rows.sort((a, b) => {
+          const x = val(a), y = val(b);
+          if (x === null || y === null) return x === y ? 0 : x === null ? 1 : -1; // saknade värden sist
+          return (typeof x === 'string' ? x.localeCompare(y as string, 'sv') : x - (y as number)) * dir;
+        });
+        body.append(...rows);
+        heads.forEach((h) => h.removeAttribute('aria-sort'));
+        th.setAttribute('aria-sort', dir === 1 ? 'ascending' : 'descending');
+      });
+    });
+  });
+</script>

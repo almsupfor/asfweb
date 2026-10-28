@@ -73,6 +73,13 @@ a.card:hover h3 { text-decoration: underline; text-underline-offset: .2em; }
 .standings th[scope='row'], .standings:not(.players-table) thead th:nth-child(2) { text-align: left; font-weight: 500; }
 .players-table thead th:first-child { text-align: left; }
 .standings thead th { font-weight: 600; }
+.sort-btn { all: unset; cursor: pointer; font-weight: inherit; }
+.sort-btn:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+.sort-btn:hover { text-decoration: underline; }
+.sort-btn { position: relative; }
+.sort-btn::after { content: '▲'; position: absolute; left: 100%; margin-left: .1rem; font-size: .55rem; line-height: inherit; visibility: hidden; }
+[aria-sort='ascending'] .sort-btn::after { visibility: visible; }
+[aria-sort='descending'] .sort-btn::after { content: '▼'; visibility: visible; }
 .standings abbr { text-decoration: none; cursor: help; }
 .standings .ours { background: var(--bg-soft); font-weight: 700; }
 .standings .ours th[scope='row'] { font-weight: 700; color: var(--red); }
