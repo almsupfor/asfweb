@@ -240,6 +240,9 @@ En fast knapp nere till höger (3rem × 3rem, Nattfyllning/Läktarröd som fylln
 ### Rutor
 Matcher, resultat och bortamatcher visas som rutor i stället för som rader: varje post i en egen ruta (Mjukt papper, 1px Linje, 0.6rem hörn, 1.25rem luft) med rubriken i 1.125rem vikt 700 och datum, tid och hall under i dämpad grå. Rutorna ligger i ett rutnät med minst 19rem per ruta, så det blir upp till tre spalter på bred skärm och en på mobil. Fem rutor ger tre plus två. Sångerna på Sånger är rutor på samma sätt. Artiklar och poddavsnitt på I media är rutor på samma sätt: titeln som länk i Bläck med tunn understrykning och pil, och källa och datum under. Rutor används för poster som är lika stora och korta. Länklistor (spelschema, lagsida, biljetter) förblir kompakta paneler.
 
+### Formulär och resekort
+Anmälan till bortaresor är ett vanligt formulär: etikett över varje fält i vikt 600, fält med 1px ram i Dämpad grå (för att nå 3:1 mot bakgrunden), 0.4rem hörn, minst 28rem breda och 3px röd fokusring. Varje passagerare ligger i en egen ruta (Mjukt papper, ram, 0.6rem hörn). Kryssrutor har röd fyllning (`--red-fill`). Fel visas i röd fet text under formuläret. Resekorten på Bortaresor är rutor som övriga: titel, datum och avgång, de två priserna (Medlem och Övriga) i fet text, platsräknaren "Anmälda 2 / 50" i dämpad grå och knappen "Till anmälan", eller texten "Fullt" eller "Anmälan är stängd". Knappen i en ruta är alltid vit text på röd fyllning utan understrykning.
+
 ### Sidmeny
 Länkar till avsnitt på samma sida (till exempel Kommande, Resultat, Inför matchen på Matcher) ligger i bandet under lagvalet. De är Bläck i vikt 500 med en 2px understrykning i Linje som blir röd vid hover, i stil med huvudmenyn, så att de inte ser ut som knappar eller som röd brödtext.
 
