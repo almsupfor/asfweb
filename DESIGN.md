@@ -230,7 +230,7 @@ Listor ("I media", "Matcher") ligger i en enda panel per lista: Mjukt papper, 1p
 
 Listor som bara består av länkar (till exempel klubbens spelschema, trupp och lagsida) är kompakta: titel och källa på samma rad, titeln 1.0625rem i vikt 600 och 0.6rem luft över och under varje rad. Tabeller har en rubrik ("Tabell") och en metarad med serien. Under tabellen står, inom parentes, när den senast ändrades.
 
-Externa länkar öppnas i ny flik. Det syns som en liten ritad pil efter sista ordet och sägs som dold text "(öppnas i ny flik)". Ett skript i sidhuvudet lägger samma dolda text på andra externa länkar som saknar den.
+Externa länkar öppnas i ny flik. Det syns som en liten ritad pil efter sista ordet och sägs som dold text "(öppnas i ny flik)". Ett skript i sidhuvudet gör alla externa länkar till länkar i ny flik och lägger samma dolda text på dem som saknar den, även länkar som läggs till efter att sidan laddat (till exempel resekorten på Bortaresor, som hämtas från databasen).
 
 Varje sektion på I media börjar med en kort röd stapel (3rem × 0.3rem, Läktarröd) över rubriken, sedan raderna. De sex senaste visas direkt (två rader om tre rutor på bred skärm, `DIREKT` i `src/data/visning.ts`), och resten ligger bakom en inbyggd "Visa fler (n)". Matcher, resultat och bortamatcher fungerar likadant, i samma utseende (`<details>`, rubriken i Bläck med en ritad pil som vänds när raden är öppen, då byter texten till "Visa färre", röd vid hover, minst 2,75rem hög). När listan kapats står det hur många som visas.
 
