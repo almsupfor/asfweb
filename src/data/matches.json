@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-26T23:19:59.053Z",
+  "updated": "2026-10-29T01:13:38.837Z",
   "schedule": [
     {
       "date": "2026-08-13",
@@ -603,6 +603,14 @@
     }
   ],
   "results": [
+    {
+      "id": "2523199",
+      "date": "2026-10-28",
+      "home": "Almtuna IS",
+      "away": "VIK Västerås HK",
+      "homeScore": 1,
+      "awayScore": 0
+    },
     {
       "id": "official-2026-10-23",
       "date": "2026-10-23",
