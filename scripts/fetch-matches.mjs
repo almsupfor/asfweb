@@ -199,6 +199,9 @@ const officialResults = (official) =>
     }));
 
 // ---- TheSportsDB: senaste resultat -----------------------------------------------------------
+// strStatus: AOT = efter förlängning, AP = efter straffar (annars FT).
+const extOf = (e) => ({ AOT: 'OT', AP: 'SO' })[e.strStatus];
+
 async function loadLastResult() {
   const res = await fetch(`${TSDB}/eventslast.php?id=${TEAM_ID}`, { headers: UA, signal: AbortSignal.timeout(20000) });
   if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
@@ -211,6 +214,7 @@ async function loadLastResult() {
     away: e.strAwayTeam,
     homeScore: Number(e.intHomeScore),
     awayScore: Number(e.intAwayScore),
+    ...(extOf(e) && { ext: extOf(e) }),
   };
 }
 
@@ -231,6 +235,7 @@ async function loadDayResults(dates) {
         away: e.strAwayTeam,
         homeScore: Number(e.intHomeScore),
         awayScore: Number(e.intAwayScore),
+        ...(extOf(e) && { ext: extOf(e) }),
       });
     } catch (err) {
       console.warn(`Resultat ${date}: ${err.message}`);

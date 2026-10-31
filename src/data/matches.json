@@ -617,7 +617,8 @@
       "home": "Almtuna IS",
       "away": "VIK Västerås HK",
       "homeScore": 1,
-      "awayScore": 0
+      "awayScore": 0,
+      "ext": "SO"
     },
     {
       "id": "official-2026-10-23",
