@@ -214,6 +214,31 @@ async function loadLastResult() {
   };
 }
 
+// eventslast släpar ibland efter (gratisnivån), så dagar som redan spelats utan resultat slås upp per datum.
+const LEAGUE_ID = '5162'; // HockeyAllsvenskan i TheSportsDB
+async function loadDayResults(dates) {
+  const found = [];
+  for (const date of dates) {
+    try {
+      const res = await fetch(`${TSDB}/eventsday.php?d=${date}&l=${LEAGUE_ID}`, { headers: UA, signal: AbortSignal.timeout(20000) });
+      if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
+      const e = ((await res.json()).events ?? []).find((x) => x.idHomeTeam === TEAM_ID || x.idAwayTeam === TEAM_ID);
+      if (!e || e.intHomeScore == null || e.intAwayScore == null) continue;
+      found.push({
+        id: e.idEvent,
+        date,
+        home: e.strHomeTeam,
+        away: e.strAwayTeam,
+        homeScore: Number(e.intHomeScore),
+        awayScore: Number(e.intAwayScore),
+      });
+    } catch (err) {
+      console.warn(`Resultat ${date}: ${err.message}`);
+    }
+  }
+  return found;
+}
+
 // ---- spara -----------------------------------------------------------------------------------
 let existing = { updated: null, schedule: [], results: [] };
 try { existing = { ...existing, ...JSON.parse(await readFile(OUT, 'utf8')) }; } catch {}
@@ -234,6 +259,10 @@ try {
 } catch (err) {
   console.warn(`Resultat: ${err.message}`);
 }
+const today = dayOf(Date.now());
+const weekAgo = dayOf(Date.now() - 7 * 864e5);
+const missing = [...new Set(schedule.map((m) => m.date))].filter((d) => d < today && d >= weekAgo && !results.some((r) => r.date === d));
+for (const r of await loadDayResults(missing)) results.push(r);
 results.sort((a, b) => b.date.localeCompare(a.date));
 
 const next = { schedule, results: results.slice(0, 120) };

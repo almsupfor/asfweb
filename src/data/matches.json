@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-29T01:13:38.837Z",
+  "updated": "2026-10-31T14:05:43.489Z",
   "schedule": [
     {
       "date": "2026-08-13",
@@ -603,6 +603,14 @@
     }
   ],
   "results": [
+    {
+      "id": "2523203",
+      "date": "2026-10-30",
+      "home": "Mora IK",
+      "away": "Almtuna IS",
+      "homeScore": 4,
+      "awayScore": 1
+    },
     {
       "id": "2523199",
       "date": "2026-10-28",
