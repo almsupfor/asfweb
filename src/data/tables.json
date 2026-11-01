@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-31T05:01:27.029Z",
+  "updated": "2026-11-01T05:09:15.444Z",
   "tables": {
     "herr": {
       "name": "HockeyAllsvenskan 2026/2027",
@@ -8,12 +8,12 @@
           "rank": 1,
           "team": "AIK",
           "ours": false,
-          "gp": 16,
+          "gp": 17,
           "w": 11,
           "otw": 3,
           "otl": 1,
-          "l": 1,
-          "diff": 25,
+          "l": 2,
+          "diff": 21,
           "pts": 40
         },
         {
@@ -32,12 +32,12 @@
           "rank": 3,
           "team": "MoDo Hockey",
           "ours": false,
-          "gp": 16,
+          "gp": 17,
           "w": 7,
           "otw": 5,
           "otl": 2,
-          "l": 2,
-          "diff": 12,
+          "l": 3,
+          "diff": 10,
           "pts": 33
         },
         {
@@ -68,13 +68,13 @@
           "rank": 6,
           "team": "IK Oskarshamn",
           "ours": false,
-          "gp": 17,
-          "w": 7,
+          "gp": 18,
+          "w": 8,
           "otw": 2,
           "otl": 1,
           "l": 7,
-          "diff": 6,
-          "pts": 26
+          "diff": 8,
+          "pts": 29
         },
         {
           "rank": 7,
@@ -90,6 +90,18 @@
         },
         {
           "rank": 8,
+          "team": "Almtuna IS",
+          "ours": true,
+          "gp": 17,
+          "w": 6,
+          "otw": 2,
+          "otl": 1,
+          "l": 8,
+          "diff": -11,
+          "pts": 23
+        },
+        {
+          "rank": 9,
           "team": "BIK Karlskoga",
           "ours": false,
           "gp": 16,
@@ -101,7 +113,7 @@
           "pts": 21
         },
         {
-          "rank": 9,
+          "rank": 10,
           "team": "Östersunds IK",
           "ours": false,
           "gp": 16,
@@ -110,18 +122,6 @@
           "otl": 3,
           "l": 6,
           "diff": -8,
-          "pts": 20
-        },
-        {
-          "rank": 10,
-          "team": "Almtuna IS",
-          "ours": true,
-          "gp": 16,
-          "w": 5,
-          "otw": 2,
-          "otl": 1,
-          "l": 8,
-          "diff": -15,
           "pts": 20
         },
         {
@@ -263,27 +263,27 @@
         },
         {
           "rank": 8,
-          "team": "Kallhälls IF",
+          "team": "IFK Mariehamn",
           "ours": false,
           "gp": 3,
-          "w": 0,
+          "w": 1,
           "otw": 0,
           "otl": 0,
           "l": 2,
-          "diff": -12,
-          "pts": 2
+          "diff": -11,
+          "pts": 3
         },
         {
           "rank": 9,
-          "team": "IFK Mariehamn",
+          "team": "Kallhälls IF",
           "ours": false,
-          "gp": 2,
+          "gp": 4,
           "w": 0,
           "otw": 0,
           "otl": 0,
-          "l": 2,
-          "diff": -12,
-          "pts": 0
+          "l": 3,
+          "diff": -13,
+          "pts": 2
         }
       ]
     },
@@ -294,120 +294,120 @@
           "rank": 1,
           "team": "Almtuna IS U20",
           "ours": true,
-          "gp": 11,
-          "w": 8,
+          "gp": 12,
+          "w": 9,
           "otw": 1,
           "otl": 0,
           "l": 2,
-          "diff": 27,
-          "pts": 26
+          "diff": 33,
+          "pts": 29
         },
         {
           "rank": 2,
           "team": "Tyresö Hanviken Hockey",
           "ours": false,
-          "gp": 11,
-          "w": 8,
+          "gp": 12,
+          "w": 9,
           "otw": 0,
           "otl": 0,
           "l": 2,
-          "diff": 32,
-          "pts": 25
+          "diff": 45,
+          "pts": 28
         },
         {
           "rank": 3,
           "team": "IFK Täby HC",
           "ours": false,
-          "gp": 11,
-          "w": 6,
+          "gp": 12,
+          "w": 7,
           "otw": 1,
           "otl": 0,
           "l": 2,
-          "diff": 18,
-          "pts": 24
+          "diff": 21,
+          "pts": 27
         },
         {
           "rank": 4,
-          "team": "Nacka HK",
-          "ours": false,
-          "gp": 11,
-          "w": 5,
-          "otw": 1,
-          "otl": 1,
-          "l": 4,
-          "diff": 9,
-          "pts": 18
-        },
-        {
-          "rank": 5,
           "team": "Flemingsbergs IK",
           "ours": false,
-          "gp": 11,
-          "w": 5,
+          "gp": 12,
+          "w": 6,
           "otw": 0,
           "otl": 2,
           "l": 4,
-          "diff": 0,
-          "pts": 17
+          "diff": 2,
+          "pts": 20
         },
         {
-          "rank": 6,
+          "rank": 5,
           "team": "Järna SK",
           "ours": false,
-          "gp": 11,
-          "w": 4,
+          "gp": 12,
+          "w": 5,
           "otw": 1,
           "otl": 0,
           "l": 4,
-          "diff": -7,
-          "pts": 17
+          "diff": -6,
+          "pts": 20
+        },
+        {
+          "rank": 6,
+          "team": "Nacka HK",
+          "ours": false,
+          "gp": 12,
+          "w": 5,
+          "otw": 1,
+          "otl": 1,
+          "l": 5,
+          "diff": 3,
+          "pts": 18
         },
         {
           "rank": 7,
           "team": "IK Göta",
           "ours": false,
-          "gp": 11,
+          "gp": 12,
           "w": 4,
           "otw": 1,
           "otl": 0,
-          "l": 6,
-          "diff": -11,
+          "l": 7,
+          "diff": -24,
           "pts": 14
         },
         {
           "rank": 8,
           "team": "Nyköpings SK",
           "ours": false,
-          "gp": 11,
+          "gp": 12,
           "w": 2,
           "otw": 1,
           "otl": 2,
-          "l": 6,
-          "diff": -21,
+          "l": 7,
+          "diff": -22,
           "pts": 10
         },
         {
           "rank": 9,
           "team": "Spånga IS IK",
           "ours": false,
-          "gp": 11,
+          "gp": 12,
           "w": 2,
           "otw": 0,
           "otl": 1,
-          "l": 7,
-          "diff": -21,
+          "l": 8,
+          "diff": -23,
           "pts": 8
         },
         {
           "rank": 10,
           "team": "Wings HC Arlanda",
           "ours": false,
-          "gp": 11,
+          "gp": 12,
           "w": 2,
           "otw": 0,
           "otl": 0,
-          "l": 9,
-          "diff": -26,
+          "l": 10,
+          "diff": -29,
           "pts": 6
         }
       ]
