@@ -325,7 +325,7 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
     }
     const bookings = (data ?? []) as Booking[];
     if (bookings.length === 0) {
-      box.replaceChildren(el('p', { class: 'meta' }, 'Ingen har anmält sig än.'));
+      box.replaceChildren(el('p', { class: 'meta' }, 'Ingen har anmält sig via webbsidan.'));
       return;
     }
     const rows: Node[] = [];
