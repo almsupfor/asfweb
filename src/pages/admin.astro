@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import { upcoming, fmtDay, fmtTime } from '../data/matches';
 import { travelEstimate, fmtDuration, ARRIVE_BEFORE } from '../data/arenor';
+import { MEETING_KINDS } from '../lib/meetings';
 // Kommande bortamatcher i serien. Schemat byggs in när sajten byggs och uppdateras av schemat i deploy.yml.
 const awayMatches = upcoming()
   .filter((m) => !m.isHome && m.kind === 'league')
@@ -93,6 +94,31 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
           <button type="button" class="button-secondary" id="trip-cancel" hidden>Avbryt ändring</button>
         </p>
       </form>
+
+      <h2 class="section-gap">Möten</h2>
+      <p class="meta prose">Ett publicerat möte visas på sidan Möten och i den gula remsan från 14 dagar före mötet.</p>
+      <div id="meetings-admin"></div>
+
+      <h2 class="section-gap" id="meeting-form-title">Nytt möte</h2>
+      <form id="meeting-form" class="signup" novalidate>
+        <div class="field">
+          <label for="m-kind">Typ av möte</label>
+          <select id="m-kind">
+            {MEETING_KINDS.map((k) => <option value={k}>{k}</option>)}
+          </select>
+        </div>
+        <div class="field"><label for="m-date">Datum</label><input id="m-date" type="date" required /></div>
+        <div class="field"><label for="m-time">Tid</label><input id="m-time" type="time" required /></div>
+        <div class="field"><label for="m-place">Plats</label><input id="m-place" type="text" maxlength="120" /></div>
+        <div class="field"><label for="m-url">Länk till kallelsen (valfritt, till exempel inlägget i Facebook-gruppen)</label><input id="m-url" type="url" maxlength="300" placeholder="https://..." /></div>
+        <div class="field"><label for="m-note">Anmärkning (valfritt)</label><textarea id="m-note" rows="3" maxlength="500"></textarea></div>
+        <label class="check" for="m-pub"><input id="m-pub" type="checkbox" /><span>Publicerad (syns för besökare)</span></label>
+        <p class="form-error" id="meeting-error" role="alert" hidden></p>
+        <p>
+          <button type="submit" class="button" id="meeting-save">Spara möte</button>
+          <button type="button" class="button-secondary" id="meeting-cancel" hidden>Avbryt ändring</button>
+        </p>
+      </form>
     </section>
   </div>
 </Base>
@@ -100,6 +126,7 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
 <script>
   import { supabase } from '../lib/supabase';
   import { el, externalLink, fmtTripDate, kr, type Trip } from '../lib/trips';
+  import { fmtMeetingDay, fmtMeetingTime, type Meeting } from '../lib/meetings';
   import type { Session } from '@supabase/supabase-js';
 
   const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -148,7 +175,7 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
     status.hidden = true;
     $('who').textContent = session.user.email ?? '';
     panel.hidden = false;
-    await loadTrips();
+    await Promise.all([loadTrips(), loadMeetings()]);
   }
 
   function logoutButton() {
@@ -445,5 +472,95 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
     }
     resetForm();
     await loadTrips();
+  });
+
+  // ---- Meetings -------------------------------------------------------------
+
+  const meetingsBox = $('meetings-admin');
+  const meetingForm = $<HTMLFormElement>('meeting-form');
+  const meetingError = $('meeting-error');
+  let editingMeetingId: string | null = null;
+
+  async function loadMeetings() {
+    const { data, error } = await supabase.from('meetings').select('*').order('meeting_date', { ascending: false });
+    if (error) {
+      meetingsBox.replaceChildren(el('p', { class: 'notice' }, 'Det gick inte att hämta mötena.'));
+      return;
+    }
+    const meetings = (data ?? []) as Meeting[];
+    if (meetings.length === 0) {
+      meetingsBox.replaceChildren(el('p', { class: 'notice prose' }, 'Inga möten är inlagda än. Lägg till ett nedan.'));
+      return;
+    }
+    meetingsBox.replaceChildren(...meetings.map(meetingCard));
+  }
+
+  function meetingCard(m: Meeting) {
+    const edit = el('button', { type: 'button', class: 'button-secondary' }, 'Redigera');
+    edit.addEventListener('click', () => startEditMeeting(m));
+    const del = el('button', { type: 'button', class: 'button-secondary' }, 'Ta bort möte');
+    del.addEventListener('click', async () => {
+      if (!confirm(`Ta bort ${m.kind.toLowerCase()} ${m.meeting_date}? Det går inte att ångra.`)) return;
+      const { error } = await supabase.from('meetings').delete().eq('id', m.id);
+      if (error) alert('Det gick inte att ta bort mötet.');
+      await loadMeetings();
+    });
+    return el('div', { class: 'admin-trip' },
+      el('h3', {}, m.kind),
+      el('p', { class: 'meta' }, `${fmtMeetingDay(m.meeting_date)} kl. ${fmtMeetingTime(m.meeting_time)} · ${m.place ?? 'Plats meddelas senare'} · ${m.published ? 'Publicerat' : 'Utkast'}`),
+      el('p', { class: 'admin-actions' }, edit, del),
+    );
+  }
+
+  const mf = (id: string) => $<HTMLInputElement>(id);
+
+  function startEditMeeting(m: Meeting) {
+    editingMeetingId = m.id;
+    $('meeting-form-title').textContent = 'Redigera möte';
+    $<HTMLSelectElement>('m-kind').value = m.kind;
+    mf('m-date').value = m.meeting_date;
+    mf('m-time').value = fmtMeetingTime(m.meeting_time);
+    mf('m-place').value = m.place ?? '';
+    mf('m-url').value = m.notice_url ?? '';
+    $<HTMLTextAreaElement>('m-note').value = m.note ?? '';
+    mf('m-pub').checked = m.published;
+    $('meeting-cancel').hidden = false;
+    meetingForm.scrollIntoView({ block: 'start' });
+  }
+
+  function resetMeetingForm() {
+    editingMeetingId = null;
+    meetingForm.reset();
+    $('meeting-form-title').textContent = 'Nytt möte';
+    $('meeting-cancel').hidden = true;
+    meetingError.hidden = true;
+  }
+  $('meeting-cancel').addEventListener('click', resetMeetingForm);
+
+  meetingForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!confirm(editingMeetingId ? 'Spara ändringarna i mötet?' : 'Skapa mötet?')) return;
+    meetingError.hidden = true;
+    const row = {
+      kind: $<HTMLSelectElement>('m-kind').value,
+      meeting_date: mf('m-date').value,
+      meeting_time: mf('m-time').value,
+      place: mf('m-place').value.trim() || null,
+      notice_url: mf('m-url').value.trim() || null,
+      note: $<HTMLTextAreaElement>('m-note').value.trim() || null,
+      published: mf('m-pub').checked,
+    };
+    const fail = (text: string) => {
+      meetingError.textContent = text;
+      meetingError.hidden = false;
+    };
+    if (!row.meeting_date || !row.meeting_time) return fail('Fyll i datum och tid.');
+    if (row.notice_url && !externalLink(row.notice_url)) return fail('Länken måste börja med https://.');
+    const { error } = editingMeetingId
+      ? await supabase.from('meetings').update(row).eq('id', editingMeetingId)
+      : await supabase.from('meetings').insert(row);
+    if (error) return fail('Det gick inte att spara mötet.');
+    resetMeetingForm();
+    await loadMeetings();
   });
 </script>
