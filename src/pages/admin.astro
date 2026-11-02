@@ -56,6 +56,12 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
     <section id="panel" hidden>
       <p class="meta">Inloggad som <span id="who"></span>. <button type="button" class="link-button" id="logout">Logga ut</button></p>
 
+      <div class="tabs" role="tablist" aria-label="Administration">
+        <button type="button" role="tab" id="tab-trips" class="tab" aria-selected="true" aria-controls="pane-trips">Resor</button>
+        <button type="button" role="tab" id="tab-meetings" class="tab" aria-selected="false" aria-controls="pane-meetings" tabindex="-1">Möten</button>
+      </div>
+
+      <div role="tabpanel" id="pane-trips" aria-labelledby="tab-trips">
       <h2>Resor</h2>
       <div id="trips-admin"></div>
 
@@ -92,8 +98,10 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
           <button type="button" class="button-secondary" id="trip-cancel" hidden>Avbryt ändring</button>
         </p>
       </form>
+      </div>
 
-      <h2 class="section-gap">Möten</h2>
+      <div role="tabpanel" id="pane-meetings" aria-labelledby="tab-meetings" hidden>
+      <h2>Möten</h2>
       <p class="meta prose">Ett publicerat möte visas på sidan Möten och i den gula remsan från 14 dagar före mötet.</p>
       <div id="meetings-admin"></div>
 
@@ -117,6 +125,7 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
           <button type="button" class="button-secondary" id="meeting-cancel" hidden>Avbryt ändring</button>
         </p>
       </form>
+      </div>
     </section>
   </div>
 </Base>
@@ -231,6 +240,27 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
   supabase.auth.getSession().then(({ data }) => (expired(data.session) ? supabase.auth.signOut() : route(data.session)));
   supabase.auth.onAuthStateChange((_event, session) => route(session));
   setInterval(checkExpiry, 60_000);
+
+  // ---- Tabs ---------------------------------------------------------------
+
+  const tabs = [...document.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+  function selectTab(tab: HTMLButtonElement) {
+    for (const t of tabs) {
+      const on = t === tab;
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+      $(t.getAttribute('aria-controls')!).hidden = !on;
+    }
+  }
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => selectTab(tab));
+    tab.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      const next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+      selectTab(next);
+      next.focus();
+    });
+  });
 
   // ---- Trips --------------------------------------------------------------
 

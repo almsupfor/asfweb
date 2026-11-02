@@ -189,6 +189,10 @@ button.button:disabled, .button-secondary:disabled { opacity: .55; cursor: not-a
 .trip-state { margin: 0; font-weight: 700; }
 .admin-trip { margin-block: 1rem; padding: 1.25rem; background: var(--bg-soft); border: 1px solid var(--line); border-radius: .6rem; }
 .admin-trip h3 { margin: 0 0 .25rem; }
+.tabs { display: flex; gap: .25rem; margin: 1rem 0 1.5rem; border-bottom: 1px solid var(--line); }
+.tab { padding: .6rem 1.1rem; font: inherit; font-weight: 600; color: var(--muted); background: none; border: 0; border-bottom: 3px solid transparent; margin-bottom: -1px; cursor: pointer; }
+.tab:hover { color: var(--ink); }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--red); }
 .admin-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
 .admin-bookings { margin-top: 1rem; }
 .admin-table td, .admin-table th { text-align: left; }
