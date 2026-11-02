@@ -28,7 +28,7 @@ const auto = infoRows(await get(q.meetings), await get(q.trips));
     ))}
     {auto.map((r) => (
       <li data-auto>
-        <span class="info-text">{r.text}</span>{' '}<a class="info-link" href={r.href}>(mer info)</a>
+        <span class="info-text">{r.text}</span>{' ('}<a class="info-link" href={r.href}>mer info</a>)
       </li>
     ))}
   </ul>
@@ -53,7 +53,7 @@ const auto = infoRows(await get(q.meetings), await get(q.trips));
     const q = infoBarQueries();
     const [meetings, trips] = await Promise.all([get<Meeting>(q.meetings), get<Trip>(q.trips)]);
     const rows = infoRows(meetings, trips).map((r) =>
-      el('li', { 'data-auto': '' }, el('span', { class: 'info-text' }, r.text), ' ', el('a', { class: 'info-link', href: r.href }, '(mer info)')),
+      el('li', { 'data-auto': '' }, el('span', { class: 'info-text' }, r.text), ' (', el('a', { class: 'info-link', href: r.href }, 'mer info'), ')'),
     );
     const current = [...list.querySelectorAll('li[data-auto]')];
     const same = current.length === rows.length && current.every((li, i) => li.textContent === rows[i].textContent);
