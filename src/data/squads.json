@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-01T05:09:12.951Z",
+  "updated": "2026-11-02T05:22:20.527Z",
   "teams": {
     "herr": [
       {
@@ -595,6 +595,18 @@
         "toi": null
       },
       {
+        "name": "Theodor Falkenhäll",
+        "number": null,
+        "nationality": "SE",
+        "gp": 10,
+        "g": 3,
+        "a": 10,
+        "tp": 13,
+        "pm": 11,
+        "pim": 2,
+        "toi": null
+      },
+      {
         "name": "Jack Wernerson",
         "number": null,
         "nationality": null,
@@ -604,18 +616,6 @@
         "tp": 12,
         "pm": 14,
         "pim": 10,
-        "toi": null
-      },
-      {
-        "name": "Theodor Falkenhäll",
-        "number": null,
-        "nationality": "SE",
-        "gp": 10,
-        "g": 3,
-        "a": 9,
-        "tp": 12,
-        "pm": 11,
-        "pim": 2,
         "toi": null
       },
       {
