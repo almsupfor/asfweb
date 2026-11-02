@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { site, nav } from '../data/site';
 import ThemeToggle from '../components/ThemeToggle.astro';
+import Meddelanden from '../components/Meddelanden.astro';
 
 interface Props { title?: string; description?: string; noindex?: boolean; }
 const { title, description = site.tagline, noindex = false } = Astro.props;
@@ -37,6 +38,7 @@ const canonical = new URL(path, Astro.site);
   </head>
   <body>
     <a class="skip-link" href="#innehall">Hoppa till innehåll</a>
+    <Meddelanden />
     <header class="site-header">
       <div class="wrap bar">
         <a class="brand" href="/" aria-label={site.name}>
@@ -132,7 +134,7 @@ const canonical = new URL(path, Astro.site);
         }
       };
       const markAll = (root: ParentNode) => root.querySelectorAll<HTMLAnchorElement>('a[href]').forEach(markExternal);
-      const regions = document.querySelectorAll('main, footer');
+      const regions = document.querySelectorAll('.info-bar, main, footer');
       regions.forEach(markAll);
       new MutationObserver((records) => {
         for (const r of records) {

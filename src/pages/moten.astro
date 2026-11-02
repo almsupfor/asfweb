@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { nästaMöte } from '../data/moten';
+
+const idag = new Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Stockholm' }).format(new Date());
+const möte = nästaMöte && nästaMöte.datum >= idag ? nästaMöte : null;
+const dag = möte
+  ? new Intl.DateTimeFormat('sv-SE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${möte.datum}T12:00:00Z`))
+  : '';
+---
+<Base title="Möten" description="Nästa möte, kallelse och hur föreningens möten fungerar.">
+  <PageHead title="Möten">
+    <p class="lead">Här hittar du nästa möte och hur föreningens möten fungerar.</p>
+  </PageHead>
+  <div class="wrap page">
+    <div class="prose">
+      <h2>Nästa möte</h2>
+      {möte ? (
+        <div class="notice">
+          <p><strong>{möte.typ}</strong></p>
+          <p>
+            {dag} kl. {möte.tid}<br />
+            Plats: {möte.plats ?? 'meddelas senare'}
+          </p>
+          {möte.anmärkning && <p>{möte.anmärkning}</p>}
+          {möte.kallelse && <p><a href={möte.kallelse}>Se kallelse och dagordning</a></p>}
+        </div>
+      ) : (
+        <p>Inget möte är utlyst just nu. Nästa möte annonseras här och i Facebook-gruppen.</p>
+      )}
+
+      <h2>Om mötena</h2>
+      <ul>
+        <li>Ordinarie årsmöte hålls en gång per år.</li>
+        <li>Kallelse skickas till medlemmarna senast två veckor före mötet.</li>
+        <li>Medlem som har betalat medlemsavgiften har en röst. Rösträtten är personlig.</li>
+        <li>Årsmötet beslutar bland annat om verksamhetsberättelse, ansvarsfrihet, medlemsavgift och val av styrelse och revisor.</li>
+        <li>Extra föreningsmöte hålls när styrelsen finner det nödvändigt eller när minst en tredjedel av de röstberättigade medlemmarna skriftligen begär det.</li>
+      </ul>
+      <p>Allt som gäller möten, dagordning och beslut står i <a href="/stadgar">stadgarna</a>.</p>
+
+      <h2>Frågor</h2>
+      <p>Har du frågor om ett möte, eller vill du lämna något till styrelsen? Du når oss via <a href="/kontakt">kontaktsidan</a>.</p>
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,15 @@
+---
+import { aktuellaMeddelanden } from '../data/meddelanden';
+const items = aktuellaMeddelanden();
+---
+{items.length > 0 && (
+  <section class="info-bar" aria-label="Viktigt just nu">
+    <ul class="wrap">
+      {items.map((m) => (
+        <li>
+          <span class="info-text">{m.text}</span>{m.länk && m.länk.href && <>{' '}<a class="info-link" href={m.länk.href}>{m.länk.etikett}</a></>}
+        </li>
+      ))}
+    </ul>
+  </section>
+)}

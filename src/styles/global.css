@@ -67,6 +67,15 @@ a.card:hover h3 { text-decoration: underline; text-underline-offset: .2em; }
 .meta { color: var(--muted); font-size: .9rem; }
 .site-footer p, .site-footer a { color: var(--muted); }
 .notice { border: 1px solid var(--line); background: var(--bg-soft); padding: .75rem 1rem; border-radius: .4rem; }
+/* Gul remsa för viktiga meddelanden. Egna färger i alla färglägen så att den alltid sticker ut. */
+.info-bar { background: #ffd54a; color: #16161a; border-bottom: 1px solid #c9a21a; }
+.info-bar ul { list-style: none; margin-block: 0; padding-block: 0; font-size: 1rem; line-height: 1.4; }
+.info-bar li { margin: 0; padding-block: .65rem; }
+.info-bar li + li { border-top: 1px solid rgb(22 22 26 / .2); }
+.info-text { font-weight: 600; }
+.info-link { color: #16161a; font-weight: 600; white-space: nowrap; text-decoration: underline; text-underline-offset: .2em; }
+.info-link:hover { text-decoration-thickness: 2px; }
+.info-link:focus-visible { outline-color: #16161a; }
 .list { list-style: none; margin-block: 1rem; padding: 0 1.25rem; background: var(--bg-soft); border: 1px solid var(--line); border-radius: .6rem; }
 .list li { padding: 1rem 0; border-bottom: 1px solid var(--line); }
 .list li:last-child { border-bottom: 0; }

@@ -54,7 +54,9 @@ const fler = bortamatcher.slice(DIREKT);
 
 <script>
   // Trips come from the database. The notice above stays if there are none, or if the request fails.
-  import { supabase } from '../lib/supabase';
+  // Plain fetch with the anon key (as on the front page): supabase-js waits for a stored login session
+  // first, which can stall this public list for visitors who have used /admin.
+  import { SUPABASE_URL, SUPABASE_KEY } from '../data/supabase';
   import { el, externalLink, kr, tripAction, tripWhen, type Trip, type Spots } from '../lib/trips';
 
   const root = document.getElementById('trips');
@@ -62,13 +64,22 @@ const fler = bortamatcher.slice(DIREKT);
 
   async function load(root: HTMLElement) {
     const today = new Date().toLocaleDateString('sv-SE');
-    const [tripsRes, spotsRes] = await Promise.all([
-      supabase.from('trips').select('*').eq('published', true).gte('trip_date', today).order('trip_date'),
-      supabase.rpc('trip_spots'),
-    ]);
-    const trips = (tripsRes.data ?? []) as Trip[];
-    if (tripsRes.error || trips.length === 0) return;
-    const spots = new Map(((spotsRes.data ?? []) as Spots[]).map((s) => [s.trip_id, s]));
+    const headers = { apikey: SUPABASE_KEY };
+    let trips: Trip[];
+    let spotList: Spots[] = [];
+    try {
+      const [tripsRes, spotsRes] = await Promise.all([
+        fetch(`${SUPABASE_URL}/rest/v1/trips?select=*&published=eq.true&trip_date=gte.${today}&order=trip_date.asc`, { headers }),
+        fetch(`${SUPABASE_URL}/rest/v1/rpc/trip_spots`, { method: 'POST', headers: { ...headers, 'Content-Type': 'application/json' }, body: '{}' }),
+      ]);
+      if (!tripsRes.ok) return;
+      trips = (await tripsRes.json()) as Trip[];
+      if (spotsRes.ok) spotList = (await spotsRes.json()) as Spots[];
+    } catch {
+      return;
+    }
+    if (trips.length === 0) return;
+    const spots = new Map(spotList.map((s) => [s.trip_id, s]));
 
     const list = el('ul', { class: 'tiles trip-cards' });
     for (const t of trips) {
