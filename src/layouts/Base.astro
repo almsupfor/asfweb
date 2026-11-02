@@ -66,7 +66,7 @@ const canonical = new URL(path, Astro.site);
         <p class="meta"><a href="/integritet">Integritetspolicy</a></p>
       </div>
     </footer>
-    <a class="to-top-fab" href="#innehall" aria-label="Till toppen">
+    <a class="to-top-fab" href="#" aria-label="Till toppen">
       <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </a>
     <script>
@@ -119,6 +119,13 @@ const canonical = new URL(path, Astro.site);
         const update = () => fab.classList.toggle('show', scrollY > 40);
         addEventListener('scroll', update, { passive: true });
         update();
+        // Scroll up to just below the info bar, where the sticky header starts, rather than all the way to the top.
+        fab.addEventListener('click', (e) => {
+          e.preventDefault();
+          const bar = document.querySelector<HTMLElement>('.info-bar');
+          const behavior = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+          scrollTo({ top: bar ? bar.offsetHeight : 0, behavior });
+        });
       }
     </script>
     <script>
