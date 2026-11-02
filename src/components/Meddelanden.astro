@@ -1,61 +1,69 @@
 ---
 import { aktuellaMeddelanden } from '../data/meddelanden';
+import { infoBarQueries, infoRows } from '../lib/meetings';
+import { SUPABASE_URL, SUPABASE_KEY } from '../data/supabase';
+
 const items = aktuellaMeddelanden();
+
+// Meetings and the next away trip, entered on /admin, are put in the bar when the site is built, so the bar is there from the
+// first paint and does not push the page down. The script below checks again in the browser and corrects the bar if
+// something changed since the build. If the request fails here the bar is built without them.
+const get = async (path: string) => {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, { headers: { apikey: SUPABASE_KEY } });
+    return res.ok ? await res.json() : [];
+  } catch {
+    return [];
+  }
+};
+const q = infoBarQueries();
+const auto = infoRows(await get(q.meetings), await get(q.trips));
 ---
-<section class="info-bar" aria-label="Viktigt just nu" hidden={items.length === 0}>
+<section class="info-bar" aria-label="Viktigt just nu" hidden={items.length + auto.length === 0}>
   <ul class="wrap">
     {items.map((m) => (
       <li>
         <span class="info-text">{m.text}</span>{m.länk && m.länk.href && <>{' '}<a class="info-link" href={m.länk.href}>{m.länk.etikett}</a></>}
       </li>
     ))}
+    {auto.map((r) => (
+      <li data-auto>
+        <span class="info-text">{r.text}</span>{' '}<a class="info-link" href={r.href}>(mer info)</a>
+      </li>
+    ))}
   </ul>
 </section>
 
 <script>
-  // Meetings and the next away trip are added to the bar automatically, from what is entered on /admin:
-  // a meeting shows from 14 days before through the day of the meeting, a trip from 7 days before until the day before it leaves.
-  // Plain fetch (not supabase-js) keeps every page light. If a request fails the bar simply shows nothing extra.
+  // Check the automatic rows again when the page opens. They were built into the page, so this only changes the bar
+  // if a meeting or trip was added, changed or has passed since the last build.
+  // Plain fetch (not supabase-js) keeps every page light. If a request fails the bar is left as built.
   import { SUPABASE_URL, SUPABASE_KEY } from '../data/supabase';
   import { el } from '../lib/trips';
-  import { fmtMeetingDay, fmtMeetingTime, stockholmDay, type Meeting } from '../lib/meetings';
+  import { infoBarQueries, infoRows, type Meeting } from '../lib/meetings';
   import type { Trip } from '../lib/trips';
-
-  const MEETING_DAYS_BEFORE = 14;
-  const TRIP_DAYS_BEFORE = 7;
 
   const get = async <T,>(path: string): Promise<T[]> => {
     const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, { headers: { apikey: SUPABASE_KEY } });
-    return res.ok ? ((await res.json()) as T[]) : [];
+    if (!res.ok) throw new Error(res.statusText);
+    return (await res.json()) as T[];
   };
 
-  // "Almtuna IS" is left out of "Södertälje SK – Almtuna IS" so the text reads "Bortaresa till Södertälje SK".
-  const opponent = (title: string) => {
-    const other = title.split(/\s+[–-]\s+/).filter((s) => !/almtuna/i.test(s));
-    return other.length === 1 ? other[0] : title;
-  };
-
-  async function load(bar: HTMLElement, list: Element) {
-    const today = stockholmDay();
-    const [meetings, trips] = await Promise.all([
-      get<Meeting>(`meetings?select=*&published=eq.true&meeting_date=gte.${today}&meeting_date=lte.${stockholmDay(MEETING_DAYS_BEFORE)}&order=meeting_date.asc,meeting_time.asc&limit=1`).catch(() => []),
-      get<Trip>(`trips?select=*&published=eq.true&trip_date=gt.${today}&trip_date=lte.${stockholmDay(TRIP_DAYS_BEFORE)}&order=trip_date.asc&limit=1`).catch(() => []),
-    ]);
-    const rows: HTMLElement[] = [];
-    const [m] = meetings;
-    if (m) rows.push(row(`${m.kind} ${fmtMeetingDay(m.meeting_date, false)} kl. ${fmtMeetingTime(m.meeting_time)}.`, '/moten'));
-    const [t] = trips;
-    if (t) rows.push(row(`Bortaresa till ${opponent(t.title)} ${fmtMeetingDay(t.trip_date, false)}.`, '/bortaresor'));
-    if (rows.length === 0) return;
+  async function refresh(bar: HTMLElement, list: Element) {
+    const q = infoBarQueries();
+    const [meetings, trips] = await Promise.all([get<Meeting>(q.meetings), get<Trip>(q.trips)]);
+    const rows = infoRows(meetings, trips).map((r) =>
+      el('li', { 'data-auto': '' }, el('span', { class: 'info-text' }, r.text), ' ', el('a', { class: 'info-link', href: r.href }, '(mer info)')),
+    );
+    const current = [...list.querySelectorAll('li[data-auto]')];
+    const same = current.length === rows.length && current.every((li, i) => li.textContent === rows[i].textContent);
+    if (same) return;
+    current.forEach((li) => li.remove());
     list.append(...rows);
-    bar.hidden = false;
+    bar.hidden = list.children.length === 0;
   }
 
-  const row = (text: string, href: string) =>
-    el('li', {}, el('span', { class: 'info-text' }, text), ' ', el('a', { class: 'info-link', href }, '(mer info)'));
-
-  // Last, so everything above is defined when load() runs.
   const bar = document.querySelector<HTMLElement>('.info-bar');
   const list = bar?.querySelector('ul');
-  if (bar && list) load(bar, list);
+  if (bar && list) refresh(bar, list).catch(() => {});
 </script>
