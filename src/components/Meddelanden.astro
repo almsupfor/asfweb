@@ -24,10 +24,6 @@ const items = aktuellaMeddelanden();
   const MEETING_DAYS_BEFORE = 14;
   const TRIP_DAYS_BEFORE = 7;
 
-  const bar = document.querySelector<HTMLElement>('.info-bar');
-  const list = bar?.querySelector('ul');
-  if (bar && list) load(bar, list);
-
   const get = async <T,>(path: string): Promise<T[]> => {
     const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, { headers: { apikey: SUPABASE_KEY } });
     return res.ok ? ((await res.json()) as T[]) : [];
@@ -57,4 +53,9 @@ const items = aktuellaMeddelanden();
 
   const row = (text: string, href: string) =>
     el('li', {}, el('span', { class: 'info-text' }, text), ' ', el('a', { class: 'info-link', href }, '(mer info)'));
+
+  // Last, so everything above is defined when load() runs.
+  const bar = document.querySelector<HTMLElement>('.info-bar');
+  const list = bar?.querySelector('ul');
+  if (bar && list) load(bar, list);
 </script>
