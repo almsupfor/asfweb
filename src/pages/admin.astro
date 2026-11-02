@@ -170,7 +170,10 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
     }
     const { error } = await supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: false, emailRedirectTo: `${location.origin}/admin/` } });
     if (error) {
-      box.textContent = 'Det gick inte att skicka länken. Kontrollera adressen, eller be en administratör bjuda in dig.';
+      box.textContent =
+        error.status === 429 || error.code === 'over_email_send_rate_limit'
+          ? 'För många inloggningslänkar har skickats på kort tid. Vänta en stund och försök igen, och använd den senaste länken i mejlet.'
+          : 'Det gick inte att skicka länken. Kontrollera adressen, eller be en administratör bjuda in dig.';
       box.hidden = false;
       return;
     }
@@ -178,8 +181,31 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
     status.hidden = false;
   });
 
-  supabase.auth.getSession().then(({ data }) => route(data.session));
+  // A failed login link (already used or expired) puts the error in the URL hash; show it instead.
+  const hashParams = new URLSearchParams(location.hash.slice(1));
+  if (hashParams.get('error_code')) {
+    const expired = hashParams.get('error_code') === 'otp_expired';
+    $('login-error').textContent = expired
+      ? 'Inloggningslänken har redan använts eller har gått ut. Skriv din e-postadress och skicka en ny.'
+      : 'Inloggningen misslyckades. Försök igen.';
+    $('login-error').hidden = false;
+    history.replaceState(null, '', location.pathname);
+  }
+
+  // Sign out automatically this long after the magic link was used.
+  const MAX_SESSION_MS = 12 * 60 * 60 * 1000;
+  function expired(session: Session | null) {
+    const at = session?.user.last_sign_in_at;
+    return !!at && Date.now() - new Date(at).getTime() > MAX_SESSION_MS;
+  }
+  async function checkExpiry() {
+    const { data } = await supabase.auth.getSession();
+    if (expired(data.session)) await supabase.auth.signOut();
+  }
+
+  supabase.auth.getSession().then(({ data }) => (expired(data.session) ? supabase.auth.signOut() : route(data.session)));
   supabase.auth.onAuthStateChange((_event, session) => route(session));
+  setInterval(checkExpiry, 60_000);
 
   // ---- Trips --------------------------------------------------------------
 

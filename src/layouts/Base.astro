@@ -24,6 +24,8 @@ const canonical = new URL(path, Astro.site);
         const t = localStorage.getItem('tema');
         if (t === 'light' || t === 'dim' || t === 'dark') document.documentElement.dataset.theme = t;
       } catch {}
+      // A failed login link can land on any page with the error in the hash; send it to the admin page, which shows it.
+      if (location.hash.includes('error_code=') && !location.pathname.startsWith('/admin')) location.replace('/admin/' + location.hash);
     </script>
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#121214" media="(prefers-color-scheme: dark)" />
