@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import { upcoming, fmtDay, fmtTime } from '../data/matches';
 import { travelEstimate, fmtDuration, ARRIVE_BEFORE } from '../data/arenor';
-import { MEETING_KINDS } from '../lib/meetings';
+import { MEETING_KINDS, MEETING_DAYS_BEFORE, TRIP_DAYS_BEFORE } from '../lib/meetings';
 // Kommande bortamatcher i serien. Schemat byggs in när sajten byggs och uppdateras av schemat i deploy.yml.
 const awayMatches = upcoming()
   .filter((m) => !m.isHome && m.kind === 'league')
@@ -63,6 +63,7 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
 
       <div role="tabpanel" id="pane-trips" aria-labelledby="tab-trips">
       <h2>Resor</h2>
+      <p class="meta prose">En publicerad resa visas på sidan Bortaresor och i den gula remsan från {TRIP_DAYS_BEFORE} dagar före resan. Anmälan är möjlig så länge den är öppen och det finns lediga platser.</p>
       <div id="trips-admin"></div>
 
       <h2 class="section-gap" id="form-title">Ny resa</h2>
@@ -102,7 +103,7 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
 
       <div role="tabpanel" id="pane-meetings" aria-labelledby="tab-meetings" hidden>
       <h2>Möten</h2>
-      <p class="meta prose">Ett publicerat möte visas på sidan Möten och i den gula remsan från 14 dagar före mötet.</p>
+      <p class="meta prose">Ett publicerat möte visas på sidan Möten och i den gula remsan från {MEETING_DAYS_BEFORE} dagar före mötet.</p>
       <div id="meetings-admin"></div>
 
       <h2 class="section-gap" id="meeting-form-title">Nytt möte</h2>

@@ -30,8 +30,8 @@ export const fmtMeetingTime = (t: string) => t.slice(0, 5);
 // A meeting shows in the yellow bar from 14 days before through the day of the meeting,
 // a trip from 7 days before until the day before it leaves. Used at build time and again in the browser.
 
-const MEETING_DAYS_BEFORE = 14;
-const TRIP_DAYS_BEFORE = 7;
+export const MEETING_DAYS_BEFORE = 14;
+export const TRIP_DAYS_BEFORE = 7;
 
 export const infoBarQueries = () => {
   const today = stockholmDay();
