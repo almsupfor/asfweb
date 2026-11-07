@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-03T05:15:21.601Z",
+  "updated": "2026-11-07T05:10:42.145Z",
   "tables": {
     "herr": {
       "name": "HockeyAllsvenskan 2026/2027",
@@ -203,6 +203,18 @@
         },
         {
           "rank": 3,
+          "team": "Väsby IK HK",
+          "ours": false,
+          "gp": 3,
+          "w": 2,
+          "otw": 0,
+          "otl": 0,
+          "l": 1,
+          "diff": 12,
+          "pts": 6
+        },
+        {
+          "rank": 4,
           "team": "SHK Hockey Club",
           "ours": false,
           "gp": 2,
@@ -212,18 +224,6 @@
           "l": 0,
           "diff": 0,
           "pts": 4
-        },
-        {
-          "rank": 4,
-          "team": "Väsby IK HK",
-          "ours": false,
-          "gp": 2,
-          "w": 1,
-          "otw": 0,
-          "otl": 0,
-          "l": 1,
-          "diff": 1,
-          "pts": 3
         },
         {
           "rank": 5,
@@ -251,18 +251,6 @@
         },
         {
           "rank": 7,
-          "team": "Tullinge TP HC",
-          "ours": false,
-          "gp": 3,
-          "w": 1,
-          "otw": 0,
-          "otl": 0,
-          "l": 2,
-          "diff": -10,
-          "pts": 3
-        },
-        {
-          "rank": 8,
           "team": "IFK Mariehamn",
           "ours": false,
           "gp": 3,
@@ -271,6 +259,18 @@
           "otl": 0,
           "l": 2,
           "diff": -11,
+          "pts": 3
+        },
+        {
+          "rank": 8,
+          "team": "Tullinge TP HC",
+          "ours": false,
+          "gp": 4,
+          "w": 1,
+          "otw": 0,
+          "otl": 0,
+          "l": 3,
+          "diff": -21,
           "pts": 3
         },
         {
