@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-10T05:15:13.135Z",
+  "updated": "2026-11-11T05:20:04.674Z",
   "tables": {
     "herr": {
       "name": "HockeyAllsvenskan 2026/2027",
@@ -90,6 +90,18 @@
         },
         {
           "rank": 8,
+          "team": "Östersunds IK",
+          "ours": false,
+          "gp": 18,
+          "w": 4,
+          "otw": 4,
+          "otl": 4,
+          "l": 6,
+          "diff": -6,
+          "pts": 24
+        },
+        {
+          "rank": 9,
           "team": "BIK Karlskoga",
           "ours": false,
           "gp": 17,
@@ -101,7 +113,7 @@
           "pts": 23
         },
         {
-          "rank": 9,
+          "rank": 10,
           "team": "Almtuna IS",
           "ours": true,
           "gp": 17,
@@ -113,7 +125,7 @@
           "pts": 23
         },
         {
-          "rank": 10,
+          "rank": 11,
           "team": "Västerås IK",
           "ours": false,
           "gp": 17,
@@ -125,27 +137,15 @@
           "pts": 22
         },
         {
-          "rank": 11,
-          "team": "Östersunds IK",
-          "ours": false,
-          "gp": 17,
-          "w": 3,
-          "otw": 4,
-          "otl": 4,
-          "l": 6,
-          "diff": -9,
-          "pts": 21
-        },
-        {
           "rank": 12,
           "team": "Vimmerby Hockey",
           "ours": false,
-          "gp": 16,
+          "gp": 17,
           "w": 2,
           "otw": 2,
           "otl": 3,
-          "l": 9,
-          "diff": -18,
+          "l": 10,
+          "diff": -21,
           "pts": 13
         },
         {
