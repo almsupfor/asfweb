@@ -1,40 +1,40 @@
 {
-  "updated": "2026-11-10T05:15:10.847Z",
+  "updated": "2026-11-12T05:22:05.105Z",
   "teams": {
     "herr": [
       {
         "name": "Bruno Osmanis",
         "number": null,
         "nationality": "LV",
-        "gp": 17,
+        "gp": 18,
         "g": 6,
         "a": 6,
         "tp": 12,
-        "pm": -1,
+        "pm": -2,
         "pim": 4,
-        "toi": "13:28"
+        "toi": "13:35"
       },
       {
         "name": "Lukas Vesterlund",
         "number": null,
         "nationality": "SE",
-        "gp": 17,
+        "gp": 18,
         "g": 5,
         "a": 6,
         "tp": 11,
-        "pm": -11,
+        "pm": -12,
         "pim": 12,
-        "toi": "17:24"
+        "toi": "17:03"
       },
       {
         "name": "Karl Sterner",
         "number": null,
         "nationality": "SE",
-        "gp": 17,
+        "gp": 18,
         "g": 6,
         "a": 4,
         "tp": 10,
-        "pm": -8,
+        "pm": -10,
         "pim": 10,
         "toi": "17:58"
       },
@@ -42,73 +42,73 @@
         "name": "Samuel Salonen",
         "number": null,
         "nationality": null,
-        "gp": 17,
+        "gp": 18,
         "g": 5,
         "a": 5,
         "tp": 10,
-        "pm": -5,
+        "pm": -6,
         "pim": 4,
-        "toi": "15:35"
+        "toi": "15:45"
       },
       {
         "name": "Marwin Jarbsjö",
         "number": null,
         "nationality": null,
-        "gp": 17,
+        "gp": 18,
         "g": 4,
         "a": 6,
         "tp": 10,
-        "pm": 2,
+        "pm": 1,
         "pim": 4,
-        "toi": "16:30"
+        "toi": "16:37"
       },
       {
         "name": "Charlie Forslund",
         "number": 10,
         "nationality": "SE",
-        "gp": 17,
+        "gp": 18,
         "g": 3,
         "a": 7,
         "tp": 10,
-        "pm": -7,
+        "pm": -8,
         "pim": 4,
-        "toi": "16:39"
+        "toi": "16:48"
       },
       {
         "name": "Anton Ohlsson",
         "number": null,
         "nationality": "SE",
-        "gp": 17,
+        "gp": 18,
         "g": 2,
         "a": 7,
         "tp": 9,
-        "pm": -1,
+        "pm": -2,
         "pim": 4,
-        "toi": "15:56"
+        "toi": "16:03"
       },
       {
         "name": "Oskar Asplund",
         "number": null,
         "nationality": "SE",
-        "gp": 17,
+        "gp": 18,
         "g": 1,
         "a": 8,
         "tp": 9,
-        "pm": -2,
+        "pm": -3,
         "pim": 4,
-        "toi": "22:12"
+        "toi": "22:22"
       },
       {
         "name": "Leo Sundqvist",
         "number": 22,
         "nationality": "SE",
-        "gp": 17,
+        "gp": 18,
         "g": 4,
         "a": 4,
         "tp": 8,
-        "pm": 3,
+        "pm": 1,
         "pim": 6,
-        "toi": "16:22"
+        "toi": "16:28"
       },
       {
         "name": "Jacob Ragnarsson",
@@ -138,52 +138,40 @@
         "name": "Oscar Pentler",
         "number": 17,
         "nationality": "SE",
-        "gp": 15,
+        "gp": 16,
         "g": 2,
         "a": 0,
         "tp": 2,
-        "pm": -1,
+        "pm": -2,
         "pim": 33,
-        "toi": "13:16"
+        "toi": "13:07"
       },
       {
         "name": "Lukas Smith",
         "number": null,
         "nationality": "SE",
-        "gp": 17,
+        "gp": 18,
         "g": 2,
         "a": 0,
         "tp": 2,
         "pm": 1,
         "pim": 6,
-        "toi": "11:55"
+        "toi": "12:02"
       },
       {
         "name": "Hugo Blixt",
         "number": 45,
         "nationality": "SE",
-        "gp": 3,
+        "gp": 4,
         "g": 0,
         "a": 2,
         "tp": 2,
         "pm": 3,
-        "pim": 2,
-        "toi": "24:21"
+        "pim": 4,
+        "toi": "24:46"
       },
       {
         "name": "Edvin Hammarlund",
-        "number": null,
-        "nationality": "SE",
-        "gp": 16,
-        "g": 0,
-        "a": 2,
-        "tp": 2,
-        "pm": -5,
-        "pim": 16,
-        "toi": "22:09"
-      },
-      {
-        "name": "Fredrik Schlyter",
         "number": null,
         "nationality": "SE",
         "gp": 17,
@@ -191,44 +179,56 @@
         "a": 2,
         "tp": 2,
         "pm": -8,
+        "pim": 16,
+        "toi": "22:10"
+      },
+      {
+        "name": "Fredrik Schlyter",
+        "number": null,
+        "nationality": "SE",
+        "gp": 18,
+        "g": 0,
+        "a": 2,
+        "tp": 2,
+        "pm": -9,
         "pim": 0,
-        "toi": "14:09"
+        "toi": "14:07"
       },
       {
         "name": "Nikodemus Wernquist",
         "number": null,
         "nationality": "SE",
-        "gp": 17,
+        "gp": 18,
         "g": 0,
         "a": 2,
         "tp": 2,
-        "pm": -3,
+        "pm": -6,
         "pim": 10,
-        "toi": "14:20"
+        "toi": "14:26"
       },
       {
         "name": "Viktor Johansson",
         "number": null,
         "nationality": "SE",
-        "gp": 17,
+        "gp": 18,
         "g": 1,
         "a": 0,
         "tp": 1,
         "pm": -5,
         "pim": 4,
-        "toi": "8:53"
+        "toi": "8:51"
       },
       {
         "name": "Alexander Proos",
         "number": null,
         "nationality": null,
-        "gp": 10,
+        "gp": 11,
         "g": 1,
         "a": 0,
         "tp": 1,
         "pm": -3,
         "pim": 0,
-        "toi": "5:27"
+        "toi": "5:57"
       },
       {
         "name": "Victor Aronsson",
@@ -270,7 +270,7 @@
         "name": "Tim Forslund",
         "number": null,
         "nationality": null,
-        "gp": 17,
+        "gp": 18,
         "g": 0,
         "a": 0,
         "tp": 0,
@@ -282,7 +282,7 @@
         "name": "Hugo Hävelid",
         "number": null,
         "nationality": "SE",
-        "gp": 17,
+        "gp": 18,
         "g": 0,
         "a": 0,
         "tp": 0,
@@ -325,6 +325,18 @@
         "pm": 0,
         "pim": 2,
         "toi": "5:24"
+      },
+      {
+        "name": "Felix Söderlund",
+        "number": null,
+        "nationality": null,
+        "gp": 1,
+        "g": 0,
+        "a": 0,
+        "tp": 0,
+        "pm": -1,
+        "pim": 0,
+        "toi": "14:46"
       }
     ],
     "dam": [
@@ -912,13 +924,13 @@
     "herr": [
       {
         "name": "Hugo Hävelid",
-        "gp": 10,
-        "svs": 220,
-        "ga": 28,
-        "svsPerc": "88.71",
-        "gaa": "3.18",
+        "gp": 11,
+        "svs": 236,
+        "ga": 33,
+        "svsPerc": "87.73",
+        "gaa": "3.37",
         "so": 0,
-        "mip": "528:16"
+        "mip": "588:16"
       },
       {
         "name": "Tim Forslund",
