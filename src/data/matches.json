@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-01T01:24:34.072Z",
+  "updated": "2026-11-12T01:28:59.701Z",
   "schedule": [
     {
       "date": "2026-08-13",
@@ -603,6 +603,14 @@
     }
   ],
   "results": [
+    {
+      "id": "2523221",
+      "date": "2026-11-11",
+      "home": "Almtuna IS",
+      "away": "Nybro Vikings",
+      "homeScore": 0,
+      "awayScore": 5
+    },
     {
       "id": "2523209",
       "date": "2026-10-31",
