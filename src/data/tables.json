@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-12T05:22:07.548Z",
+  "updated": "2026-11-13T05:20:33.805Z",
   "tables": {
     "herr": {
       "name": "HockeyAllsvenskan 2026/2027",
@@ -294,12 +294,12 @@
           "rank": 1,
           "team": "Tyresö Hanviken Hockey",
           "ours": false,
-          "gp": 15,
+          "gp": 16,
           "w": 12,
           "otw": 0,
           "otl": 0,
-          "l": 2,
-          "diff": 59,
+          "l": 3,
+          "diff": 57,
           "pts": 37
         },
         {
@@ -364,6 +364,18 @@
         },
         {
           "rank": 7,
+          "team": "Wings HC Arlanda",
+          "ours": false,
+          "gp": 16,
+          "w": 5,
+          "otw": 0,
+          "otl": 0,
+          "l": 10,
+          "diff": -23,
+          "pts": 16
+        },
+        {
+          "rank": 8,
           "team": "IK Göta",
           "ours": false,
           "gp": 15,
@@ -375,7 +387,7 @@
           "pts": 16
         },
         {
-          "rank": 8,
+          "rank": 9,
           "team": "Nyköpings SK",
           "ours": false,
           "gp": 15,
@@ -385,18 +397,6 @@
           "l": 8,
           "diff": -23,
           "pts": 14
-        },
-        {
-          "rank": 9,
-          "team": "Wings HC Arlanda",
-          "ours": false,
-          "gp": 15,
-          "w": 4,
-          "otw": 0,
-          "otl": 0,
-          "l": 10,
-          "diff": -25,
-          "pts": 13
         },
         {
           "rank": 10,
