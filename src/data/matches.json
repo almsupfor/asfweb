@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-12T01:28:59.701Z",
+  "updated": "2026-11-15T01:24:33.567Z",
   "schedule": [
     {
       "date": "2026-08-13",
@@ -603,6 +603,15 @@
     }
   ],
   "results": [
+    {
+      "id": "2523230",
+      "date": "2026-11-14",
+      "home": "Almtuna IS",
+      "away": "BIK Karlskoga",
+      "homeScore": 3,
+      "awayScore": 2,
+      "ext": "OT"
+    },
     {
       "id": "2523221",
       "date": "2026-11-11",
