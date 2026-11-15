@@ -3,7 +3,7 @@ export interface Member {
   id: string;
   first_name: string;
   last_name: string;
-  email: string;
+  email: string | null;
   paid_season: number | null;
   wants_mail: boolean;
   note: string | null;

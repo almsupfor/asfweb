@@ -58,7 +58,8 @@ Deno.serve(async (req) => {
     .select('id, first_name, email, confirm_token')
     .in('id', ids)
     .is('email_confirmed_at', null)
-    .eq('wants_mail', true);
+    .eq('wants_mail', true)
+    .not('email', 'is', null);
   if (error) return json({ error: 'db' }, 500);
 
   let sent = 0;

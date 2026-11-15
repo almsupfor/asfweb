@@ -145,7 +145,7 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
       <form id="member-form" class="signup" novalidate>
         <div class="field"><label for="mb-first">Förnamn</label><input id="mb-first" type="text" maxlength="80" autocomplete="off" required /></div>
         <div class="field"><label for="mb-last">Efternamn</label><input id="mb-last" type="text" maxlength="80" autocomplete="off" required /></div>
-        <div class="field"><label for="mb-email">E-post</label><input id="mb-email" type="email" maxlength="200" autocomplete="off" required /></div>
+        <div class="field"><label for="mb-email">E-post (behövs för medlemsbrev, annars kan den vara tom)</label><input id="mb-email" type="email" maxlength="200" autocomplete="off" /></div>
         <div class="field"><label for="mb-season">Betald säsong</label><select id="mb-season"></select></div>
         <label class="check" for="mb-mail"><input id="mb-mail" type="checkbox" /><span>Vill ha medlemsbrev (personen har sagt ja)</span></label>
         <div class="field"><label for="mb-note">Anteckning (valfritt, till exempel att avgiften betalats kontant)</label><textarea id="mb-note" rows="2" maxlength="500"></textarea></div>
@@ -655,7 +655,7 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
     members = (data ?? []) as Member[];
     const active = members.filter((m) => isActive(m));
     const mailable = active.filter((m) => m.wants_mail);
-    const unconfirmed = members.filter((m) => !m.email_confirmed_at).length;
+    const unconfirmed = members.filter((m) => m.email && !m.email_confirmed_at).length;
     $('members-summary').textContent = `${active.length} medlemmar för säsongen ${seasonLabel(thisSeason)}, varav ${mailable.length} vill ha medlemsbrev. ${members.length - active.length} har ingen betald avgift för säsongen. ${unconfirmed} har inte bekräftat sin e-post.`;
     if (members.length === 0) {
       membersBox.replaceChildren(el('p', { class: 'notice prose' }, 'Inga medlemmar är inlagda än. Lägg till en nedan.'));
@@ -698,20 +698,22 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
       more.textContent = del.hidden ? 'Mer' : 'Färre';
     });
     // Mailing a confirmation makes no sense for someone who is confirmed or who has said no to letters.
-    if (!m.email_confirmed_at && m.wants_mail) {
+    if (m.email && !m.email_confirmed_at && m.wants_mail) {
       const send = el('button', { type: 'button', class: 'button-secondary' }, m.confirmation_sent_at ? 'Skicka bekräftelse igen' : 'Skicka bekräftelse');
       send.addEventListener('click', () => sendConfirmations([m]));
       actions.unshift(send);
     }
     actions.push(edit, more, del);
-    const confirmText = m.email_confirmed_at
-      ? `E-post bekräftad ${new Date(m.email_confirmed_at).toLocaleDateString('sv-SE')}`
+    const confirmText = !m.email
+      ? 'Ingen e-post'
+      : m.email_confirmed_at
+      ?`E-post bekräftad ${new Date(m.email_confirmed_at).toLocaleDateString('sv-SE')}`
       : m.confirmation_sent_at
         ? `Bekräftelse skickad ${new Date(m.confirmation_sent_at).toLocaleDateString('sv-SE')}, ej bekräftad`
         : 'E-post ej bekräftad';
     return el('div', { class: 'admin-trip' },
       el('h3', {}, `${m.first_name} ${m.last_name}`),
-      el('p', { class: 'meta' }, `${m.email} · ${confirmText} · ${paidText}${active ? '' : ' (ingen giltig avgift just nu)'} · ${m.wants_mail ? 'Vill ha medlemsbrev' : 'Inga medlemsbrev'}${m.note ? ` · ${m.note}` : ''}`),
+      el('p', { class: 'meta' }, `${m.email ? `${m.email} · ` : ''}${confirmText} · ${paidText}${active ? '' : ' (ingen giltig avgift just nu)'} · ${m.wants_mail ? 'Vill ha medlemsbrev' : 'Inga medlemsbrev'}${m.note ? ` · ${m.note}` : ''}`),
       el('p', { class: 'admin-actions' }, ...actions),
     );
   }
@@ -733,7 +735,7 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
   }
 
   $('members-confirm-all').addEventListener('click', () => {
-    const list = members.filter((m) => !m.email_confirmed_at && m.wants_mail);
+    const list = members.filter((m) => m.email && !m.email_confirmed_at && m.wants_mail);
     if (list.length > 50) return alert('Det är fler än 50. Skicka i omgångar, en medlem i taget.');
     sendConfirmations(list);
   });
@@ -743,7 +745,7 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
     $('member-form-title').textContent = 'Redigera medlem';
     mb('mb-first').value = m.first_name;
     mb('mb-last').value = m.last_name;
-    mb('mb-email').value = m.email;
+    mb('mb-email').value = m.email ?? '';
     // A season outside the usual three (for example an older one) is kept as its own option so it is not lost on save.
     if (m.paid_season != null && ![...seasonSelect.options].some((o) => o.value === String(m.paid_season))) {
       seasonSelect.append(el('option', { value: String(m.paid_season) }, seasonLabel(m.paid_season)));
@@ -776,17 +778,21 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
     const row = {
       first_name: mb('mb-first').value.trim(),
       last_name: mb('mb-last').value.trim(),
-      email: mb('mb-email').value.trim(),
+      email: mb('mb-email').value.trim() || null,
       paid_season: seasonSelect.value === '' ? null : Number(seasonSelect.value),
       wants_mail: mb('mb-mail').checked,
       note: $<HTMLTextAreaElement>('mb-note').value.trim() || null,
     };
     if (!row.first_name || !row.last_name) return fail('Fyll i förnamn och efternamn.');
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(row.email)) return fail('Skriv en giltig e-postadress. E-post krävs för att kunna nå medlemmen.');
+    if (row.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(row.email)) return fail('Skriv en giltig e-postadress, eller lämna fältet tomt.');
+    if (row.wants_mail && !row.email) return fail('För medlemsbrev behövs en e-postadress. Fyll i den eller ta bort bocken.');
+    // The same address may belong to two people (a couple), but make that a deliberate choice.
+    const sharing = row.email ? members.find((x) => x.id !== editingMemberId && x.email?.toLowerCase() === row.email!.toLowerCase()) : undefined;
+    if (sharing && !confirm(`${sharing.first_name} ${sharing.last_name} har redan samma e-postadress. Spara ändå? Båda får då egna mejl till samma adress.`)) return;
     const { error } = editingMemberId
       ? await supabase.from('members').update(row).eq('id', editingMemberId)
       : await supabase.from('members').insert(row);
-    if (error) return fail(error.code === '23505' ? 'Den e-postadressen finns redan i registret.' : 'Det gick inte att spara medlemmen.');
+    if (error) return fail('Det gick inte att spara medlemmen.');
     resetMemberForm();
     await loadMembers();
   });
@@ -795,7 +801,7 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
     const q = (s: string | number | null) => `"${String(s ?? '').replace(/"/g, '""')}"`;
     const lines = [['Förnamn', 'Efternamn', 'E-post', 'Betald säsong', 'Giltig nu', 'Medlemsbrev', 'Anteckning'].map(q).join(';')];
     for (const m of members) {
-      lines.push([m.first_name, m.last_name, m.email, m.paid_season == null ? '' : seasonLabel(m.paid_season), isActive(m) ? 'Ja' : 'Nej', m.wants_mail ? 'Ja' : 'Nej', m.note].map(q).join(';'));
+      lines.push([m.first_name, m.last_name, m.email ?? '', m.paid_season == null ? '' : seasonLabel(m.paid_season), isActive(m) ? 'Ja' : 'Nej', m.wants_mail ? 'Ja' : 'Nej', m.note].map(q).join(';'));
     }
     const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
     const a = el('a', { href: URL.createObjectURL(blob), download: `medlemmar-${new Date().toISOString().slice(0, 10)}.csv` });
@@ -806,7 +812,8 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
 
   // Addresses for a membership letter: only current members who have said yes to letters. Paste them in the BCC field, never To or Cc.
   $('members-mail').addEventListener('click', async () => {
-    const list = members.filter((m) => isActive(m) && m.wants_mail).map((m) => m.email);
+    // A shared address appears once.
+    const list = [...new Set(members.filter((m) => isActive(m) && m.wants_mail && m.email).map((m) => m.email!.toLowerCase()))];
     if (list.length === 0) return alert('Ingen giltig medlem har sagt ja till medlemsbrev.');
     try {
       await navigator.clipboard.writeText(list.join(', '));
