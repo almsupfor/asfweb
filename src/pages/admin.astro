@@ -136,7 +136,9 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
       <p class="admin-actions">
         <button type="button" class="button-secondary" id="members-csv">Exportera alla (CSV)</button>
         <button type="button" class="button-secondary" id="members-mail">Kopiera e-post till medlemsbrev</button>
+        <button type="button" class="button-secondary" id="members-confirm-all">Skicka bekräftelse till alla obekräftade</button>
       </p>
+      <p class="meta prose">Bekräftelsen är ett mejl där medlemmen kontrollerar sin adress och väljer om hen vill ha medlemsbrev. Den skickas inte till den som är markerad med "inga medlemsbrev".</p>
       <div id="members-admin"></div>
 
       <h2 class="section-gap" id="member-form-title">Ny medlem</h2>
@@ -653,7 +655,8 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
     members = (data ?? []) as Member[];
     const active = members.filter((m) => isActive(m));
     const mailable = active.filter((m) => m.wants_mail);
-    $('members-summary').textContent = `${active.length} medlemmar för säsongen ${seasonLabel(thisSeason)}, varav ${mailable.length} vill ha medlemsbrev. ${members.length - active.length} har ingen betald avgift för säsongen.`;
+    const unconfirmed = members.filter((m) => !m.email_confirmed_at).length;
+    $('members-summary').textContent = `${active.length} medlemmar för säsongen ${seasonLabel(thisSeason)}, varav ${mailable.length} vill ha medlemsbrev. ${members.length - active.length} har ingen betald avgift för säsongen. ${unconfirmed} har inte bekräftat sin e-post.`;
     if (members.length === 0) {
       membersBox.replaceChildren(el('p', { class: 'notice prose' }, 'Inga medlemmar är inlagda än. Lägg till en nedan.'));
       return;
@@ -694,13 +697,46 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
       more.setAttribute('aria-expanded', String(!del.hidden));
       more.textContent = del.hidden ? 'Mer' : 'Färre';
     });
+    // Mailing a confirmation makes no sense for someone who is confirmed or who has said no to letters.
+    if (!m.email_confirmed_at && m.wants_mail) {
+      const send = el('button', { type: 'button', class: 'button-secondary' }, m.confirmation_sent_at ? 'Skicka bekräftelse igen' : 'Skicka bekräftelse');
+      send.addEventListener('click', () => sendConfirmations([m]));
+      actions.unshift(send);
+    }
     actions.push(edit, more, del);
+    const confirmText = m.email_confirmed_at
+      ? `E-post bekräftad ${new Date(m.email_confirmed_at).toLocaleDateString('sv-SE')}`
+      : m.confirmation_sent_at
+        ? `Bekräftelse skickad ${new Date(m.confirmation_sent_at).toLocaleDateString('sv-SE')}, ej bekräftad`
+        : 'E-post ej bekräftad';
     return el('div', { class: 'admin-trip' },
       el('h3', {}, `${m.first_name} ${m.last_name}`),
-      el('p', { class: 'meta' }, `${m.email} · ${paidText}${active ? '' : ' (ingen giltig avgift just nu)'} · ${m.wants_mail ? 'Vill ha medlemsbrev' : 'Inga medlemsbrev'}${m.note ? ` · ${m.note}` : ''}`),
+      el('p', { class: 'meta' }, `${m.email} · ${confirmText} · ${paidText}${active ? '' : ' (ingen giltig avgift just nu)'} · ${m.wants_mail ? 'Vill ha medlemsbrev' : 'Inga medlemsbrev'}${m.note ? ` · ${m.note}` : ''}`),
       el('p', { class: 'admin-actions' }, ...actions),
     );
   }
+
+  // Asks the send-member-confirmation function (admin-only, checked there too) to mail the given members.
+  async function sendConfirmations(list: Member[]) {
+    if (list.length === 0) return alert('Det finns ingen att skicka till. Alla är bekräftade eller har sagt nej till medlemsbrev.');
+    const who = list.length === 1 ? `${list[0].first_name} ${list[0].last_name} (${list[0].email})` : `${list.length} medlemmar`;
+    if (!confirm(`Skicka bekräftelsemejl till ${who}?`)) return;
+    const { data, error } = await supabase.functions.invoke('send-member-confirmation', { body: { ids: list.map((m) => m.id) } });
+    if (error) {
+      const notSetUp = (error as { context?: { status?: number } }).context?.status;
+      alert(notSetUp === 503 || notSetUp === 404 ? 'Utskicket är inte uppsatt än (e-posttjänsten eller funktionen saknas).' : 'Det gick inte att skicka bekräftelsen.');
+      return;
+    }
+    const failed = (data?.failed ?? []) as { email: string }[];
+    alert(`${data?.sent ?? 0} mejl skickades.${failed.length ? ` Det gick inte att skicka till: ${failed.map((f) => f.email).join(', ')}. Kontrollera adressen.` : ''}`);
+    await loadMembers();
+  }
+
+  $('members-confirm-all').addEventListener('click', () => {
+    const list = members.filter((m) => !m.email_confirmed_at && m.wants_mail);
+    if (list.length > 50) return alert('Det är fler än 50. Skicka i omgångar, en medlem i taget.');
+    sendConfirmations(list);
+  });
 
   function startEditMember(m: Member) {
     editingMemberId = m.id;

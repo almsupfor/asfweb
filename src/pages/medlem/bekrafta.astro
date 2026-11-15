@@ -1,0 +1,53 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import Mail from '../../components/Mail.astro';
+---
+<Base title="Bekräfta e-post" noindex>
+  <PageHead title="Bekräfta e-post" />
+  <div class="wrap page">
+    <div class="prose">
+      <div id="confirm-start" hidden>
+        <p>Vi vill kontrollera att vi har rätt e-postadress till dig. Medlemsbreven handlar om föreningens verksamhet, till exempel möten och bortaresor. Du väljer själv om du vill få dem och kan ändra dig när som helst genom att mejla oss.</p>
+        <p class="admin-actions">
+          <button type="button" class="button" id="confirm-yes">Bekräfta och ja till medlemsbrev</button>
+          <button type="button" class="button-secondary" id="confirm-no">Bekräfta, men inga medlemsbrev</button>
+        </p>
+      </div>
+      <p class="notice" id="confirm-done" role="status" hidden>Tack, din e-postadress är bekräftad och ditt val är sparat.</p>
+      <p class="notice" id="confirm-bad" role="alert" hidden>Länken stämmer inte eller har gått ut. Mejla <Mail subject="Bekräfta e-post" /> så hjälper vi dig.</p>
+      <p class="notice" id="confirm-error" role="alert" hidden>Det gick inte att bekräfta just nu. Försök igen om en stund.</p>
+      <noscript><p class="notice">Sidan behöver JavaScript för att kunna bekräfta e-postadressen.</p></noscript>
+    </div>
+  </div>
+</Base>
+
+<script>
+  import { supabase } from '../../lib/supabase';
+
+  const $ = (id: string) => document.getElementById(id) as HTMLElement;
+  const code = new URLSearchParams(location.search).get('kod') ?? '';
+  const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+  if (!uuid.test(code)) {
+    $('confirm-bad').hidden = false;
+  } else {
+    $('confirm-start').hidden = false;
+    // A button press, not the page load, does the confirming: mail scanners that open links must not confirm for the member.
+    const buttons = [$('confirm-yes'), $('confirm-no')] as HTMLButtonElement[];
+    buttons.forEach((button, i) =>
+      button.addEventListener('click', async () => {
+        buttons.forEach((b) => (b.disabled = true));
+        $('confirm-error').hidden = true;
+        const { data, error } = await supabase.rpc('confirm_member_email', { p_token: code, p_wants_mail: i === 0 });
+        if (error) {
+          $('confirm-error').hidden = false;
+          buttons.forEach((b) => (b.disabled = false));
+          return;
+        }
+        $('confirm-start').hidden = true;
+        $(data === true ? 'confirm-done' : 'confirm-bad').hidden = false;
+      }),
+    );
+  }
+</script>

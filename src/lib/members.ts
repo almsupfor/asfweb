@@ -7,6 +7,8 @@ export interface Member {
   paid_season: number | null;
   wants_mail: boolean;
   note: string | null;
+  email_confirmed_at: string | null;
+  confirmation_sent_at: string | null;
   created_at: string;
 }
 
