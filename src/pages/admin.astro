@@ -59,6 +59,7 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
       <div class="tabs" role="tablist" aria-label="Administration">
         <button type="button" role="tab" id="tab-trips" class="tab" aria-selected="true" aria-controls="pane-trips">Resor</button>
         <button type="button" role="tab" id="tab-meetings" class="tab" aria-selected="false" aria-controls="pane-meetings" tabindex="-1">Möten</button>
+        <button type="button" role="tab" id="tab-members" class="tab" aria-selected="false" aria-controls="pane-members" tabindex="-1">Medlemmar</button>
       </div>
 
       <div role="tabpanel" id="pane-trips" aria-labelledby="tab-trips">
@@ -127,6 +128,32 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
         </p>
       </form>
       </div>
+
+      <div role="tabpanel" id="pane-members" aria-labelledby="tab-members" hidden>
+      <h2>Medlemmar</h2>
+      <p class="meta prose">Medlemsavgiften gäller en säsong, 1 juli till 30 juni. Uppgifterna syns bara för administratörer. Ta bort medlemmar som inte förnyat senast den 30 juni, så som det står i integritetspolicyn.</p>
+      <p class="meta" id="members-summary" aria-live="polite"></p>
+      <p class="admin-actions">
+        <button type="button" class="button-secondary" id="members-csv">Exportera alla (CSV)</button>
+        <button type="button" class="button-secondary" id="members-mail">Kopiera e-post till medlemsbrev</button>
+      </p>
+      <div id="members-admin"></div>
+
+      <h2 class="section-gap" id="member-form-title">Ny medlem</h2>
+      <form id="member-form" class="signup" novalidate>
+        <div class="field"><label for="mb-first">Förnamn</label><input id="mb-first" type="text" maxlength="80" autocomplete="off" required /></div>
+        <div class="field"><label for="mb-last">Efternamn</label><input id="mb-last" type="text" maxlength="80" autocomplete="off" required /></div>
+        <div class="field"><label for="mb-email">E-post</label><input id="mb-email" type="email" maxlength="200" autocomplete="off" required /></div>
+        <div class="field"><label for="mb-season">Betald säsong</label><select id="mb-season"></select></div>
+        <label class="check" for="mb-mail"><input id="mb-mail" type="checkbox" checked /><span>Vill ha medlemsbrev (personen har sagt ja)</span></label>
+        <div class="field"><label for="mb-note">Anteckning (valfritt, till exempel att avgiften betalats kontant)</label><textarea id="mb-note" rows="2" maxlength="500"></textarea></div>
+        <p class="form-error" id="member-error" role="alert" hidden></p>
+        <p>
+          <button type="submit" class="button" id="member-save">Spara medlem</button>
+          <button type="button" class="button-secondary" id="member-cancel" hidden>Avbryt ändring</button>
+        </p>
+      </form>
+      </div>
     </section>
   </div>
 </Base>
@@ -135,6 +162,7 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
   import { supabase } from '../lib/supabase';
   import { el, externalLink, fmtTripDate, kr, type Trip } from '../lib/trips';
   import { fmtMeetingDay, fmtMeetingTime, type Meeting } from '../lib/meetings';
+  import { isActive, seasonLabel, seasonStart, type Member } from '../lib/members';
   import type { Session } from '@supabase/supabase-js';
 
   const $ = <T extends HTMLElement>(id: string) => document.getElementById(id) as T;
@@ -183,7 +211,7 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
     status.hidden = true;
     $('who').textContent = session.user.email ?? '';
     panel.hidden = false;
-    await Promise.all([loadTrips(), loadMeetings()]);
+    await Promise.all([loadTrips(), loadMeetings(), loadMembers()]);
   }
 
   function logoutButton() {
@@ -591,5 +619,153 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
     if (error) return fail('Det gick inte att spara mötet.');
     resetMeetingForm();
     await loadMeetings();
+  });
+
+  // ---- Members --------------------------------------------------------------
+
+  const membersBox = $('members-admin');
+  const memberForm = $<HTMLFormElement>('member-form');
+  const memberError = $('member-error');
+  const mb = (id: string) => $<HTMLInputElement>(id);
+  const thisSeason = seasonStart();
+  let editingMemberId: string | null = null;
+  let members: Member[] = [];
+
+  const seasonSelect = $<HTMLSelectElement>('mb-season');
+  function fillSeasons() {
+    const opts: [string, string][] = [
+      [String(thisSeason), `${seasonLabel(thisSeason)} (säsongen som pågår)`],
+      [String(thisSeason + 1), `${seasonLabel(thisSeason + 1)} (nästa säsong)`],
+      [String(thisSeason - 1), `${seasonLabel(thisSeason - 1)} (förra säsongen)`],
+      ['', 'Inte betald'],
+    ];
+    seasonSelect.replaceChildren(...opts.map(([value, label]) => el('option', { value }, label)));
+    seasonSelect.value = String(thisSeason);
+  }
+  fillSeasons();
+
+  async function loadMembers() {
+    const { data, error } = await supabase.from('members').select('*').order('last_name').order('first_name');
+    if (error) {
+      membersBox.replaceChildren(el('p', { class: 'notice' }, 'Det gick inte att hämta medlemmarna. Har databasen uppdaterats med tabellen för medlemmar?'));
+      return;
+    }
+    members = (data ?? []) as Member[];
+    const active = members.filter((m) => isActive(m));
+    const mailable = active.filter((m) => m.wants_mail);
+    $('members-summary').textContent = `${active.length} medlemmar för säsongen ${seasonLabel(thisSeason)}, varav ${mailable.length} vill ha medlemsbrev. ${members.length - active.length} har ingen betald avgift för säsongen.`;
+    if (members.length === 0) {
+      membersBox.replaceChildren(el('p', { class: 'notice prose' }, 'Inga medlemmar är inlagda än. Lägg till en nedan.'));
+      return;
+    }
+    membersBox.replaceChildren(...members.map(memberCard));
+  }
+
+  function memberCard(m: Member) {
+    const active = isActive(m);
+    const paidText = m.paid_season == null ? 'Inte betald' : `Betald ${seasonLabel(m.paid_season)}`;
+    const actions: HTMLElement[] = [];
+    if (!active) {
+      const pay = el('button', { type: 'button', class: 'button-secondary' }, `Markera betald ${seasonLabel(thisSeason)}`);
+      pay.addEventListener('click', async () => {
+        const { error } = await supabase.from('members').update({ paid_season: thisSeason }).eq('id', m.id);
+        if (error) alert('Det gick inte att spara.');
+        await loadMembers();
+      });
+      actions.push(pay);
+    }
+    const edit = el('button', { type: 'button', class: 'button-secondary' }, 'Redigera');
+    edit.addEventListener('click', () => startEditMember(m));
+    const del = el('button', { type: 'button', class: 'button-secondary' }, 'Ta bort medlem');
+    del.addEventListener('click', async () => {
+      if (!confirm(`Ta bort ${m.first_name} ${m.last_name} ur registret? Det går inte att ångra.`)) return;
+      const { error } = await supabase.from('members').delete().eq('id', m.id);
+      if (error) alert('Det gick inte att ta bort medlemmen.');
+      await loadMembers();
+    });
+    actions.push(edit, del);
+    return el('div', { class: 'admin-trip' },
+      el('h3', {}, `${m.first_name} ${m.last_name}`),
+      el('p', { class: 'meta' }, `${m.email} · ${paidText}${active ? '' : ' (ingen giltig avgift just nu)'} · ${m.wants_mail ? 'Vill ha medlemsbrev' : 'Inga medlemsbrev'}${m.note ? ` · ${m.note}` : ''}`),
+      el('p', { class: 'admin-actions' }, ...actions),
+    );
+  }
+
+  function startEditMember(m: Member) {
+    editingMemberId = m.id;
+    $('member-form-title').textContent = 'Redigera medlem';
+    mb('mb-first').value = m.first_name;
+    mb('mb-last').value = m.last_name;
+    mb('mb-email').value = m.email;
+    // A season outside the usual three (for example an older one) is kept as its own option so it is not lost on save.
+    if (m.paid_season != null && ![...seasonSelect.options].some((o) => o.value === String(m.paid_season))) {
+      seasonSelect.append(el('option', { value: String(m.paid_season) }, seasonLabel(m.paid_season)));
+    }
+    seasonSelect.value = m.paid_season == null ? '' : String(m.paid_season);
+    mb('mb-mail').checked = m.wants_mail;
+    $<HTMLTextAreaElement>('mb-note').value = m.note ?? '';
+    $('member-cancel').hidden = false;
+    memberForm.scrollIntoView({ block: 'start' });
+  }
+
+  function resetMemberForm() {
+    editingMemberId = null;
+    memberForm.reset();
+    fillSeasons();
+    mb('mb-mail').checked = true;
+    $('member-form-title').textContent = 'Ny medlem';
+    $('member-cancel').hidden = true;
+    memberError.hidden = true;
+  }
+  $('member-cancel').addEventListener('click', resetMemberForm);
+
+  memberForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    memberError.hidden = true;
+    const fail = (text: string) => {
+      memberError.textContent = text;
+      memberError.hidden = false;
+    };
+    const row = {
+      first_name: mb('mb-first').value.trim(),
+      last_name: mb('mb-last').value.trim(),
+      email: mb('mb-email').value.trim(),
+      paid_season: seasonSelect.value === '' ? null : Number(seasonSelect.value),
+      wants_mail: mb('mb-mail').checked,
+      note: $<HTMLTextAreaElement>('mb-note').value.trim() || null,
+    };
+    if (!row.first_name || !row.last_name) return fail('Fyll i förnamn och efternamn.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(row.email)) return fail('Skriv en giltig e-postadress. E-post krävs för att kunna nå medlemmen.');
+    const { error } = editingMemberId
+      ? await supabase.from('members').update(row).eq('id', editingMemberId)
+      : await supabase.from('members').insert(row);
+    if (error) return fail(error.code === '23505' ? 'Den e-postadressen finns redan i registret.' : 'Det gick inte att spara medlemmen.');
+    resetMemberForm();
+    await loadMembers();
+  });
+
+  $('members-csv').addEventListener('click', () => {
+    const q = (s: string | number | null) => `"${String(s ?? '').replace(/"/g, '""')}"`;
+    const lines = [['Förnamn', 'Efternamn', 'E-post', 'Betald säsong', 'Giltig nu', 'Medlemsbrev', 'Anteckning'].map(q).join(';')];
+    for (const m of members) {
+      lines.push([m.first_name, m.last_name, m.email, m.paid_season == null ? '' : seasonLabel(m.paid_season), isActive(m) ? 'Ja' : 'Nej', m.wants_mail ? 'Ja' : 'Nej', m.note].map(q).join(';'));
+    }
+    const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    const a = el('a', { href: URL.createObjectURL(blob), download: `medlemmar-${new Date().toISOString().slice(0, 10)}.csv` });
+    document.body.append(a);
+    a.click();
+    a.remove();
+  });
+
+  // Addresses for a membership letter: only current members who have said yes to letters. Paste them in the BCC field, never To or Cc.
+  $('members-mail').addEventListener('click', async () => {
+    const list = members.filter((m) => isActive(m) && m.wants_mail).map((m) => m.email);
+    if (list.length === 0) return alert('Ingen giltig medlem har sagt ja till medlemsbrev.');
+    try {
+      await navigator.clipboard.writeText(list.join(', '));
+      alert(`${list.length} e-postadresser är kopierade. Klistra in dem i fältet Dold kopia (BCC), aldrig i Till eller Kopia.`);
+    } catch {
+      prompt('Kopiera adresserna och klistra in dem i fältet Dold kopia (BCC):', list.join(', '));
+    }
   });
 </script>
