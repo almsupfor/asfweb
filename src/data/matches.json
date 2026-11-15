@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-15T01:24:33.567Z",
+  "updated": "2026-11-15T17:31:27.301Z",
   "schedule": [
     {
       "date": "2026-08-13",
@@ -611,6 +611,15 @@
       "homeScore": 3,
       "awayScore": 2,
       "ext": "OT"
+    },
+    {
+      "id": "2523226",
+      "date": "2026-11-13",
+      "home": "Södertälje SK",
+      "away": "Almtuna IS",
+      "homeScore": 3,
+      "awayScore": 4,
+      "ext": "SO"
     },
     {
       "id": "2523221",

@@ -226,7 +226,21 @@ async function loadDayResults(dates) {
     try {
       const res = await fetch(`${TSDB}/eventsday.php?d=${date}&l=${LEAGUE_ID}`, { headers: UA, signal: AbortSignal.timeout(20000) });
       if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
-      const e = ((await res.json()).events ?? []).find((x) => x.idHomeTeam === TEAM_ID || x.idAwayTeam === TEAM_ID);
+      const events = (await res.json()).events ?? [];
+      let e = events.find((x) => x.idHomeTeam === TEAM_ID || x.idAwayTeam === TEAM_ID);
+      // eventsday utelämnar ibland matcher (gratisnivån). Id:n är löpande per omgång, så slå upp grannarna direkt.
+      if (!e && events.length) {
+        const ids = events.map((x) => Number(x.idEvent));
+        for (let id = Math.min(...ids) - 4; id <= Math.max(...ids) + 6 && !e; id++) {
+          if (ids.includes(id)) continue;
+          try {
+            const r = await fetch(`${TSDB}/lookupevent.php?id=${id}`, { headers: UA, signal: AbortSignal.timeout(20000) });
+            const c = r.ok ? (await r.json()).events?.[0] : null;
+            if (c && c.dateEvent === date && (c.idHomeTeam === TEAM_ID || c.idAwayTeam === TEAM_ID)) e = c;
+          } catch {}
+          await new Promise((ok) => setTimeout(ok, 2500)); // 30 anrop/min på gratisnivån
+        }
+      }
       if (!e || e.intHomeScore == null || e.intAwayScore == null) continue;
       found.push({
         id: e.idEvent,
