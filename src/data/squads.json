@@ -1,42 +1,66 @@
 {
-  "updated": "2026-11-14T05:13:20.119Z",
+  "updated": "2026-11-15T05:15:43.835Z",
   "teams": {
     "herr": [
       {
         "name": "Karl Sterner",
         "number": null,
         "nationality": "SE",
-        "gp": 19,
-        "g": 8,
+        "gp": 20,
+        "g": 9,
         "a": 4,
-        "tp": 12,
-        "pm": -11,
+        "tp": 13,
+        "pm": -10,
         "pim": 10,
-        "toi": "17:57"
+        "toi": "17:59"
       },
       {
         "name": "Bruno Osmanis",
         "number": null,
         "nationality": "LV",
-        "gp": 19,
+        "gp": 20,
         "g": 6,
         "a": 6,
         "tp": 12,
         "pm": -3,
         "pim": 4,
-        "toi": "13:37"
+        "toi": "13:35"
       },
       {
         "name": "Samuel Salonen",
         "number": null,
         "nationality": null,
-        "gp": 19,
-        "g": 5,
+        "gp": 20,
+        "g": 6,
         "a": 6,
-        "tp": 11,
-        "pm": -6,
+        "tp": 12,
+        "pm": -5,
         "pim": 4,
-        "toi": "15:49"
+        "toi": "15:41"
+      },
+      {
+        "name": "Charlie Forslund",
+        "number": 10,
+        "nationality": "SE",
+        "gp": 20,
+        "g": 4,
+        "a": 8,
+        "tp": 12,
+        "pm": -8,
+        "pim": 4,
+        "toi": "17:05"
+      },
+      {
+        "name": "Marwin Jarbsjö",
+        "number": null,
+        "nationality": null,
+        "gp": 20,
+        "g": 4,
+        "a": 8,
+        "tp": 12,
+        "pm": 1,
+        "pim": 4,
+        "toi": "16:41"
       },
       {
         "name": "Lukas Vesterlund",
@@ -51,64 +75,40 @@
         "toi": "17:03"
       },
       {
-        "name": "Marwin Jarbsjö",
-        "number": null,
-        "nationality": null,
-        "gp": 19,
-        "g": 4,
-        "a": 7,
-        "tp": 11,
-        "pm": 0,
-        "pim": 4,
-        "toi": "16:46"
-      },
-      {
-        "name": "Charlie Forslund",
-        "number": 10,
-        "nationality": "SE",
-        "gp": 19,
-        "g": 3,
-        "a": 8,
-        "tp": 11,
-        "pm": -9,
-        "pim": 4,
-        "toi": "16:56"
-      },
-      {
         "name": "Anton Ohlsson",
         "number": null,
         "nationality": "SE",
-        "gp": 19,
+        "gp": 20,
         "g": 3,
         "a": 7,
         "tp": 10,
         "pm": -3,
         "pim": 4,
-        "toi": "16:16"
-      },
-      {
-        "name": "Leo Sundqvist",
-        "number": 22,
-        "nationality": "SE",
-        "gp": 19,
-        "g": 4,
-        "a": 5,
-        "tp": 9,
-        "pm": 1,
-        "pim": 6,
-        "toi": "16:28"
+        "toi": "16:11"
       },
       {
         "name": "Oskar Asplund",
         "number": null,
         "nationality": "SE",
-        "gp": 19,
+        "gp": 20,
         "g": 1,
-        "a": 8,
-        "tp": 9,
-        "pm": -3,
+        "a": 9,
+        "tp": 10,
+        "pm": -1,
         "pim": 4,
-        "toi": "22:24"
+        "toi": "22:34"
+      },
+      {
+        "name": "Leo Sundqvist",
+        "number": 22,
+        "nationality": "SE",
+        "gp": 20,
+        "g": 4,
+        "a": 5,
+        "tp": 9,
+        "pm": 0,
+        "pim": 6,
+        "toi": "16:37"
       },
       {
         "name": "Jacob Ragnarsson",
@@ -123,28 +123,40 @@
         "toi": "20:15"
       },
       {
+        "name": "Lukas Smith",
+        "number": null,
+        "nationality": "SE",
+        "gp": 20,
+        "g": 2,
+        "a": 2,
+        "tp": 4,
+        "pm": 1,
+        "pim": 6,
+        "toi": "12:26"
+      },
+      {
         "name": "Oscar Pentler",
         "number": 17,
         "nationality": "SE",
-        "gp": 17,
+        "gp": 18,
         "g": 2,
         "a": 1,
         "tp": 3,
         "pm": -1,
         "pim": 33,
-        "toi": "13:16"
+        "toi": "13:26"
       },
       {
         "name": "Fredrik Schlyter",
         "number": null,
         "nationality": "SE",
-        "gp": 19,
+        "gp": 20,
         "g": 1,
         "a": 2,
         "tp": 3,
-        "pm": -8,
+        "pm": -9,
         "pim": 0,
-        "toi": "14:15"
+        "toi": "14:25"
       },
       {
         "name": "Elias Degnell",
@@ -159,76 +171,64 @@
         "toi": "18:16"
       },
       {
-        "name": "Lukas Smith",
-        "number": null,
-        "nationality": "SE",
-        "gp": 19,
-        "g": 2,
-        "a": 0,
-        "tp": 2,
-        "pm": 0,
-        "pim": 6,
-        "toi": "12:15"
-      },
-      {
         "name": "Viktor Johansson",
         "number": null,
         "nationality": "SE",
-        "gp": 19,
+        "gp": 20,
         "g": 1,
         "a": 1,
         "tp": 2,
         "pm": -4,
         "pim": 4,
-        "toi": "8:55"
+        "toi": "9:06"
       },
       {
         "name": "Hugo Blixt",
         "number": 45,
         "nationality": "SE",
-        "gp": 5,
+        "gp": 6,
         "g": 0,
         "a": 2,
         "tp": 2,
         "pm": 2,
         "pim": 8,
-        "toi": "23:53"
+        "toi": "24:00"
       },
       {
         "name": "Edvin Hammarlund",
-        "number": null,
-        "nationality": "SE",
-        "gp": 18,
-        "g": 0,
-        "a": 2,
-        "tp": 2,
-        "pm": -9,
-        "pim": 16,
-        "toi": "22:15"
-      },
-      {
-        "name": "Nikodemus Wernquist",
         "number": null,
         "nationality": "SE",
         "gp": 19,
         "g": 0,
         "a": 2,
         "tp": 2,
-        "pm": -6,
+        "pm": -10,
+        "pim": 18,
+        "toi": "22:25"
+      },
+      {
+        "name": "Nikodemus Wernquist",
+        "number": null,
+        "nationality": "SE",
+        "gp": 20,
+        "g": 0,
+        "a": 2,
+        "tp": 2,
+        "pm": -7,
         "pim": 10,
-        "toi": "14:19"
+        "toi": "14:28"
       },
       {
         "name": "Alexander Proos",
         "number": null,
         "nationality": null,
-        "gp": 12,
+        "gp": 13,
         "g": 1,
         "a": 0,
         "tp": 1,
-        "pm": -3,
+        "pm": -2,
         "pim": 0,
-        "toi": "5:28"
+        "toi": "5:53"
       },
       {
         "name": "Victor Aronsson",
@@ -270,7 +270,7 @@
         "name": "Tim Forslund",
         "number": null,
         "nationality": null,
-        "gp": 19,
+        "gp": 20,
         "g": 0,
         "a": 0,
         "tp": 0,
@@ -282,7 +282,7 @@
         "name": "Hugo Hävelid",
         "number": null,
         "nationality": "SE",
-        "gp": 19,
+        "gp": 20,
         "g": 0,
         "a": 0,
         "tp": 0,
@@ -330,16 +330,28 @@
         "name": "William Pecirep",
         "number": null,
         "nationality": null,
-        "gp": 4,
+        "gp": 5,
+        "g": 0,
+        "a": 0,
+        "tp": 0,
+        "pm": -1,
+        "pim": 6,
+        "toi": "8:05"
+      },
+      {
+        "name": "Felix Söderlund",
+        "number": null,
+        "nationality": null,
+        "gp": 3,
         "g": 0,
         "a": 0,
         "tp": 0,
         "pm": 0,
-        "pim": 4,
-        "toi": "6:51"
+        "pim": 0,
+        "toi": "16:43"
       },
       {
-        "name": "Felix Söderlund",
+        "name": "Jack Wernerson",
         "number": null,
         "nationality": null,
         "gp": 2,
@@ -348,19 +360,7 @@
         "tp": 0,
         "pm": 0,
         "pim": 0,
-        "toi": "15:55"
-      },
-      {
-        "name": "Jack Wernerson",
-        "number": null,
-        "nationality": null,
-        "gp": 1,
-        "g": 0,
-        "a": 0,
-        "tp": 0,
-        "pm": 0,
-        "pim": 0,
-        "toi": "1:06"
+        "toi": "0:43"
       }
     ],
     "dam": [
@@ -607,6 +607,30 @@
     ],
     "j20": [
       {
+        "name": "Theodor Falkenhäll",
+        "number": null,
+        "nationality": "SE",
+        "gp": 14,
+        "g": 7,
+        "a": 15,
+        "tp": 22,
+        "pm": 17,
+        "pim": 4,
+        "toi": null
+      },
+      {
+        "name": "Edward Erngren",
+        "number": null,
+        "nationality": "SWE",
+        "gp": 14,
+        "g": 11,
+        "a": 10,
+        "tp": 21,
+        "pm": 18,
+        "pim": 4,
+        "toi": null
+      },
+      {
         "name": "Elias Ydehed",
         "number": null,
         "nationality": "SWE",
@@ -619,38 +643,14 @@
         "toi": null
       },
       {
-        "name": "Theodor Falkenhäll",
-        "number": null,
-        "nationality": "SE",
-        "gp": 13,
-        "g": 5,
-        "a": 14,
-        "tp": 19,
-        "pm": 15,
-        "pim": 4,
-        "toi": null
-      },
-      {
-        "name": "Edward Erngren",
-        "number": null,
-        "nationality": "SWE",
-        "gp": 13,
-        "g": 9,
-        "a": 9,
-        "tp": 18,
-        "pm": 15,
-        "pim": 4,
-        "toi": null
-      },
-      {
         "name": "Issy Norstedt",
         "number": null,
         "nationality": "SE",
-        "gp": 15,
-        "g": 7,
-        "a": 8,
-        "tp": 15,
-        "pm": 9,
+        "gp": 16,
+        "g": 8,
+        "a": 9,
+        "tp": 17,
+        "pm": 10,
         "pim": 4,
         "toi": null
       },
@@ -658,35 +658,47 @@
         "name": "Jack Wernerson",
         "number": null,
         "nationality": null,
-        "gp": 15,
-        "g": 6,
-        "a": 7,
-        "tp": 13,
-        "pm": 14,
-        "pim": 14,
+        "gp": 16,
+        "g": 7,
+        "a": 8,
+        "tp": 15,
+        "pm": 16,
+        "pim": 16,
         "toi": null
       },
       {
         "name": "Neo Karling",
         "number": null,
         "nationality": "SWE",
-        "gp": 10,
+        "gp": 11,
         "g": 4,
-        "a": 9,
-        "tp": 13,
-        "pm": 14,
+        "a": 11,
+        "tp": 15,
+        "pm": 15,
         "pim": 2,
+        "toi": null
+      },
+      {
+        "name": "Oliver Wiita",
+        "number": null,
+        "nationality": "SE",
+        "gp": 15,
+        "g": 7,
+        "a": 5,
+        "tp": 12,
+        "pm": 15,
+        "pim": 12,
         "toi": null
       },
       {
         "name": "Isac Sandin",
         "number": null,
         "nationality": "SWE",
-        "gp": 13,
+        "gp": 14,
         "g": 4,
-        "a": 7,
-        "tp": 11,
-        "pm": 13,
+        "a": 8,
+        "tp": 12,
+        "pm": 14,
         "pim": 6,
         "toi": null
       },
@@ -694,7 +706,7 @@
         "name": "Vincent Lidholm",
         "number": null,
         "nationality": "SWE",
-        "gp": 15,
+        "gp": 16,
         "g": 1,
         "a": 10,
         "tp": 11,
@@ -727,26 +739,26 @@
         "toi": null
       },
       {
-        "name": "Oliver Wiita",
+        "name": "Fabian Hägerström",
         "number": null,
         "nationality": "SE",
-        "gp": 14,
-        "g": 5,
-        "a": 4,
+        "gp": 16,
+        "g": 2,
+        "a": 7,
         "tp": 9,
-        "pm": 12,
-        "pim": 12,
+        "pm": 17,
+        "pim": 18,
         "toi": null
       },
       {
         "name": "Tage Edvardsson",
         "number": null,
         "nationality": "SWE",
-        "gp": 14,
-        "g": 4,
-        "a": 2,
-        "tp": 6,
-        "pm": 9,
+        "gp": 15,
+        "g": 5,
+        "a": 3,
+        "tp": 8,
+        "pm": 10,
         "pim": 8,
         "toi": null
       },
@@ -754,11 +766,11 @@
         "name": "Robin Wallmark Holmström",
         "number": null,
         "nationality": "SE",
-        "gp": 14,
-        "g": 2,
-        "a": 4,
-        "tp": 6,
-        "pm": 7,
+        "gp": 15,
+        "g": 3,
+        "a": 5,
+        "tp": 8,
+        "pm": 9,
         "pim": 8,
         "toi": null
       },
@@ -775,26 +787,14 @@
         "toi": null
       },
       {
-        "name": "Fabian Hägerström",
-        "number": null,
-        "nationality": "SE",
-        "gp": 15,
-        "g": 1,
-        "a": 3,
-        "tp": 4,
-        "pm": 13,
-        "pim": 16,
-        "toi": null
-      },
-      {
         "name": "Anton Persson",
         "number": null,
         "nationality": "SE",
-        "gp": 11,
+        "gp": 12,
         "g": 0,
-        "a": 4,
-        "tp": 4,
-        "pm": 6,
+        "a": 5,
+        "tp": 5,
+        "pm": 7,
         "pim": 0,
         "toi": null
       },
@@ -811,6 +811,18 @@
         "toi": null
       },
       {
+        "name": "Max Gustafsson",
+        "number": 75,
+        "nationality": null,
+        "gp": 9,
+        "g": 2,
+        "a": 1,
+        "tp": 3,
+        "pm": 1,
+        "pim": 10,
+        "toi": null
+      },
+      {
         "name": "William Pecirep",
         "number": null,
         "nationality": null,
@@ -820,6 +832,18 @@
         "tp": 3,
         "pm": 2,
         "pim": 4,
+        "toi": null
+      },
+      {
+        "name": "Neo Björklund",
+        "number": null,
+        "nationality": null,
+        "gp": 1,
+        "g": 0,
+        "a": 2,
+        "tp": 2,
+        "pm": 2,
+        "pim": 0,
         "toi": null
       },
       {
@@ -844,18 +868,6 @@
         "tp": 2,
         "pm": 1,
         "pim": 0,
-        "toi": null
-      },
-      {
-        "name": "Max Gustafsson",
-        "number": 75,
-        "nationality": null,
-        "gp": 8,
-        "g": 1,
-        "a": 0,
-        "tp": 1,
-        "pm": 0,
-        "pim": 8,
         "toi": null
       },
       {
@@ -934,7 +946,7 @@
         "name": "Elias Vesterlund",
         "number": null,
         "nationality": null,
-        "gp": 2,
+        "gp": 3,
         "g": 0,
         "a": 0,
         "tp": 0,
@@ -958,13 +970,13 @@
       },
       {
         "name": "Tim Forslund",
-        "gp": 10,
-        "svs": 238,
-        "ga": 27,
-        "svsPerc": "89.81",
-        "gaa": "2.86",
+        "gp": 11,
+        "svs": 263,
+        "ga": 29,
+        "svsPerc": "90.07",
+        "gaa": "2.76",
         "so": 2,
-        "mip": "567:13"
+        "mip": "629:58"
       }
     ],
     "dam": [
@@ -992,12 +1004,12 @@
     "j20": [
       {
         "name": "Leon De La Gardie",
-        "gp": 8,
-        "svs": 210,
+        "gp": 9,
+        "svs": 219,
         "ga": 20,
-        "svsPerc": "91.30",
-        "gaa": "2.49",
-        "so": 0,
+        "svsPerc": "91.63",
+        "gaa": "2.22",
+        "so": 1,
         "mip": null
       },
       {
