@@ -683,7 +683,15 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
       if (error) alert('Det gick inte att ta bort medlemmen.');
       await loadMembers();
     });
-    actions.push(edit, del);
+    // Deleting is kept behind "Mer" so it is not one stray click away from Redigera.
+    del.hidden = true;
+    const more = el('button', { type: 'button', class: 'button-secondary', 'aria-expanded': 'false' }, 'Mer');
+    more.addEventListener('click', () => {
+      del.hidden = !del.hidden;
+      more.setAttribute('aria-expanded', String(!del.hidden));
+      more.textContent = del.hidden ? 'Mer' : 'Färre';
+    });
+    actions.push(edit, more, del);
     return el('div', { class: 'admin-trip' },
       el('h3', {}, `${m.first_name} ${m.last_name}`),
       el('p', { class: 'meta' }, `${m.email} · ${paidText}${active ? '' : ' (ingen giltig avgift just nu)'} · ${m.wants_mail ? 'Vill ha medlemsbrev' : 'Inga medlemsbrev'}${m.note ? ` · ${m.note}` : ''}`),

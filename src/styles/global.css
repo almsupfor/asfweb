@@ -194,5 +194,7 @@ button.button:disabled, .button-secondary:disabled { opacity: .55; cursor: not-a
 .tab:hover { color: var(--ink); }
 .tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--red); }
 .admin-actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+/* Classes that set display (such as .button-secondary) would otherwise override the hidden attribute. */
+.admin-actions [hidden], .signup [hidden] { display: none; }
 .admin-bookings { margin-top: 1rem; }
 .admin-table td, .admin-table th { text-align: left; }
