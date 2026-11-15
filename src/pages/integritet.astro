@@ -4,27 +4,43 @@ import PageHead from '../components/PageHead.astro';
 import Mail from '../components/Mail.astro';
 import { site } from '../data/site';
 ---
-<Base title="Integritet" description="Hur Almtuna Supporterförening hanterar uppgifter vid anmälan till bortaresor.">
+<Base title="Integritet" description="Hur Almtuna Supporterförening hanterar uppgifter om medlemmar och vid anmälan till bortaresor.">
   <PageHead title="Integritet">
-    <p class="lead prose">Så här hanterar föreningen dina uppgifter när du anmäler dig till en bortaresa.</p>
+    <p class="lead prose">Så här hanterar föreningen dina uppgifter som medlem och när du anmäler dig till en bortaresa.</p>
   </PageHead>
   <div class="wrap page">
     <div class="prose">
-      <h2>Vilka uppgifter vi sparar</h2>
+      <h2>Bortaresor</h2>
+
+      <h3>Vilka uppgifter vi sparar</h3>
       <p>När du anmäler dig på den här webbplatsen sparar vi namnet på varje passagerare, om passageraren är medlem, den e-postadress och det mobilnummer du anger, vilken resa det gäller, när anmälan gjordes och om den är betald.</p>
       <p>Vissa resor har anmälan via en extern länk, till exempel ett inlägg i en Facebook-grupp. Då sker anmälan hos den tjänsten och dess egna villkor gäller. Det du skriver där sparas inte av den här webbplatsen.</p>
 
-      <h2>Varför</h2>
+      <h3>Varför</h3>
       <p>Vi använder uppgifterna för att planera resan, kunna nå dig om något ändras och kontrollera medlemskap och betalning. Vi använder dem inte till något annat.</p>
 
-      <h2>Vem som kan se dem</h2>
+      <h3>Vem som kan se dem</h3>
       <p>Bara de i föreningens styrelse som arrangerar resan och har administratörsåtkomst. Vi säljer eller lämnar inte ut uppgifterna. Uppgifterna lagras hos vår databasleverantör Supabase på servrar inom EU.</p>
 
-      <h2>Hur länge vi sparar dem</h2>
+      <h3>Hur länge vi sparar dem</h3>
       <p>Vi sparar uppgifterna i två år efter resan, så att vi hinner stämma av betalningen, svara på frågor och ha underlag till bokföring och revision. Därefter raderas anmälan automatiskt.</p>
 
+      <h2>Medlemmar</h2>
+
+      <h3>Vilka uppgifter vi sparar</h3>
+      <p>När du blir medlem sparar vi ditt namn, din e-postadress, vilken säsong du har betalat medlemsavgiften för och om du vill ha medlemsbrev. Tills vidare tas uppgifterna emot och förs in av styrelsen för hand, till exempel på papper vid möten och matcher. Anmälan online kommer senare.</p>
+
+      <h3>Varför</h3>
+      <p>Vi använder uppgifterna för att hålla ordning på medlemskapet, kunna kalla till årsmöte och möten, skicka information om föreningens verksamhet och kontrollera medlemskap vid bortaresor. Grunden är medlemskapet, alltså det avtal du ingår med föreningen, och föreningens intresse av att kunna driva verksamheten. Vi skickar medlemsbrev bara om föreningens verksamhet och bara till dig som har sagt ja till det. Du kan när som helst säga nej till fler brev.</p>
+
+      <h3>Vem som kan se dem</h3>
+      <p>Bara de i föreningens styrelse som behöver uppgifterna för att sköta medlemskapet. Vi säljer eller lämnar inte ut uppgifterna. Papper förvaras inlåsta och förs över till medlemsregistret, varefter pappret förstörs.</p>
+
+      <h3>Hur länge vi sparar dem</h3>
+      <p>Medlemsavgiften gäller en säsong, från 1 juli till 30 juni. Om du inte förnyar raderas dina uppgifter senast den 30 juni när medlemskapet har löpt ut. Uppgifter som behövs som underlag i bokföringen kan vi behöva spara längre, men då bara det som krävs.</p>
+
       <h2>Dina rättigheter</h2>
-      <p>Du kan be att få veta vilka uppgifter vi har om dig, få dem rättade eller raderade. Mejla <Mail subject="Mina uppgifter" /> så hjälper vi dig. Du kan också lämna klagomål till Integritetsskyddsmyndigheten (IMY) om du anser att vi hanterar uppgifterna fel.</p>
+      <p>Du kan be att få veta vilka uppgifter vi har om dig, få dem rättade eller raderade. Du kan också invända mot att vi skickar medlemsbrev till dig. Mejla <Mail subject="Mina uppgifter" /> så hjälper vi dig. Du kan också lämna klagomål till Integritetsskyddsmyndigheten (IMY) om du anser att vi hanterar uppgifterna fel.</p>
 
       <h2>Vem som ansvarar</h2>
       <p>{site.name} (organisationsnummer {site.orgNr}) är ansvarig för uppgifterna. Du når oss på <Mail />.</p>
