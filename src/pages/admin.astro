@@ -131,7 +131,7 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
 
       <div role="tabpanel" id="pane-members" aria-labelledby="tab-members" hidden>
       <h2>Medlemmar</h2>
-      <p class="meta prose">Medlemsavgiften gäller en säsong, 1 juli till 30 juni. Uppgifterna syns bara för administratörer. Ta bort medlemmar som inte förnyat senast den 30 juni, så som det står i integritetspolicyn.</p>
+      <p class="meta prose">Medlemsavgiften gäller en säsong, 1 juli till 30 juni. Uppgifterna syns bara för administratörer. Ta bort medlemmar som inte förnyat senast den 30 juni, så som det står i integritetspolicyn. Borttagning går inte att ångra, så exportera gärna en CSV-fil först. Knappen "Ta bort medlem" finns under "Mer" på varje medlem.</p>
       <p class="meta" id="members-summary" aria-live="polite"></p>
       <p class="admin-actions">
         <button type="button" class="button-secondary" id="members-csv">Exportera alla (CSV)</button>
@@ -678,7 +678,10 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
     edit.addEventListener('click', () => startEditMember(m));
     const del = el('button', { type: 'button', class: 'button-secondary' }, 'Ta bort medlem');
     del.addEventListener('click', async () => {
-      if (!confirm(`Ta bort ${m.first_name} ${m.last_name} ur registret? Det går inte att ångra.`)) return;
+      // Typing the surname makes an accidental delete very unlikely. Not case sensitive; cancel or a mismatch leaves the member in place.
+      const typed = prompt(`Ta bort ${m.first_name} ${m.last_name} ur registret? Det går inte att ångra.\n\nSkriv efternamnet "${m.last_name}" för att bekräfta:`);
+      if (typed === null) return;
+      if (typed.trim().toLowerCase() !== m.last_name.trim().toLowerCase()) return alert('Efternamnet stämde inte, så medlemmen togs inte bort.');
       const { error } = await supabase.from('members').delete().eq('id', m.id);
       if (error) alert('Det gick inte att ta bort medlemmen.');
       await loadMembers();
