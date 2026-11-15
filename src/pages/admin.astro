@@ -786,13 +786,13 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
     if (!row.first_name || !row.last_name) return fail('Fyll i förnamn och efternamn.');
     if (row.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(row.email)) return fail('Skriv en giltig e-postadress, eller lämna fältet tomt.');
     if (row.wants_mail && !row.email) return fail('För medlemsbrev behövs en e-postadress. Fyll i den eller ta bort bocken.');
-    // The same address may belong to two people (a couple), but make that a deliberate choice.
+    // Two members may not share an address; leave it empty for the one who has none of their own.
     const sharing = row.email ? members.find((x) => x.id !== editingMemberId && x.email?.toLowerCase() === row.email!.toLowerCase()) : undefined;
-    if (sharing && !confirm(`${sharing.first_name} ${sharing.last_name} har redan samma e-postadress. Spara ändå? Båda får då egna mejl till samma adress.`)) return;
+    if (sharing) return fail(`${sharing.first_name} ${sharing.last_name} har redan den e-postadressen. Låt fältet vara tomt för den som inte har en egen.`);
     const { error } = editingMemberId
       ? await supabase.from('members').update(row).eq('id', editingMemberId)
       : await supabase.from('members').insert(row);
-    if (error) return fail('Det gick inte att spara medlemmen.');
+    if (error) return fail(error.code === '23505' ? 'Den e-postadressen finns redan i registret. Låt fältet vara tomt för den som inte har en egen.' : 'Det gick inte att spara medlemmen.');
     resetMemberForm();
     await loadMembers();
   });
