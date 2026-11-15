@@ -147,7 +147,7 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
         <div class="field"><label for="mb-last">Efternamn</label><input id="mb-last" type="text" maxlength="80" autocomplete="off" required /></div>
         <div class="field"><label for="mb-email">E-post</label><input id="mb-email" type="email" maxlength="200" autocomplete="off" required /></div>
         <div class="field"><label for="mb-season">Betald säsong</label><select id="mb-season"></select></div>
-        <label class="check" for="mb-mail"><input id="mb-mail" type="checkbox" checked /><span>Vill ha medlemsbrev (personen har sagt ja)</span></label>
+        <label class="check" for="mb-mail"><input id="mb-mail" type="checkbox" /><span>Vill ha medlemsbrev (personen har sagt ja)</span></label>
         <div class="field"><label for="mb-note">Anteckning (valfritt, till exempel att avgiften betalats kontant)</label><textarea id="mb-note" rows="2" maxlength="500"></textarea></div>
         <p class="form-error" id="member-error" role="alert" hidden></p>
         <p>
@@ -759,7 +759,7 @@ Frågor? Kontakta oss på [e-post / Facebook-gruppen].`;
     editingMemberId = null;
     memberForm.reset();
     fillSeasons();
-    mb('mb-mail').checked = true;
+    mb('mb-mail').checked = false; // off by default: only tick it when the person has actually said yes
     $('member-form-title').textContent = 'Ny medlem';
     $('member-cancel').hidden = true;
     memberError.hidden = true;
