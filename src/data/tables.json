@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-15T05:15:45.788Z",
+  "updated": "2026-11-16T05:44:49.295Z",
   "tables": {
     "herr": {
       "name": "HockeyAllsvenskan 2026/2027",
@@ -8,13 +8,13 @@
           "rank": 1,
           "team": "AIK",
           "ours": false,
-          "gp": 19,
-          "w": 12,
+          "gp": 20,
+          "w": 13,
           "otw": 3,
           "otl": 2,
           "l": 2,
-          "diff": 21,
-          "pts": 44
+          "diff": 24,
+          "pts": 47
         },
         {
           "rank": 2,
@@ -32,13 +32,13 @@
           "rank": 3,
           "team": "Kalmar HC",
           "ours": false,
-          "gp": 19,
-          "w": 10,
+          "gp": 20,
+          "w": 11,
           "otw": 2,
           "otl": 3,
           "l": 4,
-          "diff": 17,
-          "pts": 37
+          "diff": 25,
+          "pts": 40
         },
         {
           "rank": 4,
@@ -56,28 +56,40 @@
           "rank": 5,
           "team": "Södertälje SK",
           "ours": false,
-          "gp": 19,
+          "gp": 20,
           "w": 9,
           "otw": 1,
           "otl": 4,
-          "l": 5,
-          "diff": 9,
+          "l": 6,
+          "diff": 1,
           "pts": 33
         },
         {
           "rank": 6,
           "team": "IK Oskarshamn",
           "ours": false,
-          "gp": 20,
+          "gp": 21,
           "w": 8,
           "otw": 3,
           "otl": 2,
-          "l": 7,
-          "diff": 8,
+          "l": 8,
+          "diff": 5,
           "pts": 32
         },
         {
           "rank": 7,
+          "team": "Mora IK",
+          "ours": false,
+          "gp": 20,
+          "w": 9,
+          "otw": 0,
+          "otl": 3,
+          "l": 8,
+          "diff": 9,
+          "pts": 30
+        },
+        {
+          "rank": 8,
           "team": "BIK Karlskoga",
           "ours": false,
           "gp": 20,
@@ -87,18 +99,6 @@
           "l": 7,
           "diff": -7,
           "pts": 29
-        },
-        {
-          "rank": 8,
-          "team": "Mora IK",
-          "ours": false,
-          "gp": 19,
-          "w": 8,
-          "otw": 0,
-          "otl": 3,
-          "l": 8,
-          "diff": 7,
-          "pts": 27
         },
         {
           "rank": 9,
@@ -116,12 +116,12 @@
           "rank": 10,
           "team": "Västerås IK",
           "ours": false,
-          "gp": 19,
+          "gp": 20,
           "w": 6,
           "otw": 2,
           "otl": 4,
-          "l": 7,
-          "diff": -1,
+          "l": 8,
+          "diff": -3,
           "pts": 26
         },
         {
@@ -179,6 +179,18 @@
       "rows": [
         {
           "rank": 1,
+          "team": "Almtuna IS Dam",
+          "ours": true,
+          "gp": 4,
+          "w": 4,
+          "otw": 0,
+          "otl": 0,
+          "l": 0,
+          "diff": 16,
+          "pts": 12
+        },
+        {
+          "rank": 2,
           "team": "Järna SK",
           "ours": false,
           "gp": 4,
@@ -187,18 +199,6 @@
           "otl": 0,
           "l": 1,
           "diff": 21,
-          "pts": 9
-        },
-        {
-          "rank": 2,
-          "team": "Almtuna IS Dam",
-          "ours": true,
-          "gp": 3,
-          "w": 3,
-          "otw": 0,
-          "otl": 0,
-          "l": 0,
-          "diff": 12,
           "pts": 9
         },
         {
@@ -253,12 +253,12 @@
           "rank": 7,
           "team": "SHK Hockey Club",
           "ours": false,
-          "gp": 3,
+          "gp": 4,
           "w": 1,
           "otw": 0,
           "otl": 0,
-          "l": 1,
-          "diff": -5,
+          "l": 2,
+          "diff": -9,
           "pts": 4
         },
         {
