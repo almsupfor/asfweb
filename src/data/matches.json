@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-15T17:31:27.301Z",
+  "updated": "2026-11-19T01:30:12.284Z",
   "schedule": [
     {
       "date": "2026-08-13",
@@ -603,6 +603,14 @@
     }
   ],
   "results": [
+    {
+      "id": "2523235",
+      "date": "2026-11-18",
+      "home": "Almtuna IS",
+      "away": "Östersunds IK",
+      "homeScore": 1,
+      "awayScore": 3
+    },
     {
       "id": "2523230",
       "date": "2026-11-14",
