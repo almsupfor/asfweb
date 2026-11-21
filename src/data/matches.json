@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-19T01:30:12.284Z",
+  "updated": "2026-11-21T01:29:32.080Z",
   "schedule": [
     {
       "date": "2026-08-13",
@@ -603,6 +603,14 @@
     }
   ],
   "results": [
+    {
+      "id": "2523246",
+      "date": "2026-11-20",
+      "home": "Kalmar HC",
+      "away": "Almtuna IS",
+      "homeScore": 4,
+      "awayScore": 0
+    },
     {
       "id": "2523235",
       "date": "2026-11-18",
