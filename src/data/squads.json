@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-22T05:18:48.859Z",
+  "updated": "2026-11-23T05:37:37.200Z",
   "teams": {
     "herr": [
       {
@@ -392,12 +392,36 @@
         "name": "Darbie Poole",
         "number": null,
         "nationality": null,
-        "gp": 4,
-        "g": 4,
-        "a": 4,
-        "tp": 8,
-        "pm": 7,
+        "gp": 5,
+        "g": 7,
+        "a": 5,
+        "tp": 12,
+        "pm": 11,
         "pim": 2,
+        "toi": null
+      },
+      {
+        "name": "Matilda Elmqvist",
+        "number": null,
+        "nationality": "SE",
+        "gp": 3,
+        "g": 2,
+        "a": 5,
+        "tp": 7,
+        "pm": 6,
+        "pim": 0,
+        "toi": null
+      },
+      {
+        "name": "Julia Weckström",
+        "number": null,
+        "nationality": "FI",
+        "gp": 3,
+        "g": 4,
+        "a": 2,
+        "tp": 6,
+        "pm": 5,
+        "pim": 4,
         "toi": null
       },
       {
@@ -416,11 +440,11 @@
         "name": "Tilda Pettersson",
         "number": null,
         "nationality": "SE",
-        "gp": 3,
+        "gp": 4,
         "g": 2,
-        "a": 3,
-        "tp": 5,
-        "pm": 3,
+        "a": 4,
+        "tp": 6,
+        "pm": 4,
         "pim": 2,
         "toi": null
       },
@@ -428,11 +452,11 @@
         "name": "Rylee Martin",
         "number": null,
         "nationality": null,
-        "gp": 4,
+        "gp": 5,
         "g": 1,
-        "a": 4,
-        "tp": 5,
-        "pm": 5,
+        "a": 5,
+        "tp": 6,
+        "pm": 6,
         "pim": 4,
         "toi": null
       },
@@ -440,19 +464,31 @@
         "name": "Elina Ingemarsson",
         "number": null,
         "nationality": "SE",
-        "gp": 3,
-        "g": 2,
+        "gp": 4,
+        "g": 3,
         "a": 2,
-        "tp": 4,
-        "pm": 2,
+        "tp": 5,
+        "pm": 3,
         "pim": 0,
         "toi": null
       },
       {
-        "name": "Matilda Elmqvist",
+        "name": "Eva Malmsten",
         "number": null,
         "nationality": "SE",
-        "gp": 2,
+        "gp": 5,
+        "g": 1,
+        "a": 3,
+        "tp": 4,
+        "pm": 3,
+        "pim": 6,
+        "toi": null
+      },
+      {
+        "name": "Olivia Klaar",
+        "number": null,
+        "nationality": "SE",
+        "gp": 4,
         "g": 2,
         "a": 1,
         "tp": 3,
@@ -461,15 +497,27 @@
         "toi": null
       },
       {
-        "name": "Julia Weckström",
+        "name": "Alma Andersson",
         "number": null,
-        "nationality": "FI",
-        "gp": 2,
-        "g": 2,
-        "a": 1,
+        "nationality": null,
+        "gp": 5,
+        "g": 1,
+        "a": 2,
         "tp": 3,
         "pm": 3,
-        "pim": 2,
+        "pim": 0,
+        "toi": null
+      },
+      {
+        "name": "Philippa Andlin",
+        "number": null,
+        "nationality": "SE",
+        "gp": 5,
+        "g": 1,
+        "a": 2,
+        "tp": 3,
+        "pm": 3,
+        "pim": 0,
         "toi": null
       },
       {
@@ -488,60 +536,36 @@
         "name": "Sandra Johansson",
         "number": null,
         "nationality": "SE",
-        "gp": 4,
+        "gp": 5,
         "g": 2,
         "a": 0,
         "tp": 2,
         "pm": 0,
-        "pim": 0,
+        "pim": 2,
         "toi": null
       },
       {
-        "name": "Olivia Klaar",
+        "name": "Julia Leidebrant",
         "number": null,
+        "nationality": null,
+        "gp": 5,
+        "g": 1,
+        "a": 1,
+        "tp": 2,
+        "pm": 2,
+        "pim": 2,
+        "toi": null
+      },
+      {
+        "name": "Nellie Nord",
+        "number": 14,
         "nationality": "SE",
-        "gp": 3,
+        "gp": 5,
         "g": 1,
         "a": 1,
         "tp": 2,
         "pm": 2,
         "pim": 0,
-        "toi": null
-      },
-      {
-        "name": "Alma Andersson",
-        "number": null,
-        "nationality": null,
-        "gp": 4,
-        "g": 0,
-        "a": 2,
-        "tp": 2,
-        "pm": 2,
-        "pim": 0,
-        "toi": null
-      },
-      {
-        "name": "Philippa Andlin",
-        "number": null,
-        "nationality": "SE",
-        "gp": 4,
-        "g": 0,
-        "a": 2,
-        "tp": 2,
-        "pm": 2,
-        "pim": 0,
-        "toi": null
-      },
-      {
-        "name": "Eva Malmsten",
-        "number": null,
-        "nationality": "SE",
-        "gp": 4,
-        "g": 0,
-        "a": 2,
-        "tp": 2,
-        "pm": 2,
-        "pim": 4,
         "toi": null
       },
       {
@@ -553,18 +577,6 @@
         "a": 2,
         "tp": 2,
         "pm": 2,
-        "pim": 0,
-        "toi": null
-      },
-      {
-        "name": "Nellie Nord",
-        "number": 14,
-        "nationality": "SE",
-        "gp": 4,
-        "g": 1,
-        "a": 0,
-        "tp": 1,
-        "pm": 1,
         "pim": 0,
         "toi": null
       },
@@ -590,18 +602,6 @@
         "tp": 0,
         "pm": 0,
         "pim": 0,
-        "toi": null
-      },
-      {
-        "name": "Julia Leidebrant",
-        "number": null,
-        "nationality": null,
-        "gp": 4,
-        "g": 0,
-        "a": 0,
-        "tp": 0,
-        "pm": 0,
-        "pim": 2,
         "toi": null
       },
       {
@@ -1005,6 +1005,16 @@
     ],
     "dam": [
       {
+        "name": "Tyra Fredin",
+        "gp": 3,
+        "svs": 42,
+        "ga": 6,
+        "svsPerc": "87.50",
+        "gaa": "2.00",
+        "so": 0,
+        "mip": null
+      },
+      {
         "name": "Andrea Bachmann",
         "gp": 2,
         "svs": 40,
@@ -1012,16 +1022,6 @@
         "svsPerc": "100.00",
         "gaa": "0",
         "so": 2,
-        "mip": null
-      },
-      {
-        "name": "Tyra Fredin",
-        "gp": 2,
-        "svs": 25,
-        "ga": 5,
-        "svsPerc": "83.33",
-        "gaa": "2.50",
-        "so": 0,
         "mip": null
       }
     ],
