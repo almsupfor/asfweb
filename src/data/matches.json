@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-21T01:29:32.080Z",
+  "updated": "2026-11-25T23:39:33.577Z",
   "schedule": [
     {
       "date": "2026-08-13",
@@ -603,6 +603,14 @@
     }
   ],
   "results": [
+    {
+      "id": "2523248",
+      "date": "2026-11-25",
+      "home": "Almtuna IS",
+      "away": "Visby-Roma HK",
+      "homeScore": 4,
+      "awayScore": 0
+    },
     {
       "id": "2523246",
       "date": "2026-11-20",
