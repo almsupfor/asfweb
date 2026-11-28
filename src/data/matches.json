@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-25T23:39:33.577Z",
+  "updated": "2026-11-28T01:29:03.601Z",
   "schedule": [
     {
       "date": "2026-08-13",
@@ -603,6 +603,14 @@
     }
   ],
   "results": [
+    {
+      "id": "2523257",
+      "date": "2026-11-27",
+      "home": "Modo Hockey",
+      "away": "Almtuna IS",
+      "homeScore": 7,
+      "awayScore": 2
+    },
     {
       "id": "2523248",
       "date": "2026-11-25",
